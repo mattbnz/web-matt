@@ -41,6 +41,11 @@
                 <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
             </li>
             {{ end }}
+            {{ with .Site.GetPage "/projects" }}
+            <li>
+                <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
+            </li>
+            {{ end }}
             {{ range .Site.Sections }}
             <li>
                 <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
