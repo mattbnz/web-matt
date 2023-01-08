@@ -1,6 +1,61 @@
-{{ define "main" }}
-<article class="text-center text-gray-700">
-    <h1 class="font-serif font-extralight text-5xl welcome-headline">{{ .Title }}</h1>
-    {{ .Content }}
-</article>
+{{ define "mainwrap" }}
+
+<hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
+    <div class="flex items-end mx-4 md:mx-auto md:w-2/3" >
+        <h1 class="text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real problems.
+        </h1>
+        {{- $img := resources.Get "matt-front.png" }}
+        <img class="w-1/4 h-1/4 rounded-lg hidden lg:flex lg:mx-3 lg:my-10" src="{{ $img.Permalink }}" alt="Headshot of Matt looking at the camera">
+    </div>
+</hero>
+
+<keysell class="flex-1 mx-4 md:mx-auto md:w-2/3 my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3 gap-x-20">
+
+    <div class="text-center">
+        <div class="w-1/2 mx-auto">
+            {{- $icon := resources.Get "2614.svg" }}
+            {{- $icon.Content | safeHTML}}
+        </div>
+        <h2 class="font-sans font-bold text-xl">Management</h2>
+        <p>
+            Building successful teams and growing individuals is at the heart of
+            any successful software project.
+        </p>
+    </div>
+    <div class="text-center">
+        <div class="w-1/2 mx-auto">
+            {{- $icon := resources.Get "269B.svg" }}
+            {{- $icon.Content | safeHTML}}
+        </div>
+        <h2 class="font-sans font-bold text-xl">SRE / Devops</h2>
+        <p>
+            Reliability, scalability, cost, performance, development velocity, we want it all
+            but the trade-offs have to be made.
+        </p>
+    </div>
+    <div class="text-center">
+        <div class="w-1/2 mx-auto">
+            {{- $icon := resources.Get "1F4A1.svg" }}
+            {{- $icon.Content | safeHTML}}
+        </div>
+        <h2 class="font-sans font-bold text-xl">Technology Strategy</h2>
+        <p>
+            Technology moves quickly, I'm skilled at translating your business problems into
+            feasible chunks of work that we can solve with realistic and achievable software
+            solutions.
+        </p>
+    </div>
+</keysell>
+
+<cta class="my-2 sm:my-4 py-20 bg-slate-100">
+    <div class="items-end mx-4 md:mx-auto md:w-2/3" >
+        <h2 class="text-2xl">Let's connect</h2>
+
+        <p>Whether you're keen to see how I can help your business in one of the above areas,
+            or would just like to chat or build connections I'd love to connect and hear about
+            your projects and work.
+        </p>
+    </div>
+</cta>
+
 {{ end }}

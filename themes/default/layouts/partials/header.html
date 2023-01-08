@@ -1,4 +1,4 @@
-<header class="w-full px-4 pt-4">
+<header class="mx-4 md:mx-auto md:w-2/3 pt-4">
     {{/*  CSS functionality for menu toggle  */}}
     <style type="text/css">
         input#nav-toggle:checked~label#show-button {
@@ -16,6 +16,8 @@
 
     <nav class="flex items-center justify-between flex-wrap">
         <a href="{{ .Site.Home.Permalink }}" class="flex items-center text-gray-700 font-bold">
+            {{- $avatar := resources.Get "matt-headshot-20170208-small.jpg" }}
+            <img class="w-10 h-10 mr-5 rounded-full" src="{{ $avatar.Permalink }}" alt="Rounded avatar">
             {{ .Site.Title }}
         </a>
 
