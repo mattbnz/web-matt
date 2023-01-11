@@ -74,88 +74,34 @@
             <div>
                 <h3 class="text-xl">Latest</h3>
                 <ul>
-                    <a href="">
-                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                        <p>Topic 1</p>
-                        <div class="text-sm text-slate-500">
-                            <p>11 Jan '23</p>
-                            <p>2 min read</p>
-                        </div>
-                    </li>
-                    </a>
-                    <a href="">
+                    {{ range first 5 (where (where .Site.Pages "Section" "w") "Kind" "page") }}
+                       <a href="{{.RelPermalink}}">
                         <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                            <p>Topic 2</p>
-                            <div class="text-sm text-slate-500">
-                                <p>11 Jan '23</p>
-                                <p>2 min read</p>
-                            </div>
+                        <p>{{.Title}}</p>
+                        <div class="text-sm text-slate-500">
+                            <p>{{.PublishDate.Format "02 Jan '06"}}</p>
+                            <p>{{.ReadingTime}} min read</p>
+                        </div>
                     </li>
                     </a>
-                </a>
-                <a href="">
-                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                        <p>Topic 3</p>
-                        <div class="text-sm text-slate-500">
-                            <p>11 Jan '23</p>
-                            <p>2 min read</p>
-                        </div>
-                </li>
-                </a>
-            </a>
-            <a href="">
-                <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                    <p>Topic 4</p>
-                    <div class="text-sm text-slate-500">
-                        <p>11 Jan '23</p>
-                        <p>2 min read</p>
-                    </div>
-            </li>
-            </a>
+                    {{ end }}
                 </ul>
             </div>
 
             <div>
                 <h3 class="text-xl">Recommended</h3>
                 <ul>
-                    <a href="">
-                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                        <p>Recommended 1</p>
-                        <div class="text-sm text-slate-500">
-                            <p>11 Jan '23</p>
-                            <p>2 min read</p>
-                        </div>
-                    </li>
-                    </a>
-                    <a href="">
+                    {{ range first 5 (where (where .Site.Pages "Section" "w") "Params.recommended" true) }}
+                       <a href="{{.RelPermalink}}">
                         <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                            <p>Recommended 2</p>
-                            <div class="text-sm text-slate-500">
-                                <p>11 Jan '23</p>
-                                <p>2 min read</p>
-                            </div>
+                        <p>{{.Title}}</p>
+                        <div class="text-sm text-slate-500">
+                            <p>{{.PublishDate.Format "02 Jan '06"}}</p>
+                            <p>{{.ReadingTime}} min read</p>
+                        </div>
                     </li>
                     </a>
-                </a>
-                <a href="">
-                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                        <p>Recommended 3</p>
-                        <div class="text-sm text-slate-500">
-                            <p>11 Jan '23</p>
-                            <p>2 min read</p>
-                        </div>
-                </li>
-                </a>
-            </a>
-            <a href="">
-                <li class="border-b border-slate-300 flex justify-between items-end py-2">
-                    <p>Recommended 4</p>
-                    <div class="text-sm text-slate-500">
-                        <p>11 Jan '23</p>
-                        <p>2 min read</p>
-                    </div>
-            </li>
-            </a>
+                    {{ end }}
                 </ul>
             </div>
         </div>
