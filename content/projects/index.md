@@ -1,6 +1,8 @@
 ---
 title: Projects
 date: 2023-01-08
+aliases:
+ - software.php
 
 ---
 I've written or been involved in the development of a few pieces of open source software.
@@ -30,6 +32,6 @@ This is software that I've written and are currently using but I have not yet fo
 
 * PyIwTools - Python interface to the wireless tools library and wireless extensions kernel functions.
 * PyInterface - Python interface to the Unix sockets API functions for dealing with network interfaces.
-* [Original](https://www.mattb.net.nz/software/original/) - A tag-based photo gallery that integrates directly with F-spot.
+* Original - A tag-based photo gallery that integrates directly with F-spot.
 
 If you find any of my software useful and are in a good mood, you are always welcome to send me something from my Amazon Wishlist! Even if you don't feel like buying me presents, please email me and let me know that you find my software useful. Knowing that someone actually uses what you have written and finds it helpful is a big motivator in doing more work on it.

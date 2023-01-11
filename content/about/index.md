@@ -1,6 +1,9 @@
 ---
 title: About Me
 date: 2023-01-08
+aliases:
+ - about.php
+ - cv.php
 ---
 
 With over 20 years experience in the technology space, I'm an experienced leader of teams and a skilled distributed systems engineer, specialising in cloud applications.
