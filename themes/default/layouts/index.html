@@ -2,60 +2,223 @@
 
 <hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
     <div class="flex items-end mx-4 md:mx-auto md:w-2/3" >
-        <h1 class="text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real problems.
+        <h1 class="text-2xl md:text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
+            Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real
+             problems.
         </h1>
         {{- $img := resources.Get "matt-front.png" }}
         <img class="w-1/4 h-1/4 rounded-lg hidden lg:flex lg:mx-3 lg:my-10" src="{{ $img.Permalink }}" alt="Headshot of Matt looking at the camera">
     </div>
 </hero>
 
-<keysell class="flex-1 mx-4 md:mx-auto md:w-2/3 my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3 gap-x-20">
-
-    <div class="text-center">
-        <div class="w-1/2 mx-auto">
-            {{- $icon := resources.Get "2614.svg" }}
-            {{- $icon.Content | safeHTML}}
+<div class="mx-4 md:mx-auto md:w-2/3 my-2 sm:my-4 font-bold">
+    I can improve your business by applying my experience in:
+</div>
+<keysell class="flex-1 mx-4 md:mx-auto md:w-2/3 my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-10">
+    {{ range .Params.experience }}
+    <div class="grid grid-cols-2 gap-x-1 gap-y-0 md:grid-cols-1">
+        <div>
+            <div class="w-1/4 mx-auto">
+                {{- $icon := resources.Get .icon }}
+                {{- $icon.Content | safeHTML}}
+            </div>
+            <h2 class="text-center font-sans font-bold text-xl">{{.title}}</h2>
         </div>
-        <h2 class="font-sans font-bold text-xl">Management</h2>
-        <p>
-            Building successful teams and growing individuals is at the heart of
-            any successful software project.
-        </p>
-    </div>
-    <div class="text-center">
-        <div class="w-1/2 mx-auto">
-            {{- $icon := resources.Get "269B.svg" }}
-            {{- $icon.Content | safeHTML}}
+        <div class="md:text-center">
+            <p>{{.desc}}
+            </p>
         </div>
-        <h2 class="font-sans font-bold text-xl">SRE / Devops</h2>
-        <p>
-            Reliability, scalability, cost, performance, development velocity, we want it all
-            but the trade-offs have to be made.
-        </p>
     </div>
-    <div class="text-center">
-        <div class="w-1/2 mx-auto">
-            {{- $icon := resources.Get "1F4A1.svg" }}
-            {{- $icon.Content | safeHTML}}
-        </div>
-        <h2 class="font-sans font-bold text-xl">Technology Strategy</h2>
-        <p>
-            Technology moves quickly, I'm skilled at translating your business problems into
-            feasible chunks of work that we can solve with realistic and achievable software
-            solutions.
-        </p>
-    </div>
+    {{ end }}
 </keysell>
 
-<cta class="my-2 sm:my-4 py-20 bg-slate-100">
-    <div class="items-end mx-4 md:mx-auto md:w-2/3" >
-        <h2 class="text-2xl">Let's connect</h2>
+<cta class="my-2 sm:my-4 py-10 md:py-5 bg-slate-100">
+    <div class="mx-4 md:mx-auto md:w-2/3 mb-5">
+        <h2 class="text-2xl inline mr-3">Next Steps</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 mx-4 md:mx-auto md:w-2/3" >
+        <div class="text-center">
+            <button
+            type="button"
+            class="border border-pink-600 bg-pink-600 text-white rounded-md px-4 py-2 m-2
+             transition duration-500 ease select-none hover:bg-pink-500 focus:outline-none focus:shadow-outline"
+          >
+          Book a 30 min VC
+            </button>
+        <p>Great for exploring how I can help you, or just to discuss something you think would interest me.</p>
 
-        <p>Whether you're keen to see how I can help your business in one of the above areas,
-            or would just like to chat or build connections I'd love to connect and hear about
-            your projects and work.
-        </p>
+        </div>
+        <div class="w-3/4 mx-auto text-center">
+            Receive my writing via email:
+            <div class="flex mt-3">
+                <input type="text"  class="w-full bg-white pl-2 text-base font-semibold outline-0 rounded-tl-lg rounded-bl-lg" placeholder="" id="" />
+                <input type="button" value="Subscribe" class="bg-pink-600 p-2 rounded-tr-lg rounded-br-lg
+                 text-white hover:bg-pink-500 transition-colors"/>
+              </div>
+        </div>
+        <div class="text-center my-auto">
+            <p class="">Or drop a short note to:</p>
+            <p><a class="text-pink-600" href="mailto:hi@mattb.nz">hi@mattb.nz</a></p>
+        </div>
     </div>
 </cta>
+
+<cta class="my-2 sm:my-4">
+    <div class="items-end mx-4 md:mx-auto md:w-2/3" >
+        <h2 class="text-2xl">Writing</h2>
+        <p class="mt-2 mb-5">Ideas make the world go round, and I aspire to contribute to the conversation and create interesting and
+            useful writing on a range of topics
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-40 gap-y-5 mx-4 md:mx-auto md:w-2/3" >
+
+            <div>
+                <h3 class="text-xl">Latest</h3>
+                <ul>
+                    <a href="">
+                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                        <p>Topic 1</p>
+                        <div class="text-sm text-slate-500">
+                            <p>11 Jan '23</p>
+                            <p>2 min read</p>
+                        </div>
+                    </li>
+                    </a>
+                    <a href="">
+                        <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                            <p>Topic 2</p>
+                            <div class="text-sm text-slate-500">
+                                <p>11 Jan '23</p>
+                                <p>2 min read</p>
+                            </div>
+                    </li>
+                    </a>
+                </a>
+                <a href="">
+                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                        <p>Topic 3</p>
+                        <div class="text-sm text-slate-500">
+                            <p>11 Jan '23</p>
+                            <p>2 min read</p>
+                        </div>
+                </li>
+                </a>
+            </a>
+            <a href="">
+                <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                    <p>Topic 4</p>
+                    <div class="text-sm text-slate-500">
+                        <p>11 Jan '23</p>
+                        <p>2 min read</p>
+                    </div>
+            </li>
+            </a>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl">Recommended</h3>
+                <ul>
+                    <a href="">
+                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                        <p>Recommended 1</p>
+                        <div class="text-sm text-slate-500">
+                            <p>11 Jan '23</p>
+                            <p>2 min read</p>
+                        </div>
+                    </li>
+                    </a>
+                    <a href="">
+                        <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                            <p>Recommended 2</p>
+                            <div class="text-sm text-slate-500">
+                                <p>11 Jan '23</p>
+                                <p>2 min read</p>
+                            </div>
+                    </li>
+                    </a>
+                </a>
+                <a href="">
+                    <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                        <p>Recommended 3</p>
+                        <div class="text-sm text-slate-500">
+                            <p>11 Jan '23</p>
+                            <p>2 min read</p>
+                        </div>
+                </li>
+                </a>
+            </a>
+            <a href="">
+                <li class="border-b border-slate-300 flex justify-between items-end py-2">
+                    <p>Recommended 4</p>
+                    <div class="text-sm text-slate-500">
+                        <p>11 Jan '23</p>
+                        <p>2 min read</p>
+                    </div>
+            </li>
+            </a>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-5">
+            <p>Explore other writing about:</p>
+            <p class="text-center py-5">
+            <a class="text-pink-300 px-10 py-10 text-sm" href="">Leadership</a>
+            <a class="text-pink-500 px-10 py-10" href="">SRE / Devops</a>
+            <a class="text-pink-500 px-10 py-10" href="">Projects</a>
+            <a class="text-pink-700 px-10 py-10 text-lg" href="">NZ Electricity Industry</a>
+            <br />
+            <a class="text-pink-500 px-10 py-10" href="">AgTech</a>
+            <a class="text-pink-400 px-10 py-10" href="">Linux</a>
+            </p>
+            <p>Or <a href="#" class="text-pink-500">browse all writing!</a></p>
+        </div>
+    </div>
+</cta>
+
+<about class="mt-2 sm:mt-4 py-5" style="background-color: #6a85b6;">
+    <div class="flex mx-4 md:mx-auto md:w-2/3 text-white">
+        <div class="w-2/3">
+        <h2 class="text-2xl pb-3">About Me</h2>
+        <p class="py-1">
+            I am an experienced technology leader, specializing in the development and operation of large,
+            distributed software systems.
+        </p>
+        <p class="py-1">My current focus is on applying to expertise across a range of businesses and challenges through
+            my consulting work and the development of SaaS applications to solve specialized business problems.
+        </p>
+        <p class="py-1">I'm a huge fan of the systems thinking, resilience engineering and open source philosophies and use
+            asepects of these regularly in my professional work.
+        </p>
+        </div>
+        <div class="w-1/3 text-right">
+            <h2 class="text-2xl pb-3">Connect</h2>
+            <ul>
+                {{ range .Params.connect }}
+                <li><a href="{{.href}}" class="hover:text-pink-500">
+                    {{.title}}
+                    <div class="inline ml-2">
+                        {{- $icon := resources.Get .icon }}
+                        {{- $icon.Content | safeHTML}}
+                    </div>
+                </a></li>
+                {{ end }}
+                <li><a href="mailto:hi@mattb.nz" class="hover:text-pink-500" >
+                    hi@mattb.nz
+                    <div class="inline ml-2">
+                        {{- $icon := resources.Get "envelope-fill.svg" }}
+                        {{- $icon.Content | safeHTML}}
+                    </div>
+                </a></li>
+                <li>
+                    (gpg): A48F065A
+                    <div class="inline ml-2">
+                        {{- $icon := resources.Get "key-fill.svg" }}
+                        {{- $icon.Content | safeHTML}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</about>
 
 {{ end }}
