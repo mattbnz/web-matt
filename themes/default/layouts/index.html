@@ -107,14 +107,10 @@
         </div>
         <div class="mt-10">
             <p>Explore other writing about:</p>
-            <p class="text-center py-5">
-            <a class="text-pink-300 px-10 py-10 text-sm" href="">Leadership</a>
-            <a class="text-pink-500 px-10 py-10" href="">SRE / Devops</a>
-            <a class="text-pink-500 px-10 py-10" href="">Projects</a>
-            <a class="text-pink-700 px-10 py-10 text-lg" href="">NZ Electricity Industry</a>
-            <br />
-            <a class="text-pink-500 px-10 py-10" href="">AgTech</a>
-            <a class="text-pink-400 px-10 py-10" href="">Linux</a>
+            <p class="text-center py-5 w-1/2 mx-auto">
+                {{ range .Site.Taxonomies.categories }}
+                    <a class="text-pink-500 px-10 py-10" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+                {{ end }}
             </p>
             <p>Or <a href="#" class="pt-5 text-pink-500">browse all writing!</a></p>
         </div>
