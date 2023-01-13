@@ -1,0 +1,39 @@
+{{ define "main" }}
+<div class="flex">
+    <article class="px-6 mb-16 md:w-3/4 text-gray-700 sm:px-4 md:px-0">
+        <div class="text-center mb-5">
+            <h1 class="text-4xl font-black">{{ .Title }}</h1>
+            <div class="text-sm text-slate-500">
+                Written on {{ replace (.PublishDate.Format "02 January 2006") " " "&nbsp;" | safeHTML}}, {{.ReadingTime}}&nbsp;min&nbsp;read.
+            </div>
+            <div class="mt-1">
+                {{ range .Params.categories }}
+                    {{ with $.Site.GetPage (printf "/%s" .) }}
+                        <a class="bg-pink-100 border border-pink-100 rounded-md p-1 text-pink-600 font-bold text-sm" href="{{.RelPermalink}}">{{.Title}}</a>
+                    {{end}}
+                {{end}}
+            </div>
+        </div>
+        <div class="prose max-w-none lg:prose-lg">
+            {{ .Content }}
+        </div>
+        <div class="flex justify-between mt-10">
+            <div>
+                {{if .PrevInSection}}
+                    <a class="text-pink-600 font-bold text-sm" href="{{.PrevInSection.RelPermalink}}">&lt;&lt; {{.PrevInSection.Title}}</a>
+                {{end}}
+            </div>
+            <div>
+                {{if .NextInSection}}
+                    <a class="text-pink-600 font-bold text-sm" href="{{.NextInSection.RelPermalink}}">{{.NextInSection.Title}} &gt;&gt;</a>
+                {{end}}
+            </div>
+        </div>
+    </article>
+    {{- block "sidebar" . }}
+    <sidebar class="ml-10 xl:ml-20 border-l-2 border-slate-300 w-1/4 hidden md:block px-2">
+        {{ partialCached "sb-writing.html" . }}
+    </sidebar>
+    {{- end }}
+</div>
+{{ end }}

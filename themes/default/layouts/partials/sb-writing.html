@@ -1,0 +1,29 @@
+<h3 class="text-lg font-bold">Latest Writing</h3>
+<ul>
+    {{ range first 5 (where (where .Site.Pages "Section" "w") "Kind" "page") }}
+       <a href="{{.RelPermalink}}">
+        <li class="border-b border-slate-300 flex justify-between items-end py-2">
+        <p class="text-sm">{{.Title}}</p>
+        <div class="text-sm text-slate-500 hidden xl:block ml-2">
+            <p>{{ replace (.PublishDate.Format "02 Jan '06") " " "&nbsp;" | safeHTML}}</p>
+        </div>
+    </li>
+    </a>
+    {{ end }}
+</ul>
+<h3 class="text-lg font-bold mt-5">Featured<span class="hidden xl:inline"> Writing</span></h3>
+<ul>
+    {{ range first 5 (where (where .Site.Pages "Section" "w") "Params.recommended" true) }}
+       <a href="{{.RelPermalink}}">
+        <li class="border-b border-slate-300 flex justify-between items-end py-2">
+        <p class="text-sm">{{.Title}}</p>
+        <div class="text-sm text-slate-500 hidden xl:block ml-2">
+            <p>{{ replace (.PublishDate.Format "02 Jan '06") " " "&nbsp;" | safeHTML}}</p>
+        </div>
+    </li>
+    </a>
+    {{ end }}
+</ul>
+{{ with .Site.GetPage "/w" }}
+<p class="mt-5">Or <a href="{{ .RelPermalink }}" class="pt-5 text-pink-500">browse all writing...</a></p>
+{{ end }}
