@@ -1,5 +1,7 @@
 ---
 title: Welcome!
+aliases:
+  - /blog/
 
 experience:
 - title: Leadership
