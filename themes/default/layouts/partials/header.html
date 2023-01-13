@@ -48,7 +48,7 @@
                 <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
             {{ end }}
-            {{ range .Site.Sections }}
+            {{ with .Site.GetPage "/w" }}
             <li class="px-2">
                 <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
