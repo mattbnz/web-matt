@@ -1,0 +1,99 @@
+Create a directory, add ACLs so that webadmins can ALWAYS write to things below it
+    matt@calico:~/acltest$ mkdir b
+    matt@calico:~/acltest$ ls -l
+    total 4
+    drwxr-xr-x  2 matt matt 4096 Jul  8 10:13 b
+    matt@calico:~/acltest$ setfacl -m g:webadmins:rwx b
+    matt@calico:~/acltest$ setfacl -d -m g:webadmins:rwx b
+    matt@calico:~/acltest$ getfacl b
+    # file: b
+    # owner: matt
+    # group: matt
+    user::rwx
+    group::r-x
+    group:webadmins:rwx
+    mask::rwx
+    other::r-x
+    default:user::rwx
+    default:group::r-x
+    default:group:webadmins:rwx
+    default:mask::rwx
+    default:other::r-x
+
+Create a file in b/ check webadmins can write - all good
+    matt@calico:~/acltest$ touch b/a
+    matt@calico:~/acltest$ getfacl b/a
+    # file: b/a
+    # owner: matt
+    # group: matt
+    user::rw-
+    group::r-x                      #effective:r--
+    group:webadmins:rwx             #effective:rw-
+    mask::rw-
+    other::r--
+
+Same with a directory - all good
+    matt@calico:~/acltest$ mkdir b/b
+    matt@calico:~/acltest$ getfacl b/b
+    # file: b/b
+    # owner: matt
+    # group: matt
+    user::rwx
+    group::r-x
+    group:webadmins:rwx
+    mask::rwx
+    other::r-x
+    default:user::rwx
+    default:group::r-x
+    default:group:webadmins:rwx
+    default:mask::rwx
+    default:other::r-x
+
+Simulate copying an existing file without ACLS into b/ - not good
+    matt@calico:~/acltest$ touch c
+    matt@calico:~/acltest$ ls -l c
+    -rw-r--r--  1 matt matt 0 Jul  8 10:14 c
+    matt@calico:~/acltest$ cp c b/c
+    matt@calico:~/acltest$ getfacl b/c
+    # file: b/c
+    # owner: matt
+    # group: matt
+    user::rw-
+    group::r-x                      #effective:r--
+    group:webadmins:rwx             #effective:r--
+    mask::r--
+    other::r--
+
+I want b/c to  be writeable by webadmins. How?
+
+Even setting a default mask on b/ doesn't work, it's still overriden by the original permissions from c.
+    matt@calico:~/acltest$ mkdir b2
+    matt@calico:~/acltest$ setfacl -m g:webadmins:rwx b2
+    matt@calico:~/acltest$ setfacl -d -m g:webadmins:rwx b2
+    matt@calico:~/acltest$ setfacl -d -m mask::rwx b2
+    matt@calico:~/acltest$ getfacl b2
+    # file: b2
+    # owner: matt
+    # group: matt
+    user::rwx
+    group::r-x
+    group:webadmins:rwx
+    mask::rwx
+    other::r-x
+    default:user::rwx
+    default:group::r-x
+    default:group:webadmins:rwx
+    default:mask::rwx
+    default:other::r-x
+
+    matt@calico:~/acltest$ cp c b2/
+    matt@calico:~/acltest$ getfacl b2/c 
+    # file: b2/c
+    # owner: matt
+    # group: matt
+    user::rw-
+    group::r-x                      #effective:r--
+    group:webadmins:rwx             #effective:r--
+    mask::r--
+    other::r--
+
