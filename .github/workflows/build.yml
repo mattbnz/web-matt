@@ -52,4 +52,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "latest"
           title: "Website"
-          files: ./site-${GITHUB_SHA:0:7}.tar.gz
+          files: ./site-*.tar.gz
