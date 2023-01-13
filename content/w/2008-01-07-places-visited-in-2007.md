@@ -1,6 +1,6 @@
 ---
 title: Places Visited in 2007
-type: post
+
 date: 2008-01-06T22:30:17+00:00
 aliases: /blog/2008/01/07/places-visited-in-2007/
 categories:

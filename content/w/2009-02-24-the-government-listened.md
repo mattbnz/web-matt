@@ -1,6 +1,6 @@
 ---
 title: The government listened!
-type: post
+
 date: 2009-02-24T01:07:37+00:00
 aliases: /blog/2009/02/24/the-government-listened/
 categories:

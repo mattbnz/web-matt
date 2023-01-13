@@ -1,6 +1,6 @@
 ---
 title: Back on the Intarnets
-type: post
+
 date: 2007-06-12T21:34:02+00:00
 aliases: /blog/2007/06/13/back-on-the-intarnets/
 categories:

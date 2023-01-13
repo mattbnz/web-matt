@@ -1,6 +1,6 @@
 ---
 title: Linux ignores IPv6 router advertisements when forwarding is enabled
-type: post
+
 date: 2011-05-11T23:26:52+00:00
 aliases: /blog/2011/05/12/linux-ignores-ipv6-router-advertisements-when-forwarding-is-enabled/
 categories:

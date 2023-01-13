@@ -1,6 +1,6 @@
 ---
 title: GPG Keysigning Update
-type: post
+
 date: 2009-06-26T00:56:03+00:00
 aliases: /blog/2009/06/26/gpg-keysigning-update/
 categories:

@@ -1,6 +1,6 @@
 ---
 title: Under the cover of the Kindle 3
-type: post
+
 date: 2010-12-07T00:52:50+00:00
 aliases: /blog/2010/12/07/under-the-cover-of-the-kindle-3/
 categories:

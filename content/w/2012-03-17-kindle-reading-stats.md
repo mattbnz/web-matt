@@ -1,6 +1,5 @@
 ---
 title: Kindle Reading Stats
-type: post
 date: 2012-03-17T23:08:27+00:00
 aliases: /blog/2012/03/17/kindle-reading-stats/
 categories:

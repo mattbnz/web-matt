@@ -1,7 +1,7 @@
 ---
 title: GPG Key Management Rant
 author: Matt Brown
-type: post
+
 date: 2014-07-12T00:17:58+00:00
 aliases: /blog/2014/07/12/gpg-key-management-rant/
 categories:

@@ -1,7 +1,7 @@
 ---
 title: GPG Key Transition
 author: Matt Brown
-type: post
+
 date: 2014-08-17T02:45:17+00:00
 aliases: /blog/2014/08/17/gpg-key-transition/
 categories:

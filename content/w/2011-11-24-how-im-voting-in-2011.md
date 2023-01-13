@@ -1,6 +1,6 @@
 ---
 title: How I’m voting in 2011
-type: post
+
 date: 2011-11-24T11:45:07+00:00
 aliases: /blog/2011/11/24/how-im-voting-in-2011/
 categories:

@@ -1,6 +1,6 @@
 ---
 title: POSIX/NFSv4 ACL Inheritance Problems
-type: post
+
 date: 2007-07-08T16:23:49+00:00
 aliases: /blog/2007/07/09/posixnfsv4-acl-inheritance-problems/
 categories:

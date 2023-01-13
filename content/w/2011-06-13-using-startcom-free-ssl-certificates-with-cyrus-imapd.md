@@ -1,6 +1,6 @@
 ---
 title: Using StartCom Free SSL certificates with Cyrus imapd
-type: post
+
 date: 2011-06-12T21:12:13+00:00
 aliases: /blog/2011/06/13/using-startcom-free-ssl-certificates-with-cyrus-imapd/
 categories:

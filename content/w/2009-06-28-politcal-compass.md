@@ -1,6 +1,6 @@
 ---
 title: Political Compass
-type: post
+
 date: 2009-06-28T00:32:50+00:00
 aliases: /blog/2009/06/28/politcal-compass/
 categories:

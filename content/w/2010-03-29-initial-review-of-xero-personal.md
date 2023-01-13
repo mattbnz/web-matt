@@ -1,6 +1,6 @@
 ---
 title: Initial Review of Xero Personal
-type: post
+
 date: 2010-03-29T00:10:41+00:00
 aliases: /blog/2010/03/29/initial-review-of-xero-personal/
 categories:

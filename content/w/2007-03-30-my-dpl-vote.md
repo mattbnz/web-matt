@@ -1,6 +1,6 @@
 ---
 title: My DPL Vote
-type: post
+
 date: 2007-03-29T14:57:16+00:00
 aliases: /blog/2007/03/30/my-dpl-vote/
 categories:

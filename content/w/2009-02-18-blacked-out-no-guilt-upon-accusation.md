@@ -1,6 +1,6 @@
 ---
 title: Blacked Out – no “Guilt Upon Accusation”
-type: post
+
 date: 2009-02-18T01:37:30+00:00
 aliases: /blog/2009/02/18/blacked-out-no-guilt-upon-accusation/
 categories:

@@ -1,6 +1,6 @@
 ---
 title: Dublin Bound!
-type: post
+
 date: 2007-03-06T11:58:39+00:00
 aliases: /blog/2007/03/06/dublin-bound/
 categories:

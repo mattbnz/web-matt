@@ -1,6 +1,6 @@
 ---
 title: Travelling
-type: post
+
 date: 2007-03-30T23:26:00+00:00
 aliases: /blog/2007/03/31/travelling/
 categories:

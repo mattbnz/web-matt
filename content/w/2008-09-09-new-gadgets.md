@@ -1,6 +1,6 @@
 ---
 title: New Gadgets
-type: post
+
 date: 2008-09-08T22:11:07+00:00
 aliases: /blog/2008/09/09/new-gadgets/
 categories:

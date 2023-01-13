@@ -1,6 +1,6 @@
 ---
 title: Ubuntu versions numbers on crack
-type: post
+
 date: 2008-07-13T15:56:25+00:00
 aliases: /blog/2008/07/14/ubuntu-versions-numbers-on-crack/
 categories:

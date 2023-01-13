@@ -1,6 +1,6 @@
 ---
 title: 'The Australian Open Source Industry & Community Report'
-type: post
+
 date: 2008-04-12T16:34:12+00:00
 aliases: /blog/2008/04/13/the-australian-open-source-industry-community-report/
 categories:
