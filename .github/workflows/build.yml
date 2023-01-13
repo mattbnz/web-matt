@@ -41,7 +41,7 @@ jobs:
       - run: hugo --minify
 
       - name: Package
-        uses: a7ul/tar-action@latest
+        uses: a7ul/tar-action@v1.1.2
         with:
           command: cj
           cwd: ./public
