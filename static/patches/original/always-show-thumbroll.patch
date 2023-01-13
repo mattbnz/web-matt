@@ -1,0 +1,37 @@
+diff -rNu original-0.11/www/index.php /home/httpd/www.mattb.net.nz/html/original/index.php
+--- original-0.11/www/index.php	2005-11-14 13:53:21.000000000 +1300
++++ /home/httpd/www.mattb.net.nz/html/original/index.php	2005-11-17 01:16:38.000000000 +1300
+@@ -403,12 +390,12 @@
+ 
+    // mini thumbnail roll
+ 
+-   if ($show_thumbs) {
++   if (1) {
+       echo "\n<!--mini thumbnail roll-->\n<div class=\"thumbroll\">";
+-      echo "<a id=\"minus\" href=\"$ThisScript?galerie=$galerie&amp;photo=$snimek";
+-      echo "&amp;exif_style=$exif_style\">";
+-      echo "</a>\n";
+-      echo " : \n";
++      //echo "<a id=\"minus\" href=\"$ThisScript?galerie=$galerie&amp;photo=$snimek";
++      //echo "&amp;exif_style=$exif_style\">";
++      //echo "</a>\n";
++      //echo " : \n";
+       while ($thumbfile = $imgfiles->read()) {
+          if ( eregi("^img-([0-9]+)\.(png|jpe?g)",
+              $thumbfile, $x)) {
+@@ -440,6 +431,7 @@
+          echo "zip<span /></a>";
+       }
+       echo "</div>\n";
++/*
+    } else {
+       // show the popup button
+       echo "\n<!--mini thumbnail popup-->\n<div class=\"thumbroll\">";
+@@ -448,6 +440,7 @@
+ 			echo " title=\"" . __('Show Thumbnail Navigation') . "\">";
+       echo "</a>\n";
+       echo "</div>\n";
++*/      
+    }
+ 
+    /* main image + thumbnail navigation (prev/next) */

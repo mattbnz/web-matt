@@ -1,0 +1,342 @@
+Index: pius
+===================================================================
+RCS file: /cvsroot/pgpius/pius/pius,v
+retrieving revision 1.14
+diff -d -u -r1.14 pius
+--- pius	26 Apr 2009 14:15:59 -0000	1.14
++++ pius	29 Jun 2009 21:58:14 -0000
+@@ -32,6 +32,7 @@
+ import socket
+ import subprocess
+ import sys
++import time
+ 
+ VERSION = '2.0.3'
+ DEBUG_ON = False
+@@ -171,9 +173,9 @@
+   GPG_SIG_CREATED = '[GNUPG:] SIG_CREATED'
+ 
+   def __init__(self, signer, mode, keyring, gpg_path, tmpdir, outdir,
+-               encrypt_outfiles, sign_level, mail, verbose, mail_text,
+-               mail_override, mail_host, mail_port, mail_no_pgp_mime, mail_user,
+-               mail_tls):
++               encrypt_outfiles, mail, verbose, mail_text, mail_override,
++               mail_host, mail_port, mail_no_pgp_mime, mail_user, mail_tls,
++               policy_url, signing_record_dir):
+     self.mode = mode
+     self.signer = signer
+     self.keyring = keyring
+@@ -181,7 +183,6 @@
+     self.tmpdir = tmpdir
+     self.outdir = outdir
+     self.encrypt_outfiles = encrypt_outfiles
+-    self.sign_level = sign_level
+     self.mail = mail
+     self.mail_text = mail_text
+     self.mail_override = mail_override
+@@ -196,6 +197,8 @@
+     self.tmp_keyring = '%s/%s' % (self.tmpdir, uids_signer.TMP_KEYRING_FILE)
+     self.gpg_quiet_opts = '-q --no-tty --no-auto-check-trustdb --batch'
+     self.gpg_fd_opts = '--command-fd 0 --passphrase-fd 0 --status-fd 1'
++    self.policy_url = policy_url
++    self.signing_record_dir = signing_record_dir
+ 
+   def _outfile_path(self, ofile):
+     '''Internal function to take a filename and put it in self.outdir.'''
+@@ -236,8 +239,8 @@
+ 
+     return keyids
+ 
+-  def check_fingerprint(self, key):
+-    '''Prompt the user to see if they have verified this fingerprint.'''
++  def get_fingerprint(self, key):
++    '''Return the text of the key fingerprint.'''
+     cmd = ('%s %s --no-default-keyring --keyring %s --fingerprint %s'
+            % (self.gpg, self.gpg_quiet_opts, self.keyring, key))
+     # Note we attach stderr to a pipe so it won't print errors to the terminal
+@@ -245,14 +248,24 @@
+     debug(cmd)
+     gpg = subprocess.Popen(cmd, shell=True, stdin=None, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, close_fds=True)
++    output = []
+     for line in gpg.stdout.readlines():
+       if line != '\n':
+-        print line.strip()
++        output.append(line)
+     gpg.wait()
+     retval = gpg.returncode
+     if retval != 0:
+       print 'WARNING: Keyid %s not valid, skipping.' % key
++      return None
++    return output
++
++  def check_fingerprint(self, key):
++    '''Prompt the user to see if they have verified this fingerprint.'''
++    fpr = self.get_fingerprint(key)
++    if fpr is None:
+       return False
++    for line in fpr:
++      print line.strip()
+ 
+     ans = raw_input('Have you verified this user/key? (y/N/q) ')
+     print
+@@ -263,6 +276,45 @@
+       sys.exit(1)
+     return False
+ 
++  def get_signature_details(self, default_level):
++    '''Retrieve extra signature details from the user.'''
++    level = None
++    while True:
++      ans = raw_input('What level would you like to sign this key at? '
++                      '(0-3/d/q) ')
++      print
++      if ans in ('q', 'Q'):
++        print 'Dying at user request'
++        sys.exit(1)
++      if ans in ('d', 'D'):
++        # Sign at default level.
++        level = default_level
++        break
++      try:
++        ans = int(ans)
++        if ans < 0 or ans > 3:
++          raise ValueError
++      except ValueError:
++        print 'Invalid input. Try again'
++        continue
++      level = ans
++      break
++ 
++    justification = None
++    while True:
++      ans = raw_input('Signing justification? (q to quit):\n')
++      print
++      if ans in ('q', 'Q'):
++        print 'Dying at user request'
++        sys.exit(1)
++      if not ans.strip():
++        print 'You must supply a justification. Try again'
++        continue
++      justification = ans.strip()
++      break
++
++    return level, justification
++
+   def get_mail_pass(self):
+     '''Prompt the user for their passphrase.'''
+     self.mail_pass = getpass.getpass('Please enter your mail server password: ')
+@@ -383,9 +435,9 @@
+         continue
+ 
+       status = fields[1]
+-      uid = fields[9]
++      orig_uid = fields[9]
+ 
+-      debug('Got UID %s with status %s' % (uid, status))
++      debug('Got UID %s with status %s' % (orig_uid, status))
+ 
+       # If we can we capture an email address is saved for 
+       # emailing off signed keys (not yet implemented), and
+@@ -397,7 +449,7 @@
+       # For the normal case (have email), we'll be storing each email twice
+       # but that's OK since it means that email is *always* a valid email or
+       # None and id is *always* a valid identifier
+-      match = re.search('.* <(.*)>', uid)
++      match = re.search('.* <(.*)>', orig_uid)
+       if match:
+         email = match.group(1)
+         debug('got email %s' % email)
+@@ -432,7 +484,7 @@
+       unique_files.append(filename)
+       filename += '.asc'
+       uids.append({'email': email, 'file': filename, 'status': status,
+-                   'id': uid})
++                   'id': uid, 'orig_uid': orig_uid})
+ 
+     debug('quitting')
+     # sometimes it wants a save here. I don't know why. We can quit and check
+@@ -554,11 +606,14 @@
+   #    reason it's still here is because agent support is flaky and some people
+   #    may not like us storing their passphrase in memory.
+   #
+-  def sign_uid_expect(self, key, index):
++  def sign_uid_expect(self, key, index, level):
+     '''Sign a UID, using the expect stuff. Interactive mode.'''
++    policy_opts = ''
++    if self.policy_url:
++      policy_opts = '--cert-policy-url %s' % self.policy_url
+     cmd = ('%s --no-default-keyring --keyring %s --default-cert-level %s'
+-           ' --no-ask-cert-level --edit-key %s'
+-           % (self.gpg, self.tmp_keyring, self.sign_level, key))
++           ' --no-ask-cert-level %s --edit-key %s'
++           % (self.gpg, self.tmp_keyring, level, policy_opts, key))
+     debug(cmd)
+     gpg = pexpect.spawn(cmd)
+     gpg.setecho(False)
+@@ -600,7 +655,7 @@
+       line = fd.readline().strip()
+       debug('got line %s' % line)
+ 
+-  def sign_uid(self, key, index):
++  def sign_uid(self, key, index, level):
+     '''Sign a single UID of a key.
+     
+     This can use either cached passpharse or gpg-agent.'''
+@@ -608,11 +663,14 @@
+     if self.mode == MODE_AGENT:
+       agent = '--use-agent'
+     keyring = '--no-default-keyring --keyring %s' % self.tmp_keyring
++    policy_opts = ''
++    if self.policy_url:
++      policy_opts = '--cert-policy-url %s' % self.policy_url
+     # Note that if passphrase-fd is different from command-fd, nothing works.
+     cmd = ('%s %s %s %s -u %s %s --default-cert-level %s --no-ask-cert-level'
+-           ' --edit-key %s' %
++           ' %s --edit-key %s' %
+            (self.gpg, self.gpg_quiet_opts, self.gpg_fd_opts, keyring,
+-            self.signer, agent, self.sign_level, key))
++            self.signer, agent, level, policy_opts, key))
+ 
+     debug(cmd)
+     gpg = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+@@ -728,7 +786,22 @@
+         if uids[index]['status'] != 'r' and uids[index]['result']:
+           print '    %(id)s: %(enc_file)s' % uids[index]
+ 
+-  def sign_all_uids(self, key):
++  def write_signing_record(self, key, level, justification, uids):
++    '''Write a file containing a summary of the signing performed.'''
++    signed_at = int(time.time())
++    filename = '%s_%s' % (key, signed_at)
++    fp = open(os.path.join(self.signing_record_dir, filename), 'w')
++    fp.write('SIGNER=%s\n' % self.signer)
++    fp.write('LEVEL=0x1%s\n' % level)
++    fp.write('REASON=%s\n' % justification)
++    for index in range(1, len(uids)):
++      if uids[index]['status'] != 'r' and uids[index]['result']:
++        fp.write('UID=%(orig_uid)s\n' % uids[index])
++    fp.write('\n')
++    fp.write("".join(self.get_fingerprint(key)))
++    fp.close()
++
++  def sign_all_uids(self, key, level, justification):
+     '''The main function that signs all the UIDs on a given key.'''
+     uids = self.get_uids(key)
+     print '  There are %s UIDs on this key to sign' % (len(uids) - 1)
+@@ -748,7 +821,7 @@
+       # Sign the key...
+       if self.mode in (MODE_CACHE_PASSPHRASE, MODE_AGENT):
+         try:
+-          res = self.sign_uid(key, index)
++          res = self.sign_uid(key, index, level)
+         except AgentError:
+           print '\ngpg-agent problems, bailing out!'
+           sys.exit(1)
+@@ -760,7 +833,7 @@
+           # No need to say anything else
+           sys.exit(1)
+       else:
+-        res = self.sign_uid_expect(key, index)
++        res = self.sign_uid_expect(key, index, level)
+       if not res:
+         uids[index]['result'] = False
+         continue
+@@ -805,6 +878,9 @@
+     if self.verbose:
+       self.print_filenames(uids)
+ 
++    if self.signing_record_dir:
++      self.write_signing_record(key, level, justification, uids)
++
+     # Remove the clean keyfile we temporarily created
+     self.clean_clean_key(key)
+ 
+@@ -1121,6 +1197,11 @@
+     if not os.path.exists(mydir):
+       os.mkdir(mydir, 0700)
+ 
++  if options.detailed_signatures and not options.signing_record_dir:
++    print 'NOTE: -D is present, -l becomes a default value'
++    parser.error('ERROR: -D requires -R')
++
++
+ def main():
+   """Main."""
+   usage = ('%prog [options] -s <signer_keyid> <keyid> [<keyid> ...]\n'
+@@ -1149,6 +1230,12 @@
+                     help='Encrypt output files with respective keys.')
+   parser.add_option('-d', '--debug', action='store_true', dest='debug',
+                     help='Enable debugging output.')
++  parser.add_option('-D', '--detailed-signatures', action='store_true', 
++                    dest='detailed_signatures',
++                    help='Require a justification string and an explicit '
++                         'signing level for each signature. -l becomes a '
++                         'default when this option is specified and -R '
++                         'becomes required.')
+   parser.add_option('-H', '--mail-host', dest='mail_host', metavar='HOSTNAME',
+                     nargs=1, type='not_another_opt',
+                     help='Hostname of SMTP server. [default: %default]')
+@@ -1199,6 +1286,9 @@
+                     help='The keyring to use. Be sure to specify full or'
+                          ' relative path. Just a filename will cause GPG to'
+                          ' assume relative to ~/.gnupg. [default: %default]')
++  parser.add_option('-R', '--signing-record-dir', dest='signing_record_dir',
++                    help='Save a summary of each key signed into this '
++                          'directory.')
+   parser.add_option('-s', '--signer', dest='signer', nargs=1,
+                     type='keyid',
+                     help='The keyid to sign with (required).')
+@@ -1215,6 +1305,8 @@
+                     help='Authenticate to the SMTP server, and use username'
+                          ' USER. You will be prompted for the password. Implies'
+                          ' -S.')
++  parser.add_option('-U', '--policy-url', dest='policy_url',
++                    help='Policy URL to include in each signature')
+   parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
+                     help='Be more verbose.')
+ 
+@@ -1243,11 +1349,12 @@
+  
+   signer = uids_signer(options.signer, options.mode, options.keyring,
+                        options.gpg_path, options.tmp_dir, options.out_dir,
+-                       options.encrypt_outfiles, options.sign_level,
+-                       options.mail, options.verbose, options.mail_text,
+-                       options.mail_override, options.mail_host,
+-                       options.mail_port, options.mail_no_pgp_mime,
+-                       options.mail_user, options.mail_tls)
++                       options.encrypt_outfiles, options.mail, options.verbose,
++                       options.mail_text, options.mail_override,
++                       options.mail_host, options.mail_port,
++                       options.mail_no_pgp_mime, options.mail_user,
++                       options.mail_tls, options.policy_url,
++                       options.signing_record_dir)
+ 
+   if options.all_keys:
+     key_list = signer.get_all_keyids()
+@@ -1286,8 +1393,23 @@
+   for key in key_list:
+     if not signer.check_fingerprint(key):
+       continue
+-    print 'Signing all UIDs on key %s' % key
+-    signer.sign_all_uids(key)
++    level = options.sign_level
++    justification = None
++    if options.detailed_signatures:
++      level, justification = signer.get_signature_details(level)
++      print 'Will sign all UIDs on key %s with:' % key
++      print ' Signing Level : 0x1%s' % level
++      print ' Signing Reason: %s' % justification
++      ans = raw_input('Is that OK? (y/N/q) ')
++      print
++      if ans in ('q', 'Q'):
++        print 'Dying at user request'
++        sys.exit(1)
++      elif ans not in ('y', 'Y', 'yes', 'Yes', 'YES'):
++        continue
++    else:
++      print 'Signing all UIDs on key %s' % key
++    signer.sign_all_uids(key, level, justification)
+     print ''
+ 
+   # If the user asked, import the keys

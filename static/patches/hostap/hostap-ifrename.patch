@@ -1,0 +1,75 @@
+--- hostap-driver-0.4.1.orig/driver/modules/hostap.c
++++ hostap-driver-0.4.1/driver/modules/hostap.c
+@@ -805,6 +805,15 @@
+ 		prism2_callback(local, PRISM2_CALLBACK_ENABLE);
+ 	local->dev_enabled = 1;
+ 
++        /* Handle changed device name */
++        if (dev != local->dev && strcmp(dev->name, local->proc->name)!=0) {
++            /* Recreate proc entry */
++            hostap_remove_ap_proc(local->proc);
++            hostap_remove_proc(local);
++            hostap_init_proc(local);
++            hostap_init_ap_proc(local);
++        }
++       
+ 	if (dev != local->dev && !(local->dev->flags & IFF_UP)) {
+ 		/* Master radio interface is needed for all operation, so open
+ 		 * it automatically when any virtual net_device is opened. */
+--- hostap-driver-0.4.1.orig/driver/modules/hostap_ap.c
++++ hostap-driver-0.4.1/driver/modules/hostap_ap.c
+@@ -857,6 +857,25 @@
+ }
+ 
+ 
++void hostap_remove_ap_proc(struct proc_dir_entry *proc)
++{
++
++#ifndef PRISM2_NO_PROCFS_DEBUG
++	if (proc != NULL) {
++		remove_proc_entry("ap_debug", proc);
++	}
++#endif /* PRISM2_NO_PROCFS_DEBUG */
++
++#ifndef PRISM2_NO_KERNEL_IEEE80211_MGMT
++	if (proc != NULL) {
++	  remove_proc_entry("ap", proc);
++		remove_proc_entry("ap_control", proc);
++	}
++#endif /* PRISM2_NO_KERNEL_IEEE80211_MGMT */
++
++}
++
++
+ void hostap_free_data(struct ap_data *ap)
+ {
+ 	struct list_head *n, *ptr;
+@@ -882,17 +901,8 @@
+ 		ap_free_sta(ap, sta);
+ 	}
+ 
+-#ifndef PRISM2_NO_PROCFS_DEBUG
+-	if (ap->proc != NULL) {
+-		remove_proc_entry("ap_debug", ap->proc);
+-	}
+-#endif /* PRISM2_NO_PROCFS_DEBUG */
+-
++	hostap_remove_ap_proc(ap->proc);
+ #ifndef PRISM2_NO_KERNEL_IEEE80211_MGMT
+-	if (ap->proc != NULL) {
+-	  remove_proc_entry("ap", ap->proc);
+-		remove_proc_entry("ap_control", ap->proc);
+-	}
+ 	ap_control_flush_macs(&ap->mac_restrictions);
+ #endif /* PRISM2_NO_KERNEL_IEEE80211_MGMT */
+ 
+--- hostap-driver-0.4.1.orig/driver/modules/hostap_ap.h
++++ hostap-driver-0.4.1/driver/modules/hostap_ap.h
+@@ -226,6 +226,7 @@
+ 	       struct hostap_80211_rx_status *rx_stats);
+ void hostap_init_data(local_info_t *local);
+ void hostap_init_ap_proc(local_info_t *local);
++void hostap_remove_ap_proc(struct proc_dir_entry *proc);
+ void hostap_free_data(struct ap_data *ap);
+ void hostap_check_sta_fw_version(struct ap_data *ap, int sta_fw_ver);
+ 

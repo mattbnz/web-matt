@@ -1,0 +1,57 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## de-i18n-fixes by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: German translation fixes to the phpwiki codebase
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/locale/de/pgsrc/AlteTextFormatierungsRegeln
++++ phpwiki-1.3.12p3/locale/de/pgsrc/AlteTextFormatierungsRegeln
+@@ -14,7 +14,7 @@
+ <strong>Listen:</strong>~* für Rasterpunkte u. Ebenen, # für numerierte Listen, <em><strong>;</strong> Das Wort <strong>:</strong> Die Wortbestimmung</em> für glossarähnliche Listen.%%%
+ <strong>Querverweise:</strong> in ~GroßbuchstabenZusammenschreiben oder in eckige Klammern setzen ~[ein Link] oder URL ~[~http://cool.wiki.int/].%%%
+ <strong>Fußnoten:</strong> Benutze ~[1],~[2],~[3],... wie diese hier #[|ftnt_ref_1]<sup>~[[1|#ftnt_1]~]</sup>. Siehe Fußnoten für das Ziel. (If the ~[ is in the first column, it is a footnote <em>definition</em> rather than a footnote <em>reference</em>.)
+-<strong>Links verhindern:</strong> das Wort mit einem »~!« beginnen: ~!~NichtLinken, Links so angeben: ~[~[Text | URL] (zweimal »[«). Beachte, daß bei den neuen TextFormatierungsRegeln das Zeichen »~~« verwendet wird.%%%
++<strong>Links verhindern:</strong> das Wort mit einem »~!« beginnen: ~!~NichtLinken, Links so angeben: ~[~[Text | URL] (zweimal »[«). Beachte, dass bei den neuen TextFormatierungsRegeln das Zeichen »~~« verwendet wird.%%%
+ <strong>Verschiedenes:</strong> »~!«, »~!~!«, »~!~!~!« für Überschriften, »%%<em></em>%« für Zeilenvorschubzeichen, u. »---<em></em>-« zeichnet eine Linie.%%%
+ <strong>Tabellen:</strong> »|« in der ersten Zeile, »|« für weitere Spalten, »|>« rechtsbündig, »|<« linksbündig, »|^« zentriert (Vorgabe), »||« span columns, »|v« span rows
+ 
+--- phpwiki-1.3.12p3.orig/locale/de/pgsrc/WieManWikiBenutzt
++++ phpwiki-1.3.12p3/locale/de/pgsrc/WieManWikiBenutzt
+@@ -31,7 +31,7 @@
+ 
+ * Eine horizontale Trennlinie bekommt man indem man vier oder mehr Bindestriche an den Anfang einer Zeile stellt:
+ ----
+-* Links kann man erzeugen, indem man einzelne Wörter, deren Anfangsbuchstabe groß geschrieben wird, zusammenfügt. Wenn du also etwa eine Seite darüber  schreiben willst, daß Arno Ratten mag, schreibst du: ArnoMagRatten. Falls die Seite noch nicht existiert erscheint dahinter ein Fragezeichen, das dir die Möglichkeit gibt die Seite zu erzeugen: DieseSeiteSollteNichtExistieren. (Und bitte verdirb das Beispiel nicht, indem du diese Seite erzeugst).
++* Links kann man erzeugen, indem man einzelne Wörter, deren Anfangsbuchstabe groß geschrieben wird, zusammenfügt. Wenn du also etwa eine Seite darüber  schreiben willst, dass Arno Ratten mag, schreibst du: ArnoMagRatten. Falls die Seite noch nicht existiert erscheint dahinter ein Fragezeichen, das dir die Möglichkeit gibt die Seite zu erzeugen: DieseSeiteSollteNichtExistieren. (Und bitte verdirb das Beispiel nicht, indem du diese Seite erzeugst).
+ * Um externe Links zu setzen, kannst du einfach die Adresse eintippen und PhpWiki erzeugt einen passenden Link, z.B. http://www.diezeit.de/
+ * Um Bilder einzufügen, schließt man deren Adresse in eckigen Klammern ein, wie hier: [[!http://www.deinhost.de/bilder/bild.png]. Falls die Adresse des Bildes nicht in eckigen Klammern steht, wird einfach nur die Adresse (nicht aber das Bild) angezeigt.
+ * Jetzt kann es eigentlich schon mit dem SeitenErzeugen losgehen!
+--- phpwiki-1.3.12p3.orig/locale/de/pgsrc/GuterStil
++++ phpwiki-1.3.12p3/locale/de/pgsrc/GuterStil
+@@ -8,11 +8,11 @@
+   charset=iso-8859-1
+ Content-Transfer-Encoding: binary
+ 
+-"Junge Schreiber glauben oft, daß Stil die Sauce für das Fleisch der
++"Junge Schreiber glauben oft, dass Stil die Sauce für das Fleisch der
+ Prosa ist. Eine Sauce, die das fade Gericht erst schmackhaft
+ macht. Stil besitzt aber nicht diese Qualität. Stil ist unteilbar,
+ nicht filterbar. Der Anfänger sollte in seiner Suche nach seinem Stil
+-vorsichtig vorgehen. Sich bewußt sein, daß er es ist dem er sich
++vorsichtig vorgehen. Sich bewusst sein, dass er es ist dem er sich
+ nähert und nicht seinem Stil. Und er sollte tunlichst eine großen
+ Bogen um alle Eigenheiten machen, die gewöhnlicherweise Stil
+ indizieren--alle Manierismen, Tricks und Verzierungen. Der richtig
+--- phpwiki-1.3.12p3.orig/locale/de/pgsrc/PhpWikiSystemverwalten
++++ phpwiki-1.3.12p3/locale/de/pgsrc/PhpWikiSystemverwalten
+@@ -84,7 +84,7 @@
+   <?plugin WikiForm action=dumpserial?>
+ 
+ Nur die neuesten Versionen aller Seiten wird als Einzeldatei in dieses
+-Verzeichnis geschrieben. Beachte, daß evtl. deine Benutzerrechte dazu
++Verzeichnis geschrieben. Beachte, dass evtl. deine Benutzerrechte dazu
+ ausreichen müssen.
+ 
+ -----------

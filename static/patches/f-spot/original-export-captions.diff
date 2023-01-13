@@ -1,0 +1,14 @@
+--- ../f-spot/src/FolderExport.cs	2005-10-19 18:32:00.000000000 +1300
++++ src/FolderExport.cs	2005-11-14 23:30:39.000000000 +1300
+@@ -483,9 +483,8 @@
+ 
+ 		private void CreateComments(string photo_path, int photo_index)
+ 		{
+-			StreamWriter comment = File.CreateText(SubdirPath  ("comments", AlternateName (photo_index, "txt")));
+-			comment.Write("<span>image " + photo_index + "</span> ");
+-			comment.Write (collection [photo_index].Description + "\n");
++			StreamWriter comment = File.CreateText(SubdirPath  ("comments", String.Format ("{0}.txt", photo_index+1)));
++			comment.Write("<span>" + collection [photo_index].Description + "</span> ");
+ 			comment.Close();
+ 		}
+ 

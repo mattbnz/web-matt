@@ -1,0 +1,215 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 32_hostapd-reconnect-on-radius-error.diff by Matt Brown <matt@crc.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Reconnects RADIUS sockets when error conditions are encountered
+
+@DPATCH@
+diff -ur hostapd-0.5.5.orig/radius_client.c hostapd-0.5.5/radius_client.c
+--- hostapd-0.5.5.orig/radius_client.c	2006-04-24 16:54:39.000000000 +1200
++++ hostapd-0.5.5/radius_client.c	2007-03-14 16:11:18.000000000 +1300
+@@ -143,18 +143,18 @@
+ #ifndef CONFIG_NATIVE_WINDOWS
+ 	int _errno = errno;
+ 	perror("send[RADIUS]");
+-	if (_errno == ENOTCONN || _errno == EDESTADDRREQ || _errno == EINVAL) {
+-		hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
+-			       HOSTAPD_LEVEL_INFO,
+-			       "Send failed - maybe interface status changed -"
+-			       " try to connect again");
+-		eloop_unregister_read_sock(s);
+-		close(s);
+-		if (msg_type == RADIUS_ACCT || msg_type == RADIUS_ACCT_INTERIM)
+-			radius_client_init_acct(radius);
+-		else
+-			radius_client_init_auth(radius);
+-	}
++	if (_errno == EAGAIN || _errno == EINTR)
++		return;
++	hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
++			HOSTAPD_LEVEL_INFO,
++			"Send failed - maybe interface status changed -"
++			" try to connect again");
++	eloop_unregister_read_sock(s);
++	close(s);
++	if (msg_type == RADIUS_ACCT || msg_type == RADIUS_ACCT_INTERIM)
++		radius->acct_sock = -1;
++	else
++		radius->auth_sock = -1;
+ #endif /* CONFIG_NATIVE_WINDOWS */
+ }
+ 
+@@ -187,13 +187,20 @@
+ 
+ 	/* retransmit; remove entry if too many attempts */
+ 	entry->attempts++;
+-	hostapd_logger(radius->ctx, entry->addr, HOSTAPD_MODULE_RADIUS,
+-		       HOSTAPD_LEVEL_DEBUG, "Resending RADIUS message (id=%d)",
+-		       entry->msg->hdr->identifier);
+-
+-	os_get_time(&entry->last_attempt);
+-	if (send(s, entry->msg->buf, entry->msg->buf_used, 0) < 0)
+-		radius_client_handle_send_error(radius, s, entry->msg_type);
++	if (s != -1) {
++		hostapd_logger(radius->ctx, entry->addr, HOSTAPD_MODULE_RADIUS,
++				HOSTAPD_LEVEL_DEBUG, "Resending RADIUS message (id=%d)",
++				entry->msg->hdr->identifier);
++
++		os_get_time(&entry->last_attempt);
++		if (send(s, entry->msg->buf, entry->msg->buf_used, 0) < 0)
++			radius_client_handle_send_error(radius, s, entry->msg_type);
++	} else {
++		hostapd_logger(radius->ctx, entry->addr, HOSTAPD_MODULE_RADIUS,
++				HOSTAPD_LEVEL_DEBUG, "Deferring retransmit of RADIUS "
++				"message (id=%d). Socket not ready.",
++				entry->msg->hdr->identifier);
++	}
+ 
+ 	entry->next_try = now + entry->next_wait;
+ 	entry->next_wait *= 2;
+@@ -219,6 +226,20 @@
+ 	int auth_failover = 0, acct_failover = 0;
+ 	char abuf[50];
+ 
++	/* If there is no socket available, try and initialise */
++	if (radius->acct_sock == -1) {
++		hostapd_logger(radius->ctx, entry->addr, HOSTAPD_MODULE_RADIUS,
++				HOSTAPD_LEVEL_DEBUG, "Attempting to reinitialise RADIUS "
++				"acct socket");
++		radius_client_init_acct(radius);
++	}
++	if (radius->auth_sock == -1) {
++		hostapd_logger(radius->ctx, entry->addr, HOSTAPD_MODULE_RADIUS,
++				HOSTAPD_LEVEL_DEBUG, "Attempting to reinitialise RADIUS "
++				"auth socket");
++		radius_client_init_auth(radius);
++	}
++
+ 	entry = radius->msgs;
+ 	if (!entry)
+ 		return;
+@@ -467,15 +488,22 @@
+ 		conf->auth_server->requests++;
+ 	}
+ 
+-	hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
+-		       HOSTAPD_LEVEL_DEBUG, "Sending RADIUS message to %s "
+-		       "server", name);
+ 	if (conf->msg_dumps)
+ 		radius_msg_dump(msg);
+ 
+-	res = send(s, msg->buf, msg->buf_used, 0);
+-	if (res < 0)
+-		radius_client_handle_send_error(radius, s, msg_type);
++	if (s != -1) {
++		hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
++				HOSTAPD_LEVEL_DEBUG, "Sending RADIUS message to %s "
++				"server", name);
++		
++		res = send(s, msg->buf, msg->buf_used, 0);
++		if (res < 0)
++			radius_client_handle_send_error(radius, s, msg_type);
++	} else {
++		hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
++				HOSTAPD_LEVEL_DEBUG, "Queueing RADIUS message to %s "
++				"server. Socket not ready.", name);
++	}
+ 
+ 	radius_client_list_add(radius, msg, msg_type, shared_secret,
+ 			       shared_secret_len, addr);
+@@ -734,13 +762,6 @@
+ 	int sel_sock;
+ 	struct radius_msg_list *entry;
+ 
+-	hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
+-		       HOSTAPD_LEVEL_INFO,
+-		       "%s server %s:%d",
+-		       auth ? "Authentication" : "Accounting",
+-		       hostapd_ip_txt(&nserv->addr, abuf, sizeof(abuf)),
+-		       nserv->port);
+-
+ 	if (!oserv || nserv->shared_secret_len != oserv->shared_secret_len ||
+ 	    memcmp(nserv->shared_secret, oserv->shared_secret,
+ 		   nserv->shared_secret_len) != 0) {
+@@ -807,6 +828,13 @@
+ 		return -1;
+ 	}
+ 
++	hostapd_logger(radius->ctx, NULL, HOSTAPD_MODULE_RADIUS,
++		       HOSTAPD_LEVEL_INFO,
++		       "%s server %s:%d",
++		       auth ? "Authentication" : "Accounting",
++		       hostapd_ip_txt(&nserv->addr, abuf, sizeof(abuf)),
++		       nserv->port);
++
+ 	if (auth)
+ 		radius->auth_sock = sel_sock;
+ 	else
+@@ -869,9 +897,15 @@
+ 	if (ok == 0)
+ 		return -1;
+ 
+-	radius_change_server(radius, conf->auth_server, NULL,
++	if (radius_change_server(radius, conf->auth_server, NULL,
+ 			     radius->auth_serv_sock, radius->auth_serv_sock6,
+-			     1);
++			     1) != 0) {
++	    close(radius->auth_serv_sock);
++#ifdef CONFIG_IPV6        
++	    close(radius->auth_serv_sock6);
++#endif
++        return -1;
++    }
+ 
+ 	if (radius->auth_serv_sock >= 0 &&
+ 	    eloop_register_read_sock(radius->auth_serv_sock,
+@@ -908,9 +942,26 @@
+ 	else
+ 		ok++;
+ 
+-	radius_change_server(radius, conf->acct_server, NULL,
++#ifdef CONFIG_IPV6
++	radius->acct_serv_sock6 = socket(PF_INET6, SOCK_DGRAM, 0);
++	if (radius->acct_serv_sock6 < 0)
++		perror("socket[PF_INET6,SOCK_DGRAM]");
++	else
++		ok++;
++#endif /* CONFIG_IPV6 */
++
++	if (ok == 0)
++		return -1;
++
++	if (radius_change_server(radius, conf->acct_server, NULL,
+ 			     radius->acct_serv_sock, radius->acct_serv_sock6,
+-			     0);
++			     0) != 0) {
++	    close(radius->acct_serv_sock);
++#ifdef CONFIG_IPV6        
++	    close(radius->acct_serv_sock6);
++#endif
++        return -1;
++    }
+ 
+ 	if (radius->acct_serv_sock >= 0 &&
+ 	    eloop_register_read_sock(radius->acct_serv_sock,
+@@ -951,15 +1002,11 @@
+ 		radius->auth_serv_sock6 = radius->acct_serv_sock6 =
+ 		radius->auth_sock = radius->acct_sock = -1;
+ 
+-	if (conf->auth_server && radius_client_init_auth(radius)) {
+-		radius_client_deinit(radius);
+-		return NULL;
+-	}
++	if (conf->auth_server)
++		radius_client_init_auth(radius);
+ 
+-	if (conf->acct_server && radius_client_init_acct(radius)) {
+-		radius_client_deinit(radius);
+-		return NULL;
+-	}
++	if (conf->acct_server)
++		radius_client_init_acct(radius);
+ 
+ 	if (conf->retry_primary_interval)
+ 		eloop_register_timeout(conf->retry_primary_interval, 0,
+Only in hostapd-0.5.5: .radius_client.c.swp

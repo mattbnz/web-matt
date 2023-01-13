@@ -1,0 +1,181 @@
+diff -ur portreserve-0.0.0/debian/changelog portreserve-0.0.0-matt/debian/changelog
+--- portreserve-0.0.0/debian/changelog	2006-02-12 11:07:31.000000000 +0000
++++ portreserve-0.0.0-matt/debian/changelog	2006-02-16 08:42:01.000000000 +0000
+@@ -1,3 +1,15 @@
++portreserve (0.0.0-2.1) unstable; urgency=low
++
++  * Non-maintainer upload
++  * Fixed minor init script bugs (Closes: #352103)
++    - Use -z instead of -n to test list of service files
++    - Use $NAME instead of the undefined $prog in the pidfile name
++  * Reworked portreserve pidfile handling
++    - Utilise functions from libslack to safely create and lock pidfile
++    - Remove pidfile when program exits cleanly
++  
++ -- Matt Brown <debian@mattb.net.nz>  Thu, 16 Feb 2006 21:41:33 +1300
++
+ portreserve (0.0.0-2) unstable; urgency=low
+ 
+   * Added xmlto to Build-Depends (Closes: #337848)
+diff -ur portreserve-0.0.0/debian/portreserve.init portreserve-0.0.0-matt/debian/portreserve.init
+--- portreserve-0.0.0/debian/portreserve.init	2006-02-12 11:07:31.000000000 +0000
++++ portreserve-0.0.0-matt/debian/portreserve.init	2006-02-15 11:43:34.000000000 +0000
+@@ -11,7 +11,7 @@
+ test -f $DAEMON || exit 0
+ 
+ NAME=`basename $DAEMON`
+-PIDFILE=/var/run/$prog.pid
++PIDFILE=/var/run/$NAME.pid
+ 
+ running()
+ {
+@@ -22,8 +22,8 @@
+     # No pid, probably no daemon present
+     [ -z "$pid" ] && return 1
+     [ ! -d /proc/$pid ] &&  return 1
+-    cmd=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
+-
++    cmdline=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
++    cmd=`basename $cmdline`
+     [ "$cmd" != "$NAME" ] &&  return 1
+     return 0
+ }
+@@ -36,7 +36,7 @@
+ 	if [ ! -d /etc/portreserve ] ; then
+ 		return 1
+ 	fi
+-	if [ -n "`find /etc/portreserve \! -name "*~" -a \! -name "*.*" -type f`" ] ; then
++	if [ -z "`find /etc/portreserve \! -name "*~" -a \! -name "*.*" -type f`" ] ; then
+ 		return 1
+ 	fi
+ 	return 0
+Only in portreserve-0.0.0-matt/: .deps
+Only in portreserve-0.0.0: portreserve.spec
+diff -ur portreserve-0.0.0/src/portreserve.c portreserve-0.0.0-matt/src/portreserve.c
+--- portreserve-0.0.0/src/portreserve.c	2003-09-03 14:12:52.000000000 +0000
++++ portreserve-0.0.0-matt/src/portreserve.c	2006-02-16 08:34:09.000000000 +0000
+@@ -64,7 +64,13 @@
+ # include <unistd.h>
+ #endif
+ 
++#include <signal.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
++
+ #define UNIX_SOCKET "/var/run/portreserve/socket"
++#define PIDFILE "/var/run/portreserve.pid"
+ 
+ struct map {
+ 	struct map *next;
+@@ -264,9 +270,85 @@
+ 	return 0;
+ }
+ 
++/* daemon_lock_pidfile and fcntl_lock taken from libslack 
++ * Copyright (C) 1999-2004 raf <raf@raf.org>
++ * Licensed under the GPL
++ */
++int 
++fcntl_lock(int fd, int cmd, int type, int whence, int start, int len)
++{
++        struct flock lock[1];
++
++        lock->l_type = type;
++        lock->l_whence = whence;
++        lock->l_start = start;
++        lock->l_len = len;
++
++        return fcntl(fd, cmd, lock);
++}
++
++static int 
++daemon_lock_pidfile(char *pidfile)
++{
++        mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
++        int pid_fd;
++
++        /* This is broken over NFS (Linux). So pidfiles must reside locally. */
++
++        if ((pid_fd = open(pidfile, O_RDWR | O_CREAT | O_EXCL, mode)) == -1)
++        {
++                if (errno != EEXIST)
++                        return -1;
++
++                /*
++                ** The pidfile already exists. Is it locked?
++                ** If so, another invocation is still alive.
++                ** If not, the invocation that created it has died.
++                ** Open the pidfile to attempt a lock.
++                */
++
++                if ((pid_fd = open(pidfile, O_RDWR)) == -1)
++                        return -1;
++        }
++
++        if (fcntl_lock(pid_fd, F_SETLK, F_WRLCK, SEEK_SET, 0, 0) == -1)
++                return -1;
++
++        return pid_fd;
++}
++
++int 
++create_pidfile(char *pidfile)
++{
++
++	int fd;
++	char pid[32];
++	
++	/* Open and lock pidfile */
++	if ((fd = daemon_lock_pidfile(pidfile)) == -1) {
++		return -1;
++	}
++
++	/* Store our pid */
++	snprintf(pid, sizeof(pid), "%d\n", (int)getpid());
++	if (write(fd, pid, strlen(pid)) != strlen(pid)) {
++		return -1;
++	}
++
++	return 0;
++}
++
++void
++handle_sigterm (int sig)
++{
++	unlink(PIDFILE);
++	exit(0);
++}
++
+ int
+ main (int argc, char **argv)
+ {
++	int rv;
+ 	const char *p = strrchr (argv[0], '/');
+ 	if (!p++)
+ 		p = argv[0];
+@@ -278,7 +360,9 @@
+ 			r += portrelease (argv[i]);
+ 		return r;
+ 	}
+-
++	
++	signal (SIGTERM, handle_sigterm);
++	
+ 	if (argc > 1) {
+ 		if (!strcmp (argv[1], "-d"))
+ 			debug = 1;
+@@ -302,7 +386,12 @@
+ 		close (STDOUT_FILENO);
+ 		close (STDERR_FILENO);
+ 		setsid ();
++		if (create_pidfile(PIDFILE)==-1)
++			error (EXIT_FAILURE, errno, 
++					"Failed to write pidfile!");
+ 	}
+ 
+-	return portreserve ();
++	rv = portreserve();
++	unlink(PIDFILE);
++	return rv;
+ }

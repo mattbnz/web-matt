@@ -1,0 +1,18 @@
+Index: pius
+===================================================================
+RCS file: /cvsroot/pgpius/pius/pius,v
+retrieving revision 1.14
+diff -d -u -r1.14 pius
+--- pius	26 Apr 2009 14:15:59 -0000	1.14
++++ pius	29 Jun 2009 21:58:14 -0000
+@@ -40,8 +41,9 @@
+ MODE_CACHE_PASSPHRASE = 1
+ MODE_AGENT = 2
+ 
++GNUPGHOME = os.environ.get('GNUPGHOME', '~/.gnupg')
+ DEFAULT_GPG_PATH = '/usr/bin/gpg'
+-DEFAULT_KEYRING = '~/.gnupg/pubring.gpg'
++DEFAULT_KEYRING = os.path.join(GNUPGHOME, 'pubring.gpg')
+ DEFAULT_TMP_DIR = '/tmp/pius_tmp'
+ DEFAULT_OUT_DIR = '/tmp/pius_out'
+ DEFAULT_MAIL_HOST = 'localhost'

@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# Debian ifupdown hook script for madwifi-ng
+#
+# Author:   Matt Brown <matt@mattb.net.nz>
+# Version:  1.1
+#
+# Contains a VERY VERY hacked implementation of bridge support, you must
+# ensure this script runs after the bridge and wireless tools post-down 
+# scripts for it to work so install this is zz_madwifi or something
+#
+# Copyright (C) 2005    Matt Brown
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# crcnetd; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+WLANCONFIG=/usr/bin/wlanconfig
+
+if [ ! -x $WLANCONFIG ]; then
+  exit 0
+fi
+
+if [ -z "$IF_MADWIFI_BASE" ]; then
+    if [ -z "$IF_MADWIFI_PORTS" ]; then
+        exit 0
+    fi
+    # This is a bridge interface with madwifi components
+    # Seeing as we can't recursively call ifdown due to Debian bug #231197
+    # just destroy for safety
+    for mwiface in "$IF_MADWIFI_PORTS"; do
+        $WLANCONFIG "$mwiface" destroy
+    done
+    exit 0
+fi
+
+# Destroy 
+$WLANCONFIG $IFACE destroy
+
+exit 0

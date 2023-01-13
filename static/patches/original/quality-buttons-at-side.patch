@@ -1,0 +1,62 @@
+diff -rNu original-0.11/www/index.php /home/httpd/www.mattb.net.nz/html/original/index.php
+--- original-0.11/www/index.php	2005-11-14 13:53:21.000000000 +1300
++++ /home/httpd/www.mattb.net.nz/html/original/index.php	2005-11-17 01:16:38.000000000 +1300
+@@ -460,17 +453,16 @@
+    echo "<img id=\"preview\" ${imgsize[3]} src=\"$file\" alt=\"$snimek\" />\n";
+    navigation($galerie, $snimek, "prev");
+    navigation($galerie, $snimek, "next");
+-   echo "</div>\n"; //image
+-
+-
+-   if ($exif_prog) require("$root/inc/exif.inc.php"); 
+-	 /* Image comment (caption really) */
+-   $comment = "$root/$gallery_dir/$galerie/comments/$snimek.txt";
+-   if (file_exists($comment)) {
+-      echo "<div class=\"comment\">";
+-			include($comment);
+-			echo "</div>";
+-   }
++   if (file_exists("$gallery_dir/$galerie/mq/img-$snimek.jpg") || file_exists("$gallery_dir/$galerie/hq/img-$snimek.jpg")) {
++       echo "<div id=\"mqhq\">";
++		 if (file_exists("$gallery_dir/$galerie/mq/img-$snimek.jpg")) {
++				echo "<a href=\"$gallery_dir/$galerie/mq/img-$snimek.jpg\">MQ</a> ";
++		 }
++		 if (file_exists("$gallery_dir/$galerie/hq/img-$snimek.jpg")) {
++				echo "<a href=\"$gallery_dir/$galerie/hq/img-$snimek.jpg\">HQ</a>";
++		 }
++		 echo "</div>\n"; //mqhq
++	 }
+ 	 /* Counter/Access Log - also requires comments dir world writable */
+ 	 if ($log_access==1) {
+ 		 //simple counter
+@@ -504,18 +496,19 @@
+ 		 // log time, IP, UA
+ 		 // TODO - is this really a good thing to do?
+ 	 }
+-	 
++     echo "</div>\n"; //image
++
++     if ($exif_prog) require("$root/inc/exif.inc.php");
++     
++     
++     /* Image comment (caption really) */
++     $comment = "$root/$gallery_dir/$galerie/comments/$snimek.txt";
++     if (file_exists($comment)) {
++         echo "<div class=\"comment\">";
++         include($comment);
++         echo "</div>";
++     }
+ 
+-   if (file_exists("$gallery_dir/$galerie/mq/img-$snimek.jpg") || file_exists("$gallery_dir/$galerie/hq/img-$snimek.jpg")) {
+-		 echo "<div id=\"mqhq\">";
+-		 if (file_exists("$gallery_dir/$galerie/mq/img-$snimek.jpg")) {
+-				echo "<a href=\"$gallery_dir/$galerie/mq/img-$snimek.jpg\">". __('MQ') . "</a> ";
+-		 }
+-		 if (file_exists("$gallery_dir/$galerie/hq/img-$snimek.jpg")) {
+-				echo "<a href=\"$gallery_dir/$galerie/hq/img-$snimek.jpg\">" . __('HQ') . "</a>";
+-		 }
+-		 echo "</div>\n"; //mqhq
+-	 }
+ 
+    /* User comments */
+    if ($comments) {

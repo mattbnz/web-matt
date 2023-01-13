@@ -1,0 +1,79 @@
+diff -ur ../mail//account.php mail//account.php
+--- ../mail//account.php	2011-06-13 22:30:25.000000000 +0000
++++ mail//account.php	2011-07-16 12:13:32.000000000 +0000
+@@ -134,7 +134,7 @@
+    echo("<div class=\"error\">Passwords must match</div>"); 
+    else if ($pass1 != "") {
+        $update=array();
+-       $update["userPassword"]=`/usr/sbin/slappasswd -s "$pass1"`;
++       $update["userPassword"]=hashPassword($pass1);
+        $dn="cn=".$email.",ou=Mailboxes,o=".$domain.",ou=Domains,$BASE_DN";
+        $res=@ldap_modify($ldap,$dn,$update);
+        if (false == $res) {
+diff -ur ../mail//auth.php mail//auth.php
+--- ../mail//auth.php	2011-06-13 22:30:41.000000000 +0000
++++ mail//auth.php	2011-07-16 12:12:52.000000000 +0000
+@@ -104,6 +104,14 @@
+ 	}
+ }
+ 
++function hashPassword($password)
++{
++    $salt = sha1(rand());
++    $salt = substr($salt, 0, 4);
++    $hash = "{SSHA}" . base64_encode( sha1($password . $salt, true) . $salt );
++    return $hash; 
++}
++
+ function create_session_cookie($username, $password)
+ {
+     # Create a key to encrypt the password with
+diff -ur ../mail//change_mailbox_pass.php mail//change_mailbox_pass.php
+--- ../mail//change_mailbox_pass.php	2007-09-05 18:58:46.000000000 +0000
++++ mail//change_mailbox_pass.php	2011-07-16 12:12:58.000000000 +0000
+@@ -29,7 +29,7 @@
+ 		$dn="cn=".$user.",ou=Mailboxes,o=".$domain.",ou=Domains,$BASE_DN";
+ 
+ 		$entry = array();
+-		$entry["userpassword"] = `/usr/sbin/slappasswd -s "$pass1"`;
++		$entry["userpassword"] = hashPassword($pass1);
+ 		
+ 		do_ldap_connect_by_dn($dn,$oldpass);
+ 		if(!$ldap) {
+Only in ../mail/: CVS
+diff -ur ../mail//edit_user.php mail//edit_user.php
+--- ../mail//edit_user.php	2007-07-11 17:32:12.000000000 +0000
++++ mail//edit_user.php	2011-07-16 12:13:56.000000000 +0000
+@@ -11,7 +11,7 @@
+         // Not changing password
+ 	} else if ($error == array()) {
+ 		$entry = array();
+-		$entry["userPassword"] = `/usr/sbin/slappasswd -s "$pass1"`;
++		$entry["userPassword"] = hashPassword($pass1);
+ 		if (@ldap_modify($ldap,"cn=".$user.",ou=People,$BASE_DN",$entry)) {
+ 			header("Location: users.php");
+ 			exit;
+diff -ur ../mail//new_account.php mail//new_account.php
+--- ../mail//new_account.php	2011-06-18 13:20:28.000000000 +0000
++++ mail//new_account.php	2011-07-16 12:14:20.000000000 +0000
+@@ -42,7 +42,7 @@
+ 			$entry["homeDirectory"] = HOME_DIRECTORY."/".$domain."/".$user;
+ 		}
+ 		$entry["owner"]="cn=".$_SESSION["username"].",ou=People,$BASE_DN";
+-		$entry["userPassword"] = `/usr/sbin/slappasswd -s "$pass1"`;
++		$entry["userPassword"] = hashPassword($pass1);
+ 		if (ldap_add($ldap,"cn=".$mailbox.",ou=Mailboxes,o=".$domain.",ou=Domains,$BASE_DN",$entry)) {
+ 			if (IMAP_SERVER_TYPE==CYRUS) {
+ 				$cimap = new cyradm($PHP_AUTH_USER, $PHP_AUTH_PW);
+diff -ur ../mail//new_user.php mail//new_user.php
+--- ../mail//new_user.php	2007-07-11 17:32:12.000000000 +0000
++++ mail//new_user.php	2011-07-16 12:14:41.000000000 +0000
+@@ -17,7 +17,7 @@
+ 		$entry["objectClass"][] = "top";
+ 		$entry["objectClass"][] = "vMailAccount";
+ 		$entry["cn"] = $newuser;
+-		$entry["userpassword"] = `/usr/sbin/slappasswd -s "$pass1"`;
++		$entry["userpassword"] = hashPassword($pass1);
+ 		$entry["owner"] = "cn=".$newuser.",ou=People,$BASE_DN";
+ 		if (@ldap_add($ldap,"cn=".$newuser.",ou=People,$BASE_DN",$entry)) {
+ 			header("Location: users.php");

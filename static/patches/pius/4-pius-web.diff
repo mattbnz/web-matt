@@ -1,0 +1,284 @@
+--- /dev/null	2009-04-26 19:02:17.000000000 +0100
++++ pius-web	2009-07-04 15:45:45.000000000 +0100
+@@ -0,0 +1,211 @@
++#!/usr/bin/python
++'''Generate webpages explaining key signing decisions.'''
++
++# vim:shiftwidth=2:tabstop=2:expandtab:textwidth=80:softtabstop=2:ai:
++
++#
++# Copyright (c) 2009 Matt Brown (matt@mattb.net.nz)
++#
++#   This program is free software; you can redistribute it and/or
++#   modify it under the terms of the GNU General Public License as
++#   published by the Free Software Foundation, version 2.
++#
++import cgi
++from mako.lookup import TemplateLookup
++from optparse import OptionParser, Option, OptionValueError
++import os
++import re
++import sys
++import tempfile
++import time
++
++VERSION = '1.0'
++DEBUG_ON = False
++
++GNUPGHOME = os.path.expanduser(os.environ.get('GNUPGHOME', '~/.gnupg'))
++DEFAULT_EXTENSION = 'html'
++DEFAULT_TEMPLATE_DIR = 'templates'
++
++LIST_TEMPLATE = 'signedkeys'
++KEY_TEMPLATE = 'keyid'
++
++
++class PiusWebGenerator(object):
++
++  def __init__(self, input_dir, template_dir, extension, signer):
++    self.input_dir = input_dir
++    self.template_dir = template_dir
++    self.extension = extension
++    self.signer = signer
++    self.working_dir = tempfile.mkdtemp()
++    self.template_mods = tempfile.mkdtemp()
++
++    if not template_dir.startswith('/'):
++      template_dir = os.path.join(os.path.dirname(__file__), template_dir)
++    print 'Looking for templates in %s' % template_dir
++    self.html = TemplateLookup(directories=[template_dir], 
++                               module_directory=self.template_mods)
++    print 'Working in %s' % self.working_dir
++
++    self.load_signature_data()
++
++  def _check_keyid(self, keyid):
++    '''Returns true if keyid is valid.'''
++    match = re.match('[0-9a-fA-Fx]', keyid)
++    if not match:
++      return False
++    return True
++
++  def _check_ts(self, timestamp):
++    '''Returns true if timestamp matches the format of a unix timestamp'''
++    # TODO(matt): Make this smarter.
++    match = re.match('[0-9]+', timestamp)
++    if not match:
++      return False
++    return True
++
++  def load_signature_data(self):
++    '''Return a dictionary of details about signed keys.'''
++    keys = {}
++    for record in os.listdir(self.input_dir):
++      keyid, signed_at = record.split('_', 1)
++      if not self._check_keyid(keyid):
++        print 'Skipping %s, invalid keyid' % record
++        continue
++      if not self._check_ts(signed_at):
++        print 'Skipping %s, invalid timestamp' % record
++        continue
++      signature = {'uids':[]}
++      fp = open(os.path.join(self.input_dir, record), 'r')
++      fpr = None
++      # Grab the attributes
++      for line in fp:
++        line = unicode(line, "utf-8")
++        if line.strip() and fpr is None:
++          # attribute lines.
++          key, value = line.strip().split('=', 1)
++          if key == 'UID':
++            signature['uids'].append(value)
++          else:
++            signature[key] = value
++        elif not line.strip():
++          # blank line separating attributes from fingerprint.
++          fpr = []
++        else:
++          # fingerprint lines.
++          fpr.append(line.strip())
++      signature['fingerprint'] = fpr
++      keys.setdefault(keyid.upper(), {'signatures':[]})
++      keys[keyid.upper()]['signatures'].append((signed_at, signature))
++
++    # Find the most recent primary UID for each key for display purposes.
++    for keyid in keys:
++      keys[keyid]['signatures'].sort(reverse=True)
++      newest = keys[keyid]['signatures'][0]
++      keys[keyid]['newest'] = newest[0]
++      keys[keyid]['primary_uid'] = newest[1]['uids'][0]
++
++    self.keys = keys
++    print 'Loaded data about %d keys' % len(self.keys)
++
++  def generate_output(self, template_name, extra_data=None,
++                      replace_filename=False):
++    '''Outputs a page'''
++    def uid_is_signed(uids, uid_line):
++      for uid in uids:
++        if uid_line.endswith(uid):
++          return True
++      return False
++    template = self.html.get_template('%s.mako' % template_name)
++    data = {
++        'keys': self.keys,
++        'signer': self.signer,
++        'sortkey': lambda x: x[1]["newest"],
++        'shortdate': lambda x: time.strftime(
++            '%Y-%m-%d', time.gmtime(float(x))),
++        'fulldate': lambda x: time.strftime(
++          '%a %b %d %H:%M:%S %Z %Y', time.gmtime(float(x))),
++        'uid_is_signed': uid_is_signed,
++        'myh': lambda x: cgi.escape(x, True).replace(' ', '&nbsp;'),
++    }
++    if extra_data:
++      data.update(extra_data)
++    if replace_filename:
++      if template_name in data:
++        template_name = data[template_name]
++    filename = '%s.%s' % (template_name, self.extension)
++    fullpath = os.path.join(self.working_dir, filename)
++    fp = open(fullpath, 'w')
++    fp.write(template.render_unicode(**data).encode('utf-8'))
++    fp.close()
++    print 'Wrote %s to %s' % (template_name, fullpath)
++
++  def transfer_output(self, destination):
++
++    os.system("rsync %s/* %s" % (self.working_dir, destination))
++
++
++def check_options(parser, options, args):
++  '''Given the parsed options, sanity check them.'''
++  global DEBUG_ON
++
++  if options.debug == True:
++    print 'Setting debug'
++    DEBUG_ON = True
++
++  if not options.signing_record_dir:
++    parser.error('You must specify the signing record directory.')
++
++
++def main():
++  '''Main.'''
++  usage = ('%prog [options]')
++  parser = OptionParser(usage=usage, version='%%prog %s' % VERSION)
++  parser.set_defaults(extension=DEFAULT_EXTENSION,
++                      template_dir=DEFAULT_TEMPLATE_DIR)
++  parser.add_option('-d', '--debug', action='store_true', dest='debug',
++                    help='Enable debugging output.')
++  parser.add_option('-e', '--extension', dest='extension',
++                    help='Extension for generated files. [default=%default]')
++  parser.add_option('-R', '--signing-record-dir', dest='signing_record_dir',
++                    help='Save a summary of each key signed into this '
++                          'directory.')
++  parser.add_option('-s', '--signer', dest='signer', nargs=1,
++                    help='The keyid to sign with (required).')
++  parser.add_option('-t', '--template-dir', dest='template_dir',
++                    help='Directory containing template files. '
++                         '[default=%default]')
++  parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
++                    help='Be more verbose.')
++  parser.add_option('-w', '--web-url', dest='web_url',
++                    help='scp destination to copy web output to')
++
++  # Check for extra options in the GnuPG homedirectory.
++  opts_file = os.path.join(GNUPGHOME, 'pius_options')
++  all_opts = []
++  try:
++    fp = open(opts_file, 'r')
++    for line in fp:
++      parts = line.strip().split('=')
++      if parser.has_option(parts[0]):
++        all_opts.extend(parts)
++    fp.close()
++  except IOError:
++    # File doesn't exist or is broken
++    pass
++  all_opts.extend(sys.argv[1:])
++  (options, args) = parser.parse_args(all_opts)
++
++  # Check input to make sure users want sane things
++  check_options(parser, options, args)
++
++  generator = PiusWebGenerator(
++      options.signing_record_dir, options.template_dir, options.extension,
++      options.signer)
++  generator.generate_output(LIST_TEMPLATE)
++  for keyid in generator.keys:
++    generator.generate_output(KEY_TEMPLATE, {'keyid': keyid}, True)
++  generator.transfer_output(options.web_url)
++
++if __name__ == '__main__':
++  main()
+--- /dev/null	2009-04-26 19:02:17.000000000 +0100
++++ templates/keyid.mako	2009-07-04 15:47:41.000000000 +0100
+@@ -0,0 +1,27 @@
++<%inherit file='page.mako'/>
++<%def name='title()'>PGP Key Signature Record for key ${keyid} by ${signer}</%def>
++
++% for signed_at, signature in keys[keyid]['signatures']:
++<div class="signature">
++    <h2>Signature made on ${signed_at|fulldate}</h2>
++
++    <p>The uids highlighted in <span class="signed">green</span> below were
++    signed by my key (${signer}) with the following extra details available
++    here.</p>
++   
++    <p>
++    <strong>Signature Type:</strong> ${signature['LEVEL']}<br />
++    <strong>Signature Reason:</strong> ${signature['REASON']}
++    </p>
++
++    <div class="fingerprint">
++% for fpr_line in signature['fingerprint']:
++% if uid_is_signed(signature['uids'], fpr_line):
++<span class="signed">${fpr_line|myh}</span><br />
++% else:
++${fpr_line|myh}<br />
++% endif
++% endfor
++    </div>
++</div>
++% endfor
+--- /dev/null	2009-04-26 19:02:17.000000000 +0100
++++ templates/page.mako	2009-07-04 15:47:17.000000000 +0100
+@@ -0,0 +1,10 @@
++<html>
++    <head>
++        <title>${self.title()}</title>
++    </head>
++    <body>
++    <h1>${self.title()}</h1>
++    ${next.body()}
++    </body>
++</html>
++<%def name="title()">PGP Keys</%def>
+--- /dev/null	2009-04-26 19:02:17.000000000 +0100
++++ templates/signedkeys.mako	2009-07-04 15:50:42.000000000 +0100
+@@ -0,0 +1,24 @@
++<%inherit file='page.mako'/>
++<%def name='title()'>PHP Key Signature Records for ${signer}</%def>
++
++<p>The following keys have been signed by my key (${signer}) click on a Key ID
++for full information.</p>
++
++<table>
++    <tr>
++        <th>Key ID</th>
++        <th>Primary UID</th>
++        <th>Signature Date</th>
++        <th>Signature Type</th>
++        <th>Signature Reason</th>
++    </tr>
++% for keyid, data in sorted(keys.iteritems(), key=sortkey, reverse=True):
++    <tr>
++        <td><a href="${keyid}.html">${keyid}</a></td>
++        <td>${data['primary_uid']}</td>
++        <td>${data['signatures'][0][0]|shortdate}</td>
++        <td>${data['signatures'][0][1]['LEVEL']}</td>
++        <td>${data['signatures'][0][1]['REASON']}</td>
++    </tr>
++% endfor
++</table>

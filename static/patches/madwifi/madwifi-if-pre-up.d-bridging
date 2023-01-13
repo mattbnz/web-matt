@@ -1,0 +1,118 @@
+#!/bin/sh
+#
+# Debian ifupdown hook script for madwifi-ng
+#
+# Author:   Matt Brown <matt@mattb.net.nz>
+# Version:  1.1
+#
+# Contains a VERY VERY hacked implementation of bridge support, you must
+# ensure this script runs before the bridge pre-up script for it to work
+# so install this is 0madwifi or something
+#
+# To bring up a bridge with a madwifi VAP as a component, setup stanzas
+# like so, importantly specify no IP address for ath0, so use manual as the 
+# stanza type.
+#
+#    iface ath0 inet manual
+#        madwifi_base wifi0
+#        wireless_mode ...
+#        ...
+#
+#    auto br0
+#    iface br0 inet dhcp
+#        madwifi_ports ap2
+#        bridge_ports eth0 ap2
+#
+# Copyright (C) 2005    Matt Brown
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# crcnetd; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA 02111-1307 USA
+#
+WLANCONFIG=/usr/bin/wlanconfig
+BRIDGEMODE=0
+
+# Pipe the stanza of a madwifi device to this function and it will set 
+# it up...
+function create_bridge_interface ()
+{
+    while read a b c d; do
+        if [ "$a" == "iface" ]; then continue; fi
+        if [ -z "$a" ]; then break; fi
+        # Create variables for stanzas
+        name=`echo "$a" | tr a-z A-Z`
+        declare -x "IF_$name"="$b"
+    done
+    # Skip if madwifi base couldn't be found
+    if [ -z "$IF_MADWIFI_BASE" ]; then
+        echo "Error: no stanza for madwifi interface $mwiface!"
+        return
+    fi
+    # Fix IFACE reference
+    export IFACE="$mwiface"
+    # Recursively call this script, but MADWIFI_BASE is now defined
+    # so we won't get back to this bit and hence the loop will end
+    $0 
+    # Call wireless tools to setup interface parameters
+    /etc/network/if-pre-up.d/wireless-tools
+    # Bring the interface up
+    ip link set up dev "$IFACE"
+}
+
+if [ ! -x $WLANCONFIG ]; then
+  exit 0
+fi
+
+if [ -z "$IF_MADWIFI_BASE" ]; then
+    if [ -z "$IF_MADWIFI_PORTS" ]; then
+    	exit 0
+    fi
+    # This is a bridge interface with madwifi components
+    # Seeing as we can't recursively call ifup due to Debian bug #231197
+    # and friends, we parse /etc/network/interfaces for the stanza
+    # ourselves and fake calls to the madwifi and wireless
+    for mwiface in "$IF_MADWIFI_PORTS"; do
+        (cat /etc/network/interfaces | awk "/^iface $mwiface/,/^$/ {print}") |
+        create_bridge_interface        
+    done
+    # We've done all we can
+    exit 0
+fi
+
+# Check for interface
+if ip link list $IFACE &>/dev/null; then
+	# Destroy 
+	$WLANCONFIG $IFACE destroy
+fi
+
+case "$IF_WIRELESS_MODE" in
+Managed|managed|MANAGED)
+	MODE="sta"
+	;;
+Ad-Hoc|ad-hoc|AD-HOC)
+	MODE="adhoc"
+	;;
+Master|master|MASTER)
+	MODE="ap"
+	;;
+Monitor|monitor|MONITOR)
+	MODE="monitor"
+	;;
+*)
+	MODE="sta"
+	;;
+esac
+
+# Create or recreate interface
+$WLANCONFIG $IFACE create wlandev $IF_MADWIFI_BASE wlanmode $MODE &>/dev/null
+exit $?

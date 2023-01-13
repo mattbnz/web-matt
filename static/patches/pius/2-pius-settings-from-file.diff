@@ -1,0 +1,30 @@
+Index: pius
+===================================================================
+RCS file: /cvsroot/pgpius/pius/pius,v
+retrieving revision 1.14
+diff -d -u -r1.14 pius
+--- pius	26 Apr 2009 14:15:59 -0000	1.14
++++ pius	4 Jul 2009 14:40:54 -0000
+@@ -1218,7 +1219,21 @@
+   parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
+                     help='Be more verbose.')
+ 
+-  (options, args) = parser.parse_args()
++  # Check for extra options in the GnuPG homedirectory.
++  opts_file = os.path.join(GNUPGHOME, 'pius_options')
++  all_opts = []
++  try:
++    fp = open(opts_file, 'r')
++    for line in fp:
++      parts = line.strip().split('=')
++      if parser.has_option(parts[0]):
++        all_opts.extend(parts)
++    fp.close()
++  except IOError:
++    # File doesn't exist or is broken
++    pass
++  all_opts.extend(sys.argv[1:])
++  (options, args) = parser.parse_args(all_opts)
+ 
+   print 'Welcome to PIUS, the PGP Individual UID Signer.\n'
+ 

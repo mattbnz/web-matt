@@ -1,0 +1,147 @@
+Index: lib/main.php
+===================================================================
+--- lib/main.php	(revision 83)
++++ lib/main.php	(working copy)
+@@ -388,7 +388,7 @@
+     function _setUser (&$user) {
+         $this->_user =& $user;
+         if (defined('MAIN_setUser')) return; // don't set cookies twice
+-        $this->setCookieVar('WIKI_ID', $user->getAuthenticatedId(),
++        $this->setCookieVar(getCookieName(), $user->getAuthenticatedId(),
+                             COOKIE_EXPIRATION_DAYS, COOKIE_DOMAIN);
+         if ($user->isSignedIn())
+             $user->_authhow = 'signin';
+@@ -862,7 +862,7 @@
+         if (!empty($HTTP_ENV_VARS['REMOTE_USER']))
+             return $HTTP_ENV_VARS['REMOTE_USER'];
+ 
+-        if ($userid = $this->getCookieVar('WIKI_ID')) {
++        if ($userid = $this->getCookieVar(getCookieName())) {
+             if (!empty($userid) and substr($userid,0,2) != 's:') {
+                 $this->_user->authhow = 'cookie';
+                 return $userid;
+@@ -1831,4 +1831,4 @@
+ // c-hanging-comment-ender-p: nil
+ // indent-tabs-mode: nil
+ // End:
+-?>
+\ No newline at end of file
++?>
+Index: lib/imagecache.php
+===================================================================
+--- lib/imagecache.php	(revision 66)
++++ lib/imagecache.php	(working copy)
+@@ -75,7 +75,7 @@
+         $request->_user->_authhow = 'session';
+         return ENABLE_USER_NEW ? $user->UserName() : $request->_user;
+     }
+-    if ($userid = $request->getCookieVar('WIKI_ID')) {
++    if ($userid = $request->getCookieVar(getCookieName())) {
+         if (!empty($userid) and substr($userid,0,2) != 's:') {
+             $request->_user->authhow = 'cookie';
+             return $userid;
+@@ -166,4 +166,4 @@
+ // c-hanging-comment-ender-p: nil
+ // indent-tabs-mode: nil
+ // End:   
+-?>
+\ No newline at end of file
++?>
+Index: lib/stdlib.php
+===================================================================
+--- lib/stdlib.php	(revision 66)
++++ lib/stdlib.php	(working copy)
+@@ -136,6 +136,16 @@
+ }
+ 
+ /**
++ * Returns a name for the WIKI_ID cookie that should be unique on the host.
++ * But for it to be unique you must have set a unique WIKI_NAME in your
++ * configuration file.
++ * @return string The name of the WIKI_ID cookie to use for this wiki.
++ */
++function GetCookieName() {
++    return preg_replace("/[^\d\w]/", "_", WIKI_NAME) . "_WIKI_ID";
++}
++
++/**
+  * Generates a valid URL for a given Wiki pagename.
+  * @param mixed $pagename If a string this will be the name of the Wiki page to link to.
+  * 			  If a WikiDB_Page object function will extract the name to link to.
+@@ -2396,4 +2406,4 @@
+ // c-hanging-comment-ender-p: nil
+ // indent-tabs-mode: nil
+ // End:   
+-?>
+\ No newline at end of file
++?>
+Index: lib/Request.php
+===================================================================
+--- lib/Request.php	(revision 66)
++++ lib/Request.php	(working copy)
+@@ -617,7 +617,7 @@
+ 
+     function set($key, $val, $persist_days = false, $path = false) {
+     	// if already defined, ignore
+-    	if (defined('MAIN_setUser') and $key = 'WIKI_ID') return;
++    	if (defined('MAIN_setUser') and $key = getCookieName()) return;
+         if (defined('WIKI_XMLRPC') and WIKI_XMLRPC) return;
+ 
+         $vars = &$GLOBALS['HTTP_COOKIE_VARS'];
+@@ -1618,4 +1618,4 @@
+ // c-hanging-comment-ender-p: nil
+ // indent-tabs-mode: nil
+ // End:   
+-?>
+\ No newline at end of file
++?>
+Index: lib/WikiUserNew.php
+===================================================================
+--- lib/WikiUserNew.php	(revision 66)
++++ lib/WikiUserNew.php	(working copy)
+@@ -669,14 +669,14 @@
+         }
+         if (! $UserName ) {
+             // Try reading userid from old PhpWiki cookie formats:
+-            if ($cookie = $request->cookies->get_old('WIKI_ID')) {
++            if ($cookie = $request->cookies->get_old(getCookieName())) {
+                 if (is_string($cookie) and (substr($cookie,0,2) != 's:'))
+                     $UserName = $cookie;
+                 elseif (is_array($cookie) and !empty($cookie['userid']))
+                     $UserName = $cookie['userid'];
+             }
+             if (! $UserName and !headers_sent())
+-                $request->deleteCookieVar("WIKI_ID");
++                $request->deleteCookieVar(getCookieName());
+             else
+                 $this->_userid = $UserName;
+         }
+@@ -721,7 +721,7 @@
+                 // new 1.3.8 policy: no array cookies, only plain userid string as in 
+                 // the pre 1.3.x versions.
+                 // prefs should be stored besides the session in the homepagehandle or in a db.
+-                $request->setCookieVar('WIKI_ID', $this->_userid,
++                $request->setCookieVar(getCookieName(), $this->_userid,
+                                        COOKIE_EXPIRATION_DAYS, COOKIE_DOMAIN);
+                 //$request->setCookieVar(WIKI_NAME, array('userid' => $prefs->get('userid')),
+                 //                       COOKIE_EXPIRATION_DAYS, COOKIE_DOMAIN);
+Index: lib/WikiUser.php
+===================================================================
+--- lib/WikiUser.php	(revision 66)
++++ lib/WikiUser.php	(working copy)
+@@ -355,7 +355,7 @@
+         $this->_request->setSessionVar('wiki_prefs', $prefs);
+         // $this->_request->setCookieVar('WIKI_PREFS2', $this->_prefs, 365);
+         // simple unpacked cookie
+-        if ($this->_userid) setcookie('WIKI_ID', $this->_userid, 365, '/');
++        if ($this->_userid) setcookie(getCookieName(), $this->_userid, 365, '/');
+ 
+         // We must ensure that any password is encrypted.
+         // We don't need any plaintext password.
+@@ -979,4 +979,4 @@
+ // c-hanging-comment-ender-p: nil
+ // indent-tabs-mode: nil
+ // End:
+-?>
+\ No newline at end of file
++?>

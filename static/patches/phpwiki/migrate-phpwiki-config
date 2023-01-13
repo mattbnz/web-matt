@@ -1,0 +1,207 @@
+#!/usr/bin/perl -w
+#
+# phpwiki configuration file migration script
+#
+# Author:   Matt Brown <matt@mattb.net.nz>
+# Version:  $Id: migrate-phpwiki-config 107 2005-10-21 10:57:16Z matt $
+#
+# Run this script without any arguments for usage information.
+#
+# This script is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# PhpWiki is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PhpWiki; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Store the values
+# In the form $values{$varname} = (value, comment_state)
+# Where value is the value in index.php and comment_state indicates
+# whether the line was commented or not
+%values = ();
+
+# Check we got a template specified on the command line
+if ($#ARGV < 0) {
+    print "Usage: ./phpwiki-migrate-config <config-template.ini>\n\n";
+    print "Takes an old style (<= 1.3.9) index.php configuration file\n";
+    print "for phpwiki and outputs a new style (>= 1.3.10) config.ini\n";
+    print "configuration file for phpwiki based on a supplied template.\n";
+    print "\n";
+    print "config-template.ini should be a valid phpwiki config.ini\n";
+    print "file with each valid directive occuring only once and\n";
+    print "uncommented. The value of the directive in the template\n";
+    print "should be set to a default value.\n\n";
+    print "The values extracted from the old config file will be\n";
+    print "substituted into this file as necessary. Commented out\n";
+    print "directives in index.php will remain commented in config.ini\n";
+    
+    exit 1;
+}
+
+# Read in values from index.php which should be piped to stdin
+open INDEXPHP, "-";
+
+$epmaj = 0;
+$epmin = 0;
+
+while (<INDEXPHP>)
+{
+    $name = "";
+    # Check if the line starts with a comment (# or / char)
+    $is_comment = /^[#\/]/;
+    if (!$is_comment) {
+        $is_comment = 0;
+    }
+    
+    # Process expire parameters
+    if (/'keep'/) {
+        ($value) = (/'keep'\s*=>\s*(.*)\)/);
+        if ($epmaj) {
+            $name = "MAJOR_KEEP";
+        } elsif ($epmin) {
+            $name = "MINOR_KEEP";
+        }
+    }
+    $epmaj = 0;
+    $epmin = 0;
+
+    # Skip some known bad options
+    if (/ALLOW_LDAP_LOGIN/) {
+        next;
+    } elsif (/ALLOW_IMAP_LOGIN/) {
+        next;
+        
+    # Process defined values
+    } elsif (/define\s*\(/) {
+        # Extract the name of the define and the value of it
+        ($name, $value) = (/define\s*\(\s*['"](.*)['"]\s*,\s*['"]*([^'"]*)['"]*\s*\)/);
+
+    # Process PHP variable values
+    } elsif (/HTML_DUMP_SUFFIX\s*=/) {
+        ($name, $value) = (/\$(\w*)\s*=\s*['"](.*)['"];\s*/);
+    } elsif (/AllowedProtocols\s*=/) {
+        ($value) = (/\$\w*\s*=\s*(.*);\s*/);
+        $name = "ALLOWED_PROTOCOLS";
+    } elsif (/InlineImages\s*=/) {
+        ($value) = (/\$\w*\s*=\s*(.*);\s*/);
+        $name = "INLINE_IMAGES";
+    } elsif (/WikiNameRegexp\s*=/) {
+        ($value) = (/\$\w*\s*=\s*(.*);\s*/);
+        $name = "WIKI_NAME_REGEXP";
+
+    # Process arrays that need to be converted
+    } elsif (/GenericPages\s*=/) {
+        ($value) = (/\$\w*\s*=\s*array\((.*)\)/);
+        $name = "DEFAULT_WIKI_PAGES";
+        $value =~ s/[" ]//g;
+        $value =~ s/,/:/g;
+        $value = "\"$value\""
+    } elsif (/keywords\s*=/) {
+        ($value) = (/\$\w*\s*=\s*array\((.*)\)/);
+        $name = "KEYWORDS";
+        $value =~ s/[" ]//g;
+        $value =~ s/,/:/g;
+        $value = "\"$value\""
+        
+    # Process database paramters
+    } elsif (/'dbtype'\s*=>/) {
+        ($value) = (/'dbtype'\s*=>\s*['"](.*)['"]/);
+        $name = "DATABASE_TYPE";
+    } elsif (/'dsn'\s*=>/) {
+        ($value) = (/'dsn'\s*=>\s*['"](.*)['"]/);
+        $name = "DATABASE_DSN";
+    } elsif (/'timeout'\s*=>/) {
+        ($value) = (/'timeout'\s*=>\s*(.*)\s*,/);
+        $name = "DATABASE_TIMEOUT";
+    } elsif (/'db_session_table'\s*=>/) {
+        ($value) = (/'db_session_table'\s*=>\s*['"](.*)['"]/);
+        $name = "DATABASE_SESSION_TABLE";
+    } elsif (/'prefix'\s*=>/) {
+        ($value) = (/'prefix'\s*=>\s*['"](.*)['"]/);
+        $name = "DATABASE_PREFIX";
+    } elsif (/'directory'\s*=>/) {
+        ($value) = (/'directory'\s*=>\s*['"](.*)['"]/);
+        $name = "DATABASE_DIRECTORY";
+    } elsif (/'dba_handler'\s*=>/) {
+        ($value) = (/'dba_handler'\s*=>\s*['"](.*)['"]/);
+        $name = "DATABASE_DBA_HANDLER";
+    
+    # Process Expire Parameters
+    } elsif (/\$ExpireParams\['major'\]\s*=/) {
+        ($value) = (/'max_age'\s*=>\s*(.*),/);
+        $name = "MAJOR_MAX_AGE";
+        $epmaj = 1;
+    } elsif (/\$ExpireParams\['minor'\]\s*=/) {
+        ($value) = (/'max_age'\s*=>\s*(.*),/);
+        $name = "MINOR_MAX_AGE";
+        $epmin = 1;
+        
+    # Process include path
+    } elsif (/ini_set.*include_path'/) {
+        ($value) = (/ini_set.*include_path'\s*,\s*(.*)\s*\)/);
+        $name = "INCLUDE_PATH";
+        
+    }
+    if ($name =~ /^$/) {
+        next;
+    }
+    
+    # Put it into the array
+    if (exists $values{$name} && $is_comment) {
+        # If we already have a value and this one is commented, skip it
+        next;
+    }
+    #print "$name => $value ($is_comment)\n";
+    $values{$name} = [$value, $is_comment];
+        
+}
+
+close INDEXPHP;
+
+# Print values we got
+#for my $name ( keys %values ) {
+#    ($value, $is_comment) = @{$values{$name}};
+#    print "$name => $value";
+#    if ($is_comment) { print " (commented)"; }
+#    print "\n";
+#}
+
+# Write out migration header
+print "; phpwiki 1.3.10 configuration automatically generated by\n";
+print "; migrate-phpwiki-config script\n\n";
+
+# Write out config.ini, substituting values as needed
+open CONFTEMP, "< $ARGV[0]"
+    or die "Failed to open $ARGV[0]: $!\n";
+
+while (<CONFTEMP>)
+{
+    # Look for config var lines
+    if (!/\w* = /) {
+        print $_;
+        next;
+    }
+
+    ($name) = (/(\w*) = /);
+    if (!exists $values{$name}) {
+        print $_;
+        next;
+    }
+    ($value, $is_comment) = @{$values{$name}};
+    if ($is_comment) {
+        print "; $name = $value\n";
+    } else {
+        print "$name = $value\n";
+    }
+}
+
+close CONFTEMP;
+
+exit 0;

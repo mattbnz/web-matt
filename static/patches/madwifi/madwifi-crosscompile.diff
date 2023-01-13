@@ -1,0 +1,84 @@
+--- a/madwifi-ng/Makefile.inc	2005-12-30 04:43:36.000000000 +1300
++++ b/madwifi-ng/Makefile.inc	2006-01-03 12:31:33.000000000 +1300
+@@ -46,12 +46,13 @@
+ # OS is the target operating system. Currently only Linux is supported.
+ OS=		linux
+ 
+-# TARGET defines the target platform architecture. It must match one of
++# ARCH/TARGET defines the target platform architecture. It must match one of
+ # the target platforms supported by the HAL. The default target is the
+ # host machine architecture. You can override TARGET on the make command
+ # line or in the environment. See hal/linux/*.inc for the list of
+ # supported targets.
+-TARGET ?= $(shell uname -m | sed -e s/i.86/i386/ -e s/ppc/powerpc-be/)-elf
++ARCH ?= $(shell uname -m | sed -e s/i.86/i386/ -e s/ppc/powerpc-be/)
++TARGET ?= $(ARCH)-elf
+ 
+ # TOOLPREFIX is a string that is prepended to all toolchain executables,
+ # such as gcc, ld, as, objcopy etc.  This is used for cross-compiling.
+--- a/madwifi-ng/ath/Makefile	2005-11-01 12:20:25.000000000 +1300
++++ b/madwifi-ng/ath/Makefile	2006-01-03 12:31:52.000000000 +1300
+@@ -80,7 +80,7 @@
+ -include $(TOPDIR)/Rules.make
+ 
+ all:
+-	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
++	$(MAKE) ARCH=$(ARCH) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ install: all
+ 	test -d ${DESTDIR}/${MODULEPATH} || mkdir -p ${DESTDIR}/${MODULEPATH}
+--- a/madwifi-ng/ath_hal/Makefile	2005-11-01 23:28:03.000000000 +1300
++++ b/madwifi-ng/ath_hal/Makefile	2006-01-03 12:32:32.000000000 +1300
+@@ -62,7 +62,7 @@
+ -include $(TOPDIR)/Rules.make
+ 
+ all:	ah_osdep.c hal.o opt_ah.h
+-	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
++	$(MAKE) ARCH=$(ARCH) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ ah_osdep.c: opt_ah.h
+ 	cp -f ${HAL}/${OS}/ah_osdep.c ah_osdep.c
+--- a/madwifi-ng/ath_rate/amrr/Makefile	2005-11-01 12:20:25.000000000 +1300
++++ b/madwifi-ng/ath_rate/amrr/Makefile	2006-01-03 12:32:55.000000000 +1300
+@@ -68,7 +68,7 @@
+ -include $(TOPDIR)/Rules.make
+ 
+ all:
+-	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
++	$(MAKE) ARCH=$(ARCH) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ install: all
+ 	test -d ${DESTDIR}/${MODULEPATH} || mkdir -p ${DESTDIR}/${MODULEPATH}
+--- a/madwifi-ng/ath_rate/onoe/Makefile	2005-11-01 12:20:25.000000000 +1300
++++ b/madwifi-ng/ath_rate/onoe/Makefile	2006-01-03 12:33:18.000000000 +1300
+@@ -68,7 +68,7 @@
+ -include $(TOPDIR)/Rules.make
+ 
+ all:
+-	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
++	$(MAKE) ARCH=$(ARCH) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ install: all
+ 	test -d ${DESTDIR}/${MODULEPATH} || mkdir -p ${DESTDIR}/${MODULEPATH}
+--- a/madwifi-ng/ath_rate/sample/Makefile	2005-11-01 12:20:25.000000000 +1300
++++ b/madwifi-ng/ath_rate/sample/Makefile	2006-01-03 12:33:34.000000000 +1300
+@@ -66,7 +66,7 @@
+ -include $(TOPDIR)/Rules.make
+ 
+ all:
+-	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
++	$(MAKE) ARCH=$(ARCH) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ install: all
+ 	test -d ${DESTDIR}/${MODULEPATH} || mkdir -p ${DESTDIR}/${MODULEPATH}
+--- a/madwifi-ng/net80211/Makefile	2005-11-05 09:10:56.000000000 +1300
++++ b/madwifi-ng/net80211/Makefile	2006-01-03 14:50:29.000000000 +1300
+@@ -112,7 +112,7 @@
+ -include $(TOPDIR)/Rules.make
+ 
+ all:
+-	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
++	$(MAKE) ARCH=$(ARCH) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ wlan.o:	$(wlan-objs)
+ 	$(LD) $(LDOPTS) -o wlan.$(KMODSUF) -r $(wlan-objs)

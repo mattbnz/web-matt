@@ -1,0 +1,202 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## upgrade-mysql-only by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Disable automatic database schema updates for dbtypes other than
+## DP: mysql. PHPwiki's code is to broken to work reliably in these cases.
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/lib/upgrade.php
++++ phpwiki-1.3.12p3/lib/upgrade.php
+@@ -356,6 +356,21 @@
+     if (!$dbh->_backend->isSQL()) return;
+     echo "<h3>",_("check for necessary database updates"), " - ", DATABASE_TYPE, "</h3>\n";
+ 
++    $backend_type = $dbh->_backend->backendType();
++    $prefix = isset($DBParams['prefix']) ? $DBParams['prefix'] : '';
++    echo "<h4>",_("Backend type: "),$backend_type,"</h4>\n";
++
++    echo "<div><hr /><b>Debian Note:</b><br />The database schema portion " .
++        "of this upgrade wizard is <em>extremely</em> buggy for database " .
++        "backends other than MySQL and has been disabled in this Debian " .
++        "package.<br /><br />Please refer to the 'Wiki Upgrades' " .
++        "section of <b>/usr/share/doc/phpwiki/README.Debian</b> for " .
++        "details of the steps you need to complete to manually upgrade " .
++        "your database schema <b>before</b> continuing with this wizard." .
++        "<br /><br />Once you have updated your database schema please " .
++        "complete this wizard to finish the upgrade of your PHPwiki " .
++        "Installation.<br /><hr /><br /></div>";
++
+     $dbadmin = $request->getArg('dbadmin');
+     _upgrade_db_init($dbh);
+     if (isset($dbadmin['cancel'])) {
+@@ -363,58 +378,61 @@
+         return;
+     }
+ 
+-    $tables = $dbh->_backend->listOfTables();
+-    $backend_type = $dbh->_backend->backendType();
+-    echo "<h4>",_("Backend type: "),$backend_type,"</h4>\n";
+-    $prefix = isset($DBParams['prefix']) ? $DBParams['prefix'] : '';
+-    foreach (explode(':','session:user:pref:member') as $table) {
+-        echo sprintf(_("check for table %s"), $table)," ...";
+-    	if (!in_array($prefix.$table, $tables)) {
+-            installTable($dbh, $table, $backend_type);
+-    	} else {
+-    	    echo _("OK")," <br />\n";
+-        }
+-    }
+-    if (ACCESS_LOG_SQL) {
+-        $table = "accesslog";
+-        echo sprintf(_("check for table %s"), $table)," ...";
+-    	if (!in_array($prefix.$table, $tables)) {
+-            installTable($dbh, $table, $backend_type);
+-    	} else {
+-    	    echo _("OK")," <br />\n";
+-        }
+-    }
+-    if ((class_exists("RatingsUserFactory") or $dbh->isWikiPage(_("RateIt")))) {
+-        $table = "rating";
+-        echo sprintf(_("check for table %s"), $table)," ...";
+-    	if (!in_array($prefix.$table, $tables)) {
+-            installTable($dbh, $table, $backend_type);
+-    	} else {
+-    	    echo _("OK")," <br />\n";
++    if (substr($backend_type,0,5) == 'mysql') {
++        $tables = $dbh->_backend->listOfTables();
++        foreach (explode(':','session:pref:member') as $table) {
++            echo sprintf(_("check for table %s"), $table)," ...";
++            if (!in_array($prefix.$table, $tables)) {
++                installTable($dbh, $table, $backend_type);
++            } else {
++                echo _("OK")," <br />\n";
++            }
++        }
++        if (ACCESS_LOG_SQL) {
++            $table = "accesslog";
++            echo sprintf(_("check for table %s"), $table)," ...";
++            if (!in_array($prefix.$table, $tables)) {
++                installTable($dbh, $table, $backend_type);
++            } else {
++                echo _("OK")," <br />\n";
++            }
++        }
++        if ((class_exists("RatingsUserFactory") or $dbh->isWikiPage(_("RateIt")))) {
++            $table = "rating";
++            echo sprintf(_("check for table %s"), $table)," ...";
++            if (!in_array($prefix.$table, $tables)) {
++                installTable($dbh, $table, $backend_type);
++            } else {
++                echo _("OK")," <br />\n";
++            }
+         }
++        $backend = &$dbh->_backend->_dbh;
++        extract($dbh->_backend->_table_names);
+     }
+-    $backend = &$dbh->_backend->_dbh;
+-    extract($dbh->_backend->_table_names);
+ 
+     // 1.3.8 added session.sess_ip
+     if (phpwiki_version() >= 1030.08 and USE_DB_SESSION and isset($request->_dbsession)) {
+-  	echo _("check for new session.sess_ip column")," ... ";
+-  	$database = $dbh->_backend->database();
+-  	assert(!empty($DBParams['db_session_table']));
+-        $session_tbl = $prefix . $DBParams['db_session_table'];
+-        $sess_fields = $dbh->_backend->listOfFields($database, $session_tbl);
+-        if (!$sess_fields) {
+-            echo _("SKIP");
+-        } elseif (!strstr(strtolower(join(':', $sess_fields)), "sess_ip")) {
+-            // TODO: postgres test (should be able to add columns at the end, but not in between)
+-            echo "<b>",_("ADDING"),"</b>"," ... ";		
+-            $dbh->genericSqlQuery("ALTER TABLE $session_tbl ADD sess_ip CHAR(15) NOT NULL");
+-            $dbh->genericSqlQuery("CREATE INDEX sess_date ON $session_tbl (sess_date)");
+-        } else {
+-            echo _("OK");
+-        }
+-        echo "<br />\n";
+         if (substr($backend_type,0,5) == 'mysql') {
++            /* 1.3.8 added session.sess_ip */
++            echo _("check for new session.sess_ip column")," ... ";
++            $database = $dbh->_backend->database();
++            assert(!empty($DBParams['db_session_table']));
++            $session_tbl = $prefix . $DBParams['db_session_table'];
++            $sess_fields = $dbh->_backend->listOfFields($database, 
++                $session_tbl);
++            if (!$sess_fields) {
++                echo _("SKIP");
++            } elseif (!in_array("sess_ip", $sess_fields)) {
++                $dbh->genericSqlQuery("ALTER TABLE $session_tbl ADD " .
++                    "sess_ip CHAR(15)");
++                $dbh->genericSqlQuery("ALTER TABLE $session_tbl ALTER " .
++                    "sess_ip SET NOT NULL");
++                $dbh->genericSqlQuery("CREATE INDEX sess_date ON " .
++                    "$session_tbl (sess_date)");
++                echo "<b>",_("ADDED"),"</b><br />";
++            } else {
++                echo _("OK")," <br />\n";
++            }
+             // upgrade to 4.1.8 destroyed my session table: 
+             // sess_id => varchar(10), sess_data => varchar(5). For others obviously also.
+   	    echo _("check for mysql session.sess_id sanity")," ... ";
+@@ -701,34 +719,37 @@
+     global $DBParams;
+     if (!$dbh->_backend->isSQL()) return;
+     //if (!in_array(DATABASE_TYPE, array('SQL','ADODB','PDO'))) return;
++    $backend_type = $dbh->_backend->backendType();
+     $count = 0;
+     if (phpwiki_version() >= 1030.10) {
+         if ($verbose)
+             echo _("check for extra page.cached_html column")," ... ";
+-  	$database = $dbh->_backend->database();
+-        extract($dbh->_backend->_table_names);
+-        $fields = $dbh->_backend->listOfFields($database, $page_tbl);
+-        if (!$fields) {
+-            echo _("SKIP"), "<br />\n";
+-            return 0;
+-        }
+-        if (!strstr(strtolower(join(':', $fields)), "cached_html")) {
+-            if ($verbose)
+-                echo "<b>",_("ADDING"),"</b>"," ... ";
+-            $backend_type = $dbh->_backend->backendType();
+-            if (substr($backend_type,0,5) == 'mysql')
+-                $dbh->genericSqlQuery("ALTER TABLE $page_tbl ADD cached_html MEDIUMBLOB");
+-            else
+-                $dbh->genericSqlQuery("ALTER TABLE $page_tbl ADD cached_html BLOB");
+-            if ($verbose)
+-                echo "<b>",_("CONVERTING"),"</b>"," ... ";
+-            $count = _convert_cached_html($dbh);
+-            if ($verbose)
+-                echo $count, " ", _("OK"), "<br />\n";
+-        } else {
+-            if ($verbose)
+-                echo _("OK"), "<br />\n";
++        /* Only try and upgrade automatically for MySQL */
++        if (substr($backend_type,0,5) == 'mysql') {
++            $database = $dbh->_backend->database();
++            extract($dbh->_backend->_table_names);
++            $fields = $dbh->_backend->listOfFields($database, $page_tbl);
++			if (!$fields) {
++				echo _("SKIP"), "<br />\n";
++				return 0;
++			}
++            if (!in_array("cached_html", $fields)) {
++                if ($verbose)
++                    echo "<b>",_("ADDING"),"</b>"," ... ";
++                $backend_type = $dbh->_backend->backendType();
++                $dbh->genericSqlQuery("ALTER TABLE $page_tbl ADD " .
++                    "cached_html MEDIUMBLOB");
++            }
+         }
++        /* Do the conversion for everyone though */
++        if ($verbose)
++            echo "<b>",_("CONVERTING"),"</b>"," ... ";
++        $count = _convert_cached_html($dbh);
++        if ($verbose)
++            echo $count, " ", _("OK"), "<br />\n";
++    } else {
++        if ($verbose)
++            echo _("OK"), "<br />\n";
+     }
+     return $count;
+ }

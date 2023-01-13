@@ -1,0 +1,92 @@
+diff -ur portreserve-0.0.0/debian/changelog portreserve-0.0.0-matt/debian/changelog
+--- portreserve-0.0.0/debian/changelog	2006-02-12 11:07:31.000000000 +0000
++++ portreserve-0.0.0-matt/debian/changelog	2006-02-12 11:07:14.000000000 +0000
+@@ -1,3 +1,13 @@
++portreserve (0.0.0-2.1) unstable; urgency=low
++
++  * Non-maintainer upload
++  * Fixed minor init script bugs (Closes: #352103)
++    - Use -z instead of -n to test list of service files
++    - Use $NAME instead of the undefined $prog in the pidfile name
++  * Patched portreserve binary to write a pidfile when daemonising
++  
++ -- Matt Brown <debian@mattb.net.nz>  Sun, 12 Feb 2006 21:59:02 +1300
++
+ portreserve (0.0.0-2) unstable; urgency=low
+ 
+   * Added xmlto to Build-Depends (Closes: #337848)
+diff -ur portreserve-0.0.0/debian/portreserve.init portreserve-0.0.0-matt/debian/portreserve.init
+--- portreserve-0.0.0/debian/portreserve.init	2006-02-12 11:07:31.000000000 +0000
++++ portreserve-0.0.0-matt/debian/portreserve.init	2006-02-12 11:16:12.000000000 +0000
+@@ -11,7 +11,7 @@
+ test -f $DAEMON || exit 0
+ 
+ NAME=`basename $DAEMON`
+-PIDFILE=/var/run/$prog.pid
++PIDFILE=/var/run/$NAME.pid
+ 
+ running()
+ {
+@@ -22,8 +22,8 @@
+     # No pid, probably no daemon present
+     [ -z "$pid" ] && return 1
+     [ ! -d /proc/$pid ] &&  return 1
+-    cmd=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
+-
++    cmdline=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
++    cmd=`basename $cmdline`
+     [ "$cmd" != "$NAME" ] &&  return 1
+     return 0
+ }
+@@ -36,7 +36,7 @@
+ 	if [ ! -d /etc/portreserve ] ; then
+ 		return 1
+ 	fi
+-	if [ -n "`find /etc/portreserve \! -name "*~" -a \! -name "*.*" -type f`" ] ; then
++	if [ -z "`find /etc/portreserve \! -name "*~" -a \! -name "*.*" -type f`" ] ; then
+ 		return 1
+ 	fi
+ 	return 0
+diff -ur portreserve-0.0.0/src/portreserve.c portreserve-0.0.0-matt/src/portreserve.c
+--- portreserve-0.0.0/src/portreserve.c	2003-09-03 14:12:52.000000000 +0000
++++ portreserve-0.0.0-matt/src/portreserve.c	2006-02-12 11:07:14.000000000 +0000
+@@ -264,6 +264,31 @@
+ 	return 0;
+ }
+ 
++void 
++put_pid(char *fname)
++{
++	char *defname = "portreserve";
++	char buf[512];
++	int fd;
++	
++	if( fname == NULL ) {
++		fname = defname;
++		snprintf( buf, 512, "/var/run/%s.pid", fname );
++	} else {
++		snprintf( buf, 512, "%s", fname );
++	}
++	fd=creat(buf,0660);
++	if (fd<0)
++		return;
++	sprintf(buf,"%i\n",getpid());
++	if (write(fd,buf,strlen(buf)) != (signed)strlen(buf)) {
++		close(fd);
++		return;
++	}
++	close(fd);
++}
++
++
+ int
+ main (int argc, char **argv)
+ {
+@@ -302,6 +327,7 @@
+ 		close (STDOUT_FILENO);
+ 		close (STDERR_FILENO);
+ 		setsid ();
++		put_pid(NULL);
+ 	}
+ 
+ 	return portreserve ();

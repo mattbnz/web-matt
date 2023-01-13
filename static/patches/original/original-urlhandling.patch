@@ -1,0 +1,181 @@
+--- a/inc/funkce.inc.php	2005-11-14 13:43:05.000000000 +1300
++++ b/inc/funkce.inc.php	2005-11-29 22:33:05.000000000 +1300
+@@ -10,14 +10,16 @@
+       echo "\n<div class=\"navbuttons\">\n";
+       echo "<div class=\"navbuttonsshell\">\n";
+       if ($snapshot > 1) { //previous 
+-         echo "<a id=\"previcon\" href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
++         echo "<a id=\"previcon\" href=\"$ThisScript?galerie=" . 
++            rawurlencode($gallery) . "&amp;photo=$prev";
+          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\"";
+ 				 echo " accesskey=\"p\">";
+          echo "&lt; <span class=\"accesskey\">P</span>revious</a>\n";
+       }
+       echo "&nbsp;";
+       if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) { //next
+-         echo "<a id=\"nexticon\" href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
++         echo "<a id=\"nexticon\" href=\"$ThisScript?galerie=" .
++            rawurlencode($gallery) . "&amp;photo=$next";
+          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\"";
+ 				 echo " accesskey=\"n\">";
+          echo "<span class=\"accesskey\">N</span>ext &gt;</a>\n";
+@@ -26,7 +28,8 @@
+    } elseif ($image=="prev") { //previous thumbnail
+       if ($snapshot > 1) { //previous 
+          echo "<div class=\"prevthumb\">";
+-         echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
++         echo "<a href=\"$ThisScript?galerie=" . 
++            rawurlencode($gallery) . "&amp;photo=$prev";
+          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
+          if (file_exists("$gallery_dir/$gallery/thumbs/img-$prev.png")) {
+             $Pthumb = "$gallery_dir/$gallery/thumbs/img-$prev.png";
+@@ -43,7 +46,8 @@
+    } else { //next thumbnail
+       if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) {
+          echo "<div class=\"nextthumb\">";
+-         echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
++         echo "<a href=\"$ThisScript?galerie=" . 
++            rawurlencode($gallery) . "&amp;photo=$next";
+          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
+          if (file_exists("$gallery_dir/$gallery/thumbs/img-$next.png")) {
+             $Nthumb = "$gallery_dir/$gallery/thumbs/img-$next.png";
+--- a/inc/www.class.inc.php	2005-11-14 13:29:01.000000000 +1300
++++ b/inc/www.class.inc.php	2005-11-29 22:33:05.000000000 +1300
+@@ -47,14 +47,17 @@
+ 			$dalsi = $snimek + 1;
+    		if ($snimek > 1) {
+ 				echo "   <link rel=\"First\" ";
+-				echo "   href=\"$ThisScript?galerie=$galerie&amp;photo=1\" />\n";
++				echo "   href=\"$ThisScript?galerie=" . 
++                    rawurlencode($galerie) . "&amp;photo=1\" />\n";
+ 				echo "   <link rel=\"Previous\" ";
+-				echo "href=\"$ThisScript?galerie=$galerie&amp;photo=$predchozi\" />\n";
++				echo "href=\"$ThisScript?galerie=" . rawurlencode($galerie) .
++                    "&amp;photo=$predchozi\" />\n";
+ 			}
+ 			#Next
+ 			if (is_file("$gallery_dir/$galerie/lq/img-$dalsi.jpg")) {
+ 				echo "   <link rel=\"Next\" ";
+-				echo "    href=\"$ThisScript?galerie=$galerie&amp;photo=$dalsi\" />\n";
++				echo "    href=\"$ThisScript?galerie=" . 
++                    rawurlencode($galerie) . "&amp;photo=$dalsi\" />\n";
+ 			}
+ 			#Last
+ 			$adr = opendir("$gallery_dir/$galerie/thumbs/");
+@@ -64,7 +67,8 @@
+ 			}
+ 			if ($i!=$snimek) {
+ 				echo "   <link rel=\"Last\" ";
+-				echo "    href=\"$ThisScript?galerie=$galerie&amp;photo=$i\" />\n";
++				echo "    href=\"$ThisScript?galerie=" . 
++                    rawurlencode($galerie) . "&amp;photo=$i\" />\n";
+ 			}
+ 		}
+       
+--- a/index.php	2005-11-14 13:53:21.000000000 +1300
++++ b/index.php	2005-11-29 22:34:27.000000000 +1300
+@@ -32,7 +32,7 @@
+ $galerie='';
+ if (isset($_GET['galerie'])) $galerie=$_GET["galerie"];
+ if (isset($_GET['gallery'])) $galerie=$_GET["gallery"];
+-$galerie = preg_replace('/\//', '', $galerie);
++$galerie = preg_replace('/\//', '', stripslashes($galerie));
+ if (isset($_GET["thumbsize"])) $thumbsize=$_GET["thumbsize"];
+ $snimek = 0;
+ if (isset($_GET["snimek"])) $snimek=$_GET["snimek"];
+@@ -232,11 +232,13 @@
+ 				echo "      <p><a ";
+ 			}
+ 			if (@$galeriename[$foldername]) {
+-				echo " href=\"$ThisScript?galerie=$foldername\">";
++				echo " href=\"$ThisScript?galerie=" . 
++                    rawurlencode($foldername) . "\">";
+ 				echo $galeriename[$foldername];
+ 				echo "</a>";
+ 			} else {
+-				echo " href=\"$ThisScript?galerie=$foldername\">$foldername</a>";
++				echo " href=\"$ThisScript?galerie=" .
++                    rawurlencode($foldername) . "\">$foldername</a>";
+ 			}
+ 			if (@$galeriedesc[$foldername]) {
+ 				echo "<span class=\"desc\">" . $galeriedesc[$foldername];
+@@ -316,7 +318,7 @@
+ 	 } else 
+ 	   $title = "Photo ${x[1]}";
+ 
+-         echo "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}\"";
++         echo "   <a href=\"$ThisScript?galerie=" . rawurlencode($galerie) . "&amp;photo=${x[1]}\"";
+ 				 echo " title=\"$title, $NumOfComments\"";
+ 				 if ($class) echo " class=\"$class\"";
+ 				 echo ">";
+@@ -360,16 +362,16 @@
+    //and links to archived images:
+    echo "\n<p class=\"archives\">\n";
+    if (file_exists("$gallery_dir/$galerie/zip/mq.zip")) {
+-      echo "[ <a href=\"$gallery_dir/$galerie/zip/mq.zip\">" . __('zipped MQ images') . "</a> ] ";
++      echo "[ <a href=\"$gallery_dir/" . rawurlencode($galerie) . "/zip/mq.zip\">" . __('zipped MQ images') . "</a> ] ";
+    }
+    if (file_exists("$gallery_dir/$galerie/zip/mq.tar.bz2")) {
+-      echo "[ <a href=\"$gallery_dir/$galerie/zip/mq.tar.bz2\">" . __('MQ images tarball') . "</a> ] ";
++      echo "[ <a href=\"$gallery_dir/" . rawurlencode($galerie) . "/zip/mq.tar.bz2\">" . __('MQ images tarball') . "</a> ] ";
+    }
+    if (file_exists("$gallery_dir/$galerie/zip/hq.zip")) {
+-      echo "[ <a href=\"$gallery_dir/$galerie/zip/hq.zip\">" . __('zipped HQ images') . "</a> ]";
++      echo "[ <a href=\"$gallery_dir/" . rawurlencode($galerie) . "/zip/hq.zip\">" . __('zipped HQ images') . "</a> ]";
+    }
+    if (file_exists("$gallery_dir/$galerie/zip/hq.tar.bz2")) {
+-      echo "[ <a href=\"$gallery_dir/$galerie/zip/hq.tar.bz2\">" . __('HQ images tarball') . "</a> ]";
++      echo "[ <a href=\"$gallery_dir/" . rawurlencode($galerie) . "/zip/hq.tar.bz2\">" . __('HQ images tarball') . "</a> ]";
+    }
+    echo "</p>";
+ 
+@@ -378,7 +380,7 @@
+ #######################
+ } else { //low-res image
+    # finish off header
+-   echo "\n &gt; <a href=\"$ThisScript?galerie=$galerie\">";
++   echo "\n &gt; <a href=\"$ThisScript?galerie=" . rawurlencode($galerie) . "\">";
+ 	 if ($galeriename[$galerie]) {
+ 		 echo $galeriename[$galerie];
+ 	 } else {
+@@ -413,9 +415,11 @@
+          if ( eregi("^img-([0-9]+)\.(png|jpe?g)",
+              $thumbfile, $x)) {
+             $thumb = "$gallery_dir/$galerie/thumbs/img-${x[1]}.${x[2]}";
+-            echo "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}";
++            echo "   <a href=\"$ThisScript?galerie=" . 
++                rawurlencode($galerie) . "&amp;photo=${x[1]}";
+             echo "&amp;show_thumbs=$show_thumbs\"";
+-						echo " title=" . get_photo_title($galerie, $x[1]) . ">";
++						echo " title=\"" . 
++                            get_photo_title($galerie, $x[1]) . "\">";
+             echo "<img class=\"thumb\" ";
+             // hadess' hack (TM) ;)
+             if ($thumbsize) {
+@@ -432,11 +436,11 @@
+          }
+       }
+       if (file_exists("$gallery_dir/$galerie/zip/hq.zip")) {
+-         echo "<a id=\"zip\" href=\"$gallery_dir/$galerie/zip/hq.zip\">";
++         echo "<a id=\"zip\" href=\"$gallery_dir/" . rawurlencode($galerie) . "/zip/hq.zip\">";
+          echo "zip<span /></a>";
+       }
+       if (file_exists("$gallery_dir/$galerie/zip/hq.tar.bz2")) {
+-         echo "<a id=\"zip\" href=\"$gallery_dir/$galerie/zip/hq.tar.bz2\">";
++         echo "<a id=\"zip\" href=\"$gallery_dir/" . rawurlencode($galerie) . "/zip/hq.tar.bz2\">";
+          echo "zip<span /></a>";
+       }
+       echo "</div>\n";
+@@ -509,10 +513,10 @@
+    if (file_exists("$gallery_dir/$galerie/mq/img-$snimek.jpg") || file_exists("$gallery_dir/$galerie/hq/img-$snimek.jpg")) {
+ 		 echo "<div id=\"mqhq\">";
+ 		 if (file_exists("$gallery_dir/$galerie/mq/img-$snimek.jpg")) {
+-				echo "<a href=\"$gallery_dir/$galerie/mq/img-$snimek.jpg\">". __('MQ') . "</a> ";
++				echo "<a href=\"$gallery_dir/" . rawurlencode($galerie) . "/mq/img-$snimek.jpg\">MQ</a> ";
+ 		 }
+ 		 if (file_exists("$gallery_dir/$galerie/hq/img-$snimek.jpg")) {
+-				echo "<a href=\"$gallery_dir/$galerie/hq/img-$snimek.jpg\">" . __('HQ') . "</a>";
++				echo "<a href=\"$gallery_dir/" . rawurlencode($galerie) . "/hq/img-$snimek.jpg\">HQ</a>";
+ 		 }
+ 		 echo "</div>\n"; //mqhq
+ 	 }

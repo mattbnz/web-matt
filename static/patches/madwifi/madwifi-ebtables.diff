@@ -1,0 +1,186 @@
+Index: net80211/ieee80211_input.c
+===================================================================
+--- net80211/ieee80211_input.c	(revision 1372)
++++ net80211/ieee80211_input.c	(working copy)
+@@ -47,6 +47,10 @@
+ #include <linux/random.h>
+ #include <linux/if_vlan.h>
+ 
++#ifdef HAVE_EBTABLES
++#include <linux/netfilter_bridge/ebtables.h>
++#endif
++
+ #include "if_llc.h"
+ #include "if_ethersubr.h"
+ #include "if_media.h"
+@@ -939,12 +943,58 @@
+ 	return skb;
+ }
+ 
++/* Setup ebtables filtering */
++#ifdef HAVE_EBTABLES
++
++/* Fake a hook seeing as we don't go anywhere near netfilter itself */
++#define MW_HOOK 1
++#define FILTER_VALID_HOOKS (1 << MW_HOOK)
++
++static struct ebt_entries initial_chains[] =
++{
++	{
++		.name	= "FORWARD",
++		.policy	= EBT_ACCEPT,
++	},
++};
++
++static struct ebt_replace initial_table =
++{
++	.name		= "madwifi",
++	.valid_hooks	= FILTER_VALID_HOOKS,
++	.entries_size	= 1 * sizeof(struct ebt_entries),
++	.hook_entry	= {
++		[MW_HOOK]	= &initial_chains[0],
++	},
++	.entries	= (char *)initial_chains,
++};
++
++static int eb_check(const struct ebt_table_info *info, unsigned int vhooks)
++{
++	if (vhooks & ~FILTER_VALID_HOOKS)
++		return -EINVAL;
++	return 0;
++}
++
++struct ebt_table eb_filter =
++{ 
++	.name			= "madwifi",
++	.table			= &initial_table,
++	.valid_hooks	= FILTER_VALID_HOOKS, 
++	.lock			= RW_LOCK_UNLOCKED,
++	.check			= eb_check,
++	.me				= THIS_MODULE,
++};
++extern int have_ebtables;
++#endif
++
+ static void 
+ ieee80211_deliver_data(struct ieee80211_node *ni, struct sk_buff *skb)
+ {
+ 	struct ieee80211vap *vap = ni->ni_vap;
+ 	struct net_device *dev = vap->iv_dev;
+ 	struct ether_header *eh = (struct ether_header *) skb->data;
++	int drop = 0;
+ 
+ #ifdef ATH_SUPERG_XR 
+ 	/*
+@@ -992,8 +1042,17 @@
+ 			skb1->nh.raw = skb1->data + 
+ 				sizeof(struct ether_header);
+ 			skb1->protocol = __constant_htons(ETH_P_802_2);
+-			/* XXX inser`t vlan tage before queue it? */
+-			dev_queue_xmit(skb1);
++#ifdef HAVE_EBTABLES
++			if (have_ebtables) {
++				/* Pass to ebtables */
++				drop = ebt_do_table(MW_HOOK, &skb1, dev, dev, &eb_filter)==
++					NF_DROP;
++			}
++#endif
++			if (!drop) {
++				/* XXX inser`t vlan tage before queue it? */
++				dev_queue_xmit(skb1);
++			}
+ 		}
+ 	}
+ 
+Index: net80211/Makefile
+===================================================================
+--- net80211/Makefile	(revision 1372)
++++ net80211/Makefile	(working copy)
+@@ -111,7 +111,8 @@
+ 
+ -include $(TOPDIR)/Rules.make
+ 
+-all:
++
++all: test_ebtables
+ 	$(MAKE) -C $(KERNELPATH) SUBDIRS=$(shell pwd) MODVERDIR=$(shell pwd)/${SYMBOLSDIR} modules
+ 
+ wlan.o:	$(wlan-objs)
+@@ -143,3 +144,17 @@
+ 	-rm -f *~ *.o *.ko *.mod.c
+ 	-rm -f .depend .version .*.o.flags .*.o.d .*.o.cmd .*.ko.cmd
+ 	-rm -rf .tmp_versions
++	
++# new targets should be inserted ABOVE this line in order to avoid
++# problems with the included kernel configuration file below.
++include $(KERNELCONF)
++
++test_ebtables:
++ifeq ($(CONFIG_BRIDGE_NF_EBTABLES),m)
++EXTRA_CFLAGS+="-DHAVE_EBTABLES"
++else
++ifeq ($(CONFIG_BRIDGE_NF_EBTABELS),y)
++EXTRA_CFLAGS+="-DHAVE_EBTABLES"
++else
++endif
++endif
+Index: net80211/ieee80211_linux.c
+===================================================================
+--- net80211/ieee80211_linux.c	(revision 1372)
++++ net80211/ieee80211_linux.c	(working copy)
+@@ -47,6 +47,10 @@
+ #include <linux/wireless.h>
+ #include <linux/if_arp.h>		/* XXX for ARPHRD_* */
+ 
++#ifdef HAVE_EBTABLES
++#include <linux/netfilter_bridge/ebtables.h>
++#endif
++
+ #include <asm/uaccess.h>
+ 
+ #include "if_media.h"
+@@ -694,9 +698,31 @@
+ 
+ extern	void ieee80211_auth_setup(void);
+ 
++#ifdef HAVE_EBTABLES
++int have_ebtables;
++extern struct ebt_table eb_filter;
++#endif
++
+ static int __init
+ init_wlan(void)
+ {
++#ifdef HAVE_EBTABLES
++	/* If we can find ebtables symbols then register our table */
++	have_ebtables = 0;
++	if (symbol_request("ebt_register_table")==0) {
++		if (symbol_get("ebt_register_table")==0) {
++			if (ebt_register_table(&eb_filter) < 0) {
++				printk(KERN_WARNING "%s: could not register eb table!\n", 
++						dev_info);
++			} else {
++				printk(KERN_INFO "%s: AP traffic firewalling support "
++						"initialised\n", dev_info);
++				have_ebtables = 1;
++			}
++		}
++	}
++#endif
++
+ 	printk(KERN_INFO "%s: %s\n", dev_info, version);
+ 	return 0;
+ }
+@@ -705,6 +731,12 @@
+ static void __exit
+ exit_wlan(void)
+ {
++#ifdef HAVE_EBTABLES
++	if (have_ebtables) {
++		/* Unregister the table if ebtables support was found */
++		ebt_unregister_table(&eb_filter);
++	}
++#endif
+ 	printk(KERN_INFO "%s: driver unloaded\n", dev_info);
+ }
+ module_exit(exit_wlan);

@@ -1,0 +1,360 @@
+diff -ur localepurge-0.4.1/debian/README.debian localepurge-0.4.1-matt/debian/README.debian
+--- localepurge-0.4.1/debian/README.debian	2004-08-09 00:38:25.000000000 +1200
++++ localepurge-0.4.1-matt/debian/README.debian	2006-02-18 14:28:51.000000000 +1300
+@@ -40,16 +40,6 @@
+ directory (or file) in /usr/share/locale not containing a subdirectory
+ named LC_MESSAGES will be discreetly ignored.
+ 
+-The localepurge configuration should be configured after installation
+-only by using the command
+-
+-       dpkg-reconfigure localepurge
+-
+-to add/remove locale entries or toggle verbosity. Since localepurge is
+-using the debconf facility for storing its configuration entries it
+-shouldn't be configured manually because all manual entries will get
+-lost after upgrade, reconfiguration or reinstallation of localepurge.
+-
+ A Word of CAUTION:
+ 
+  All locale directories containing a subdirectory named LC_MESSAGES
+diff -ur localepurge-0.4.1/debian/changelog localepurge-0.4.1-matt/debian/changelog
+--- localepurge-0.4.1/debian/changelog	2005-08-07 09:57:29.000000000 +1200
++++ localepurge-0.4.1-matt/debian/changelog	2006-02-18 14:53:58.000000000 +1300
+@@ -1,3 +1,10 @@
++localepurge (0.4.1-0.1) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Added ucf handling to the locale.nopurge file (Closes: #322169).
++
++ -- Matt Brown <debian@mattb.net.nz>  Sat, 18 Feb 2006 13:28:07 +1300
++
+ localepurge (0.4.1) unstable; urgency=low
+ 
+   * debian/control: Added "| debconf-2.0" to dependencies to make it
+diff -ur localepurge-0.4.1/debian/control localepurge-0.4.1-matt/debian/control
+--- localepurge-0.4.1/debian/control	2005-08-07 09:57:37.000000000 +1200
++++ localepurge-0.4.1-matt/debian/control	2006-02-18 13:27:52.000000000 +1300
+@@ -7,7 +7,7 @@
+ 
+ Package: localepurge
+ Architecture: all
+-Depends: dpkg (>= 1.9.7), debconf (>= 1.2.0) | debconf-2.0, debianutils (>= 1.6), procps
++Depends: dpkg (>= 1.9.7), debconf (>= 1.2.0) | debconf-2.0, debianutils (>= 1.6), procps, ucf
+ Replaces: apt-localepurge
+ Conflicts: apt-localepurge
+ Suggests: debfoster, deborphan
+diff -ur localepurge-0.4.1/debian/localepurge.8 localepurge-0.4.1-matt/debian/localepurge.8
+--- localepurge-0.4.1/debian/localepurge.8	2004-08-09 01:01:40.000000000 +1200
++++ localepurge-0.4.1-matt/debian/localepurge.8	2006-02-18 14:30:36.000000000 +1300
+@@ -32,15 +32,7 @@
+ summary of freed space, and deletion of localized manual pages in
+ addition to locale files.  All actions are specified in the
+ .BR /etc/locale.nopurge 
+-configuration file. Since 
+-.BR localepurge 
+-uses debconf for storing its configuration data its configuration 
+-should only be done via
+-.BR dpkg-reconfigure(8)
+-as outlined below. If not done via 
+-.BR debconf(8)
+-any manual entries will be 
+-irreversibly lost after an upgrade or reinstallation of the package.
++configuration file.
+ .br
+ For detailed debugging the commandline switch 
+ .BR -debug 
+@@ -91,15 +83,6 @@
+ .BR dpkg-reconfigure(8)
+ to prevent locale files from being purged during subsequent runs of apt.
+ .br
+-The localepurge configuration should only be configured by using the command
+-.BR 'dpkg-reconfigure
+-.BR localepurge'
+-to add/remove locale entries or toggle verbosity. Since localepurge is
+-using the 
+-.BR debconf(8) 
+-facility for storing its configuration entries it
+-shouldn't be configured manually because all manual entries will get
+-lost after upgrade, reconfiguration or reinstallation of localepurge.
+ .SH SOLVING PROBLEMS caused by localepurge
+ This program does interfere with the Debian package management and does 
+ provoke strange, but usually harmless, behaviour of programs related 
+diff -ur localepurge-0.4.1/debian/postinst localepurge-0.4.1-matt/debian/postinst
+--- localepurge-0.4.1/debian/postinst	2004-03-10 16:44:59.000000000 +1300
++++ localepurge-0.4.1-matt/debian/postinst	2006-02-18 13:27:34.000000000 +1300
+@@ -2,30 +2,19 @@
+ 
+ set -e
+ 
+-#####################################
+-# Setting up the default locale list:
+-
+-CACHEDIR=/var/cache/localepurge
+-DEFAULTLIST=$CACHEDIR/defaultlist
+-LOCALELIST=$CACHEDIR/localelist
+-
+-if [ ! -f $LOCALELIST ]; then
+-  cp $DEFAULTLIST $LOCALELIST
+-else
+-  mv $LOCALELIST $LOCALELIST-old
+-  sort -u $LOCALELIST-old $DEFAULTLIST > $LOCALELIST
+-fi
++. /usr/share/debconf/confmodule
+ 
+ ##############################################
+ # Now the debconf routine creating $CONFIGFILE
+- 
+-CONFIGFILE=/etc/locale.nopurge
+-
+-. /usr/share/debconf/confmodule
+-
+-cat <<EOF > $CONFIGFILE
++generate_config() {
++    
++    cat <<EOF
+ ####################################################
+ # This is the configuration file for localepurge(8).
++EOF
++    if [ "x$1" == "x1" ]; then
++        # Include the old don't modify message
++        cat <<EOF
+ #
+ #      DO NOT EDIT!
+ #
+@@ -37,6 +26,9 @@
+ #
+ #       dpkg-reconfigure localepurge
+ #
++EOF
++    fi
++    cat <<EOF
+ ####################################################
+ 
+ ####################################################
+@@ -46,15 +38,15 @@
+ 
+ EOF
+ 
+-db_get localepurge/mandelete
++    db_get localepurge/mandelete
+ 
+-if [ "$RET" = "true" ]; then
+-    echo MANDELETE >> $CONFIGFILE
+-else
+-    echo '#MANDELETE' >> $CONFIGFILE
+-fi
++    if [ "$RET" = "true" ]; then
++        echo MANDELETE
++    else
++        echo '#MANDELETE'
++    fi
+ 
+-cat <<EOF >> $CONFIGFILE
++    cat <<EOF
+ 
+ ####################################################
+ # Uncommenting this string causes localepurge to simply delete
+@@ -63,15 +55,15 @@
+ 
+ EOF
+ 
+-db_get localepurge/dontbothernew
++    db_get localepurge/dontbothernew
+ 
+-if [ "$RET" = "true" ]; then
+-    echo '#DONTBOTHERNEWLOCALE' >> $CONFIGFILE
+-else
+-    echo DONTBOTHERNEWLOCALE >> $CONFIGFILE
+-fi
++    if [ "$RET" = "true" ]; then
++        echo '#DONTBOTHERNEWLOCALE'
++    else
++        echo DONTBOTHERNEWLOCALE
++    fi
+ 
+-cat <<EOF >> $CONFIGFILE
++    cat <<EOF
+ 
+ ####################################################
+ # Uncommenting this string enables display of freed disk
+@@ -79,15 +71,15 @@
+ 
+ EOF
+ 
+-db_get localepurge/showfreedspace
++    db_get localepurge/showfreedspace
+ 
+-if [ "$RET" = "true" ]; then
+-    echo SHOWFREEDSPACE >> $CONFIGFILE
+-else
+-    echo '#SHOWFREEDSPACE' >> $CONFIGFILE
+-fi
++    if [ "$RET" = "true" ]; then
++        echo SHOWFREEDSPACE
++    else
++        echo '#SHOWFREEDSPACE'
++    fi
+ 
+-cat <<EOF >> $CONFIGFILE
++    cat <<EOF
+ 
+ #####################################################
+ # Commenting out this string enables faster but less
+@@ -95,36 +87,36 @@
+ 
+ EOF
+ 
+-db_get localepurge/quickndirtycalc
++    db_get localepurge/quickndirtycalc
+ 
+-if [ "$RET" = "true" ]; then
+-    echo '#QUICKNDIRTYCALC' >> $CONFIGFILE
+-else
+-    echo QUICKNDIRTYCALC >> $CONFIGFILE
+-fi
++    if [ "$RET" = "true" ]; then
++        echo '#QUICKNDIRTYCALC'
++    else
++        echo QUICKNDIRTYCALC
++    fi
+ 
+-cat <<EOF >> $CONFIGFILE
++cat <<EOF
+ 
+ #####################################################
+ # Commenting out this string disables verbose output:
+ 
+ EOF
+ 
+-db_get localepurge/verbose
++    db_get localepurge/verbose
+ 
+-if [ "$RET" = "true" ]; then
+-    echo VERBOSE >> $CONFIGFILE
+-else
+-    echo '#VERBOSE' >> $CONFIGFILE
+-fi
++    if [ "$RET" = "true" ]; then
++        echo VERBOSE
++    else
++        echo '#VERBOSE'
++    fi
+  
+-db_get localepurge/nopurge
++    db_get localepurge/nopurge
+ 
+-if [ "$RET" = "" ] || [ "$RET" = "PURGE_ALL" ]; then
+-    db_get localepurge/none_selected
+-    if [ "$RET" = "false" ]; then
+-    db_set localepurge/nopurge NEEDSCONFIGFIRST
+-      cat <<EOF >> $CONFIGFILE
++    if [ "$RET" = "" ] || [ "$RET" = "PURGE_ALL" ]; then
++        db_get localepurge/none_selected
++        if [ "$RET" = "false" ]; then
++            db_set localepurge/nopurge NEEDSCONFIGFIRST
++            cat <<EOF
+ 
+ #################################################################
+ # Unless configured, the system's locale directories won't be
+@@ -138,9 +130,9 @@
+ #          want to keep before commenting out the following line.
+ 
+ EOF
+-    elif [ "$RET" = "yes" ]; then
+-      db_set localepurge/nopurge PURGE_ALL
+-      cat <<EOF >> $CONFIGFILE
++        elif [ "$RET" = "yes" ]; then
++            db_set localepurge/nopurge PURGE_ALL
++            cat <<EOF
+ 
+ #################################################################
+ # It has explicitly been requested to delete *all* locale files 
+@@ -150,16 +142,70 @@
+ #################################################################
+ 
+ EOF
+-    fi
+-else
+-    cat <<EOF >> $CONFIGFILE
++        fi
++    else
++        cat <<EOF
+ 
+ #####################################################
+ # Following locales won't be deleted from this system
+ # after package installations done with apt-get(8):
+ 
+ EOF
++    fi
++    
++    db_get localepurge/nopurge
++    echo "$RET" | grep -v PURGE_ALL | sed 's/,//g' | tr ' ' '\n'
++}
++
++######################################################
++# Only act when we are called to configure the package
++if [ "$1" != "configure" ]; then
++    exit 0
+ fi
+ 
+-db_get localepurge/nopurge
+-echo "$RET" | grep -v PURGE_ALL | sed 's/,//g' | tr ' ' '\n' >> $CONFIGFILE
++#####################################
++# Setting up the default locale list:
++
++CACHEDIR=/var/cache/localepurge
++DEFAULTLIST=$CACHEDIR/defaultlist
++LOCALELIST=$CACHEDIR/localelist
++
++if [ ! -f $LOCALELIST ]; then
++  cp $DEFAULTLIST $LOCALELIST
++else
++  mv $LOCALELIST $LOCALELIST-old
++  sort -u $LOCALELIST-old $DEFAULTLIST > $LOCALELIST
++fi
++
++##############################################
++# Now deal with the configuration file
++CONFIGFILE=/etc/locale.nopurge
++TMPFILE="$CONFIGFILE.$$"
++SUMFILE="$CONFIGFILE.md5sum"
++
++# If upgrading from a version before 0.4.1.1 need to migrate to uct
++if [ "$2" != "" -a "$2" != "<>" ]; then
++    if /usr/bin/dpkg --compare-versions "$2" lt "0.4.1.1"; then
++        # Try an regenerate what the old 'unmodified' config file would
++        # have looked like
++        generate_config 1 &> $TMPFILE
++        # Save an md5sum for ucf to use
++        /usr/bin/md5sum $TMPFILE | sed 's/  .*/ 0.4.1/' > $SUMFILE
++        # Clean up tempfile
++        rm -f $TMPFILE
++    fi
++fi
++
++# Ensure the md5sum file exists
++touch $SUMFILE
++
++# Generate new configuration file
++generate_config 0 &> $TMPFILE
++# Use ucf to move it into place while preserving user changes
++/usr/bin/ucf --sum-file $SUMFILE $TMPFILE $CONFIGFILE </dev/tty >/dev/tty
++# Clean up and ensure permissions are sane
++rm -f $TMPFILE
++chown root: $CONFIGFILE
++chmod 0644 $CONFIGFILE
++
++exit 0
+diff -ur localepurge-0.4.1/debian/postrm localepurge-0.4.1-matt/debian/postrm
+--- localepurge-0.4.1/debian/postrm	2003-07-20 07:45:39.000000000 +1200
++++ localepurge-0.4.1-matt/debian/postrm	2006-02-18 14:35:10.000000000 +1300
+@@ -7,6 +7,8 @@
+     db_purge
+     rm -rf /var/cache/localepurge
+     rm -f /etc/locale.nopurge
++    /usr/bin/ucf --purge /etc/locale.nopurge
++    rm -f /etc/locale.nopurge.md5sum
+ 
+ echo
+ echo "  To reinstall all the packages which localepurge has been taking care"

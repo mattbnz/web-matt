@@ -1,0 +1,29 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## dba-open-existing by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix a bug in BDB 4.1 when the dbfile already exists
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/lib/WikiDB/backend/dba.php
++++ phpwiki-1.3.12p3/lib/WikiDB/backend/dba.php
+@@ -18,7 +18,17 @@
+         // FIXME: error checking.
+         $db = new DbaDatabase($dbfile, false, $dba_handler);
+         $db->set_timeout($timeout);
+-        if (!$db->open('c')) {
++	
++	// Workaround for BDB 4.1 bugs
++	if (file_exists($dbfile))
++	{
++		$mode = 'w';
++	}
++	else
++	{
++		$mode = 'c';
++	}
++        if (!$db->open($mode)) {
+             trigger_error(sprintf(_("%s: Can't open dba database"), $dbfile), E_USER_ERROR);
+             global $request;
+             $request->finish(fmt("%s: Can't open dba database", $dbfile));

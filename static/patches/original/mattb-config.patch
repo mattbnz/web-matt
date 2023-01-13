@@ -1,0 +1,39 @@
+diff -rNu original-0.11/www/inc/config.inc.php /home/httpd/www.mattb.net.nz/html/original/inc/config.inc.php
+--- original-0.11/www/inc/config.inc.php	2005-11-14 13:24:59.000000000 +1300
++++ /home/httpd/www.mattb.net.nz/html/original/inc/config.inc.php	2005-11-17 01:25:30.000000000 +1300
+@@ -40,13 +40,12 @@
+    // 1 is 1:1, >1 is smaller, <1 is bigger
+    $PNthumbScale = 1.5;
+ # Photos Copyright
+-#	CHANGE THIS! I am not trying to take over the world ;)
+-	 $copy = "Copyright &copy; 1999-2005 Jakub Steiner";
++	 $copy = "Copyright &copy; 1999-2005 Matt Brown";
+ #app info
+    $app["name"] = "Original"; // opensource remote image gallery,
+                               // initialy not as lovely 
+    $app["url"] = "http://jimmac.musichall.cz/original.php3";
+-   $app["version"] = "0.11";
++   $app["version"] = "0.11 + <a href=\"http://www.mattb.net.nz/patches/original/\">Matt's Hacks</a>";
+ # ===========================================================================
+ # EXIF metadata app path (helper app for php3 and older php4)
+ # uncomment the method you want to use if you want EXIF data reported
+@@ -93,7 +92,7 @@
+ ## Gallery Directory
+ # This is a path relative to the directory where original is installed
+ # eg. it can be "../galleries" to use a galleries dir above the original dir.
+-  $gallery_dir="../galleries";
++  $gallery_dir="galleries";
+ 
+ # This controls wheather web visitors will be able to post
+ # comments to images
+@@ -108,9 +107,7 @@
+ 
+ #css styles
+    $themes = array(
+-               "dark" => "inc/styles/dark/dark.css",
+-               "classic" => "inc/styles/classic/classic.css",
+-               "gorilla" => "inc/styles/gorilla/gorilla.css"
++               "mattb" => "inc/styles/mattb/mattb.css",           
+    );
+ 
+ 

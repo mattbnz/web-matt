@@ -1,0 +1,24 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## upgrade-sqlite-nopass by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Don't prompt for an administrator password when upgrading a 
+## DP: sqlite database. SQLite only uses filesystem permissions
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/lib/upgrade.php
++++ phpwiki-1.3.12p3/lib/upgrade.php
+@@ -634,6 +634,12 @@
+     global $request, $DBParams, $DBAuthParams;
+     if (!$dbh->_backend->isSQL()) return;
+ 
++    /* SQLite never needs admin params */
++    $backend_type = $dbh->_backend->backendType();
++    if (substr($backend_type,0,6)=="sqlite") {
++        return;
++    }
++
+     if (DBADMIN_USER) {
+         // if need to connect as the root user, for CREATE and ALTER privileges
+         $AdminParams = $DBParams;

@@ -1,0 +1,183 @@
+diff -ur portreserve-0.0.0/debian/changelog portreserve-0.0.0-matt/debian/changelog
+--- portreserve-0.0.0/debian/changelog	2006-02-12 11:07:31.000000000 +0000
++++ portreserve-0.0.0-matt/debian/changelog	2006-02-15 12:04:55.000000000 +0000
+@@ -1,3 +1,16 @@
++portreserve (0.0.0-2.1) unstable; urgency=low
++
++  * Non-maintainer upload
++  * Fixed minor init script bugs (Closes: #352103)
++    - Use -z instead of -n to test list of service files
++    - Use $NAME instead of the undefined $prog in the pidfile name
++  * Reworked portreserve pidfile handling
++    - Check for existance of pidfile on startup, fail if already running
++    - Create pidfile on startup
++    - Remove pidfile when program exits cleanly
++  
++ -- Matt Brown <debian@mattb.net.nz>  Thu, 16 Feb 2006 01:02:03 +1300
++
+ portreserve (0.0.0-2) unstable; urgency=low
+ 
+   * Added xmlto to Build-Depends (Closes: #337848)
+diff -ur portreserve-0.0.0/debian/portreserve.init portreserve-0.0.0-matt/debian/portreserve.init
+--- portreserve-0.0.0/debian/portreserve.init	2006-02-12 11:07:31.000000000 +0000
++++ portreserve-0.0.0-matt/debian/portreserve.init	2006-02-15 11:43:34.000000000 +0000
+@@ -11,7 +11,7 @@
+ test -f $DAEMON || exit 0
+ 
+ NAME=`basename $DAEMON`
+-PIDFILE=/var/run/$prog.pid
++PIDFILE=/var/run/$NAME.pid
+ 
+ running()
+ {
+@@ -22,8 +22,8 @@
+     # No pid, probably no daemon present
+     [ -z "$pid" ] && return 1
+     [ ! -d /proc/$pid ] &&  return 1
+-    cmd=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
+-
++    cmdline=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
++    cmd=`basename $cmdline`
+     [ "$cmd" != "$NAME" ] &&  return 1
+     return 0
+ }
+@@ -36,7 +36,7 @@
+ 	if [ ! -d /etc/portreserve ] ; then
+ 		return 1
+ 	fi
+-	if [ -n "`find /etc/portreserve \! -name "*~" -a \! -name "*.*" -type f`" ] ; then
++	if [ -z "`find /etc/portreserve \! -name "*~" -a \! -name "*.*" -type f`" ] ; then
+ 		return 1
+ 	fi
+ 	return 0
+Only in portreserve-0.0.0-matt/: .deps
+Only in portreserve-0.0.0: portreserve.spec
+diff -ur portreserve-0.0.0/src/portreserve.c portreserve-0.0.0-matt/src/portreserve.c
+--- portreserve-0.0.0/src/portreserve.c	2003-09-03 14:12:52.000000000 +0000
++++ portreserve-0.0.0-matt/src/portreserve.c	2006-02-15 12:06:27.000000000 +0000
+@@ -64,7 +64,13 @@
+ # include <unistd.h>
+ #endif
+ 
++#include <signal.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
++
+ #define UNIX_SOCKET "/var/run/portreserve/socket"
++#define PIDFILE_DIR "/var/run"
+ 
+ struct map {
+ 	struct map *next;
+@@ -265,8 +271,76 @@
+ }
+ 
+ int
++do_pid(char *fname, int check, int unlink_pid)
++{
++	char *defname = "portreserve";
++	char buf[512];
++	FILE *fp=NULL;
++	int fd, rv;
++	long int pid;
++    
++	/* Determine pidfile name */
++	if( fname == NULL ) {
++		fname = defname;
++		rv = snprintf( &buf[0], 512, "%s/%s.pid", PIDFILE_DIR, fname );
++	} else {
++		rv = snprintf( &buf[0], 512, "%s", fname );
++	}
++	if (rv >= 512)
++		return -1;
++	if (unlink_pid) {
++		/* Remove the pidfile */
++		unlink(buf);
++		return 0;
++	}
++	if (check) {
++		/* Check if the pidfile already exists */
++		if (access (buf, F_OK) == -1) {
++			return 0;
++		}
++		/* Check it is not stale */
++		fp = fopen(&buf[0], "r");
++		if (!fp)
++			return -1;
++		if (fscanf(fp, "%ld", &pid)!=1)
++			return -1;
++		if (kill(pid,0)==0 || errno != ESRCH) {
++			/* Process in pidfile exists */
++			return -1;
++		}
++		/* Stale pidfile, ok to overrwite */
++		return 0;
++	}
++	/* Create a new pidfile */
++	fd=creat(&buf[0],0660);
++	if (fd<0) {
++		return -1;
++	}
++	if (snprintf(&buf[0],512,"%i\n",getpid())>=512) {
++		printf("failed to create pid string\n");
++		close(fd);
++		return -1;
++	}
++	if (write(fd,buf,strlen(&buf[0])) != (signed)strlen(&buf[0])) {
++		printf("failed to write pidstring\n");
++		close(fd);
++		return -1;
++	}
++	close(fd);
++	return 0;
++}
++
++void
++handle_sigterm (int sig)
++{
++	do_pid(NULL, 0, 1);
++	exit(0);
++}
++
++int
+ main (int argc, char **argv)
+ {
++	int rv;
+ 	const char *p = strrchr (argv[0], '/');
+ 	if (!p++)
+ 		p = argv[0];
+@@ -278,7 +352,9 @@
+ 			r += portrelease (argv[i]);
+ 		return r;
+ 	}
+-
++	
++	signal (SIGTERM, handle_sigterm);
++	
+ 	if (argc > 1) {
+ 		if (!strcmp (argv[1], "-d"))
+ 			debug = 1;
+@@ -288,6 +364,9 @@
+ 			       "what this program does.");
+ 	}
+ 
++	if (do_pid(NULL, 1, 0)<0)
++		error(EXIT_FAILURE, errno, "Pidfile already exists!");
++	
+ 	if (!debug) {
+ 		switch (fork ()) {
+ 		case 0:
+@@ -302,7 +381,12 @@
+ 		close (STDOUT_FILENO);
+ 		close (STDERR_FILENO);
+ 		setsid ();
++		if (do_pid(NULL, 0, 0)<0)
++			error (EXIT_FAILURE, errno, 
++					"Failed to write pidfile!");
+ 	}
+ 
+-	return portreserve ();
++	rv = portreserve();
++	do_pid(NULL, 0, 1);
++	return rv;
+ }

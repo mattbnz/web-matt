@@ -1,0 +1,100 @@
+#!/bin/bash
+#
+# MAC ACL Policy Script
+#
+# Author:       Matt Brown <matt@crc.net.nz>
+# Version:      $Id: ap-mac-acl 4 2005-10-26 03:30:02Z mglb1 $
+#
+# Copyright (C) 2005  Matt Brown <matt@crc.net.nz>
+#
+# ap-mac-acl is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or (at your option) any
+# later version.
+#
+# ap-mac-acl is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# crcnetd; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA 02111-1307 USA
+
+POLICYDIR=/etc/network/policy
+IWPRIV=/sbin/iwpriv
+
+if [ ! -x $IWPRIV ]; then
+    exit 0
+fi
+
+usage() {
+    echo "Usage: $0 <set|clear> <ifname>"
+    echo ""
+    echo "Applies or removes the ACL policy specified in "
+    echo "/etc/network/policy/<ifname> to the interface."
+    echo ""
+}
+
+# Command line parameters passed from ifup
+MODE=$1
+DEVICE=$2
+
+if [ "$MODE" != "set" -a "$MODE" != "clear" ]; then
+        echo "Invalid operation for ap-mac-acl!"
+        usage
+        exit 1
+fi
+
+# Handle clear case
+if [ "$MODE" == "clear" ]; then
+    $IWPRIV $DEVICE maccmd 3
+    $IWPRIV $DEVICE maccmd 0
+    logger -t ap-mac-acl "ACL policy flushed and cleared on $DEVICE"
+    exit 0
+fi
+# Carry on for the set case
+
+# AP config file
+CONFFILE=${POLICYDIR}/${DEVICE}
+
+# Check config exists
+if [ ! -f $CONFFILE ]; then
+        exit 0
+fi
+
+# Make sure the MAC ACL is clear
+$IWPRIV $DEVICE maccmd 3
+
+# Extract the default policy from the file
+POLICY=`grep default $CONFFILE | cut -f2 -d' '`
+
+if [ "$POLICY" == "deny" ]; then
+        $IWPRIV $DEVICE maccmd 1
+        RULETYPE="allow"
+        logger -t ap-mac-acl "Default ACL policy set to deny on $DEVICE"
+elif [ "$POLICY" == "allow" ]; then
+        $IWPRIV $DEVICE maccmd 2
+        RULETYPE="deny"
+        logger -t ap-mac-acl "Default ACL policy set to allow on $DEVICE"
+else
+        $IWPRIV $DEVICE maccmd 1
+        RULETYPE="allow"
+        logger -t ap-mac-acl "Default ACL policy not set on $DEVICE! Using deny."
+fi
+
+# Extract the MAC addresses from the config file
+(grep $RULETYPE $CONFFILE | cut -f2 -d' '; echo) |
+while read MAC
+do
+        if [ ! -z "$MAC" ]; then
+                logger -t ap-mac-acl "$RULETYPE $MAC on $DEVICE"
+                $IWPRIV $DEVICE addmac $MAC
+        fi
+done
+
+# Kick all clients and force them to reassociate
+$IWPRIV $DEVICE maccmd 4
+
+logger -t ap-mac-acl "ACLs successfully configured on $DEVICE!"
+

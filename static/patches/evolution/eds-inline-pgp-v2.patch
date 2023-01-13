@@ -1,0 +1,450 @@
+Index: camel/Makefile.am
+===================================================================
+RCS file: /cvs/gnome/evolution-data-server/camel/Makefile.am,v
+retrieving revision 1.209
+diff -u -r1.209 Makefile.am
+--- camel/Makefile.am	11 Apr 2005 12:21:29 -0000	1.209
++++ camel/Makefile.am	13 Jun 2005 11:34:38 -0000
+@@ -156,6 +156,7 @@
+ 	camel-mime-filter-html.c		\
+ 	camel-mime-filter-index.c		\
+ 	camel-mime-filter-linewrap.c		\
++	camel-mime-filter-pgp.c			\
+ 	camel-mime-filter-save.c		\
+ 	camel-mime-filter-tohtml.c		\
+ 	camel-mime-filter-windows.c		\
+@@ -223,6 +224,7 @@
+ 	camel-mime-filter-html.h		\
+ 	camel-mime-filter-index.h		\
+ 	camel-mime-filter-linewrap.h		\
++	camel-mime-filter-pgp.h			\
+ 	camel-mime-filter-save.h		\
+ 	camel-mime-filter-tohtml.h		\
+ 	camel-mime-filter-windows.h		\
+Index: camel/camel-gpg-context.c
+===================================================================
+RCS file: /cvs/gnome/evolution-data-server/camel/camel-gpg-context.c,v
+retrieving revision 1.71
+diff -u -r1.71 camel-gpg-context.c
+--- camel/camel-gpg-context.c	5 May 2005 18:38:48 -0000	1.71
++++ camel/camel-gpg-context.c	13 Jun 2005 11:34:41 -0000
+@@ -1358,7 +1358,7 @@
+ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
+ {
+ 	CamelCipherValidity *validity;
+-	const char *diagnostics = NULL, *tmp;
++	const char *diagnostics = NULL;
+ 	struct _GpgCtx *gpg = NULL;
+ 	char *sigfile = NULL;
+ 	CamelContentType *ct;
+@@ -1368,29 +1368,52 @@
+ 
+ 	mps = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)ipart);
+ 	ct = ((CamelDataWrapper *)mps)->mime_type;
+-	tmp = camel_content_type_param(ct, "protocol");
+-	if (!camel_content_type_is(ct, "multipart", "signed")
+-	    || !CAMEL_IS_MULTIPART_SIGNED(mps)
+-	    || tmp == NULL
+-	    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0) {
+-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
++	
++	/* Inline signature (using our fake mime type) or PGP/Mime signature */
++	if (camel_content_type_is(ct, "multipart", "signed")) {
++		/* PGP/Mime Signature */
++		const char *tmp;
++
++		tmp = camel_content_type_param(ct, "protocol");
++		if (!CAMEL_IS_MULTIPART_SIGNED(mps)
++		    || tmp == NULL  
++		    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0) {
++			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+ 				      _("Cannot verify message signature: Incorrect message format"));
+-		return NULL;
+-	}
+-
+-	if (!(istream = camel_multipart_signed_get_content_stream ((CamelMultipartSigned *) mps, NULL))) {
+-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
++			return NULL;
++		}
++	
++		if (!(istream = camel_multipart_signed_get_content_stream ((CamelMultipartSigned *) mps, NULL))) {
++			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+ 				      _("Cannot verify message signature: Incorrect message format"));
+-		return NULL;
+-	}
++			return NULL;
++		}
+ 	
+-	if (!(sigpart = camel_multipart_get_part (mps, CAMEL_MULTIPART_SIGNED_SIGNATURE))) {
+-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
++		if (!(sigpart = camel_multipart_get_part (mps, CAMEL_MULTIPART_SIGNED_SIGNATURE))) {
++			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+ 				      _("Cannot verify message signature: Incorrect message format"));
+-		camel_object_unref (istream);
++			camel_object_unref (istream);
++			return NULL;
++		}
++
++	} else if (camel_content_type_is(ct, "application", "x-inlinepgp-signed")) {
++		/* Inline Signed */
++		CamelDataWrapper *content;
++		content = camel_medium_get_content_object ((CamelMedium *) ipart);
++		istream = camel_stream_mem_new();
++		camel_data_wrapper_decode_to_stream (content, istream);
++		camel_stream_reset(istream);
++		sigpart = NULL;
++			
++	} else {
++		/* Invalid Mimetype */
++		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
++			      _("Cannot verify message signature: Incorrect message format"));
+ 		return NULL;
+ 	}
++    
+ 
++	/* Now start the real work of verifying the message */
+ #ifdef GPG_LOG
+ 	if (camel_debug_start("gpg:sign")) {
+ 		char *name;
+@@ -1405,31 +1428,35 @@
+ 			camel_object_unref(out);
+ 		}
+ 		g_free(name);
+-		name = g_strdup_printf("camel-gpg.%d.verify.signature", logid++);
+-		out = camel_stream_fs_new_with_name(name, O_CREAT|O_TRUNC|O_WRONLY, 0666);
+-		if (out) {
+-			printf("Writing gpg verify signature to '%s'\n", name);
+-			camel_data_wrapper_write_to_stream((CamelDataWrapper *)sigpart, out);
+-			camel_object_unref(out);
++		if (sigpart) {
++			name = g_strdup_printf("camel-gpg.%d.verify.signature", logid++);
++			out = camel_stream_fs_new_with_name(name, O_CREAT|O_TRUNC|O_WRONLY, 0666);
++			if (out) {
++				printf("Writing gpg verify signature to '%s'\n", name);
++				camel_data_wrapper_write_to_stream((CamelDataWrapper *)sigpart, out);
++				camel_object_unref(out);
++			}
++			g_free(name);
+ 		}
+-		g_free(name);
+ 		camel_debug_end();
+ 	}
+ #endif
+-	
+-	sigfile = swrite (sigpart);
+-	if (sigfile == NULL) {
+-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
++
++	if (sigpart) {
++		sigfile = swrite (sigpart);
++		if (sigfile == NULL) {
++			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+ 				      _("Cannot verify message signature: could not create temp file: %s"),
+ 				      g_strerror (errno));
+-		goto exception;
++			goto exception;
++		}
+ 	}
+ 	
+ 	camel_stream_reset(istream);
+ 	gpg = gpg_ctx_new (context->session);
+ 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_VERIFY);
+-	gpg_ctx_set_hash (gpg, camel_cipher_id_to_hash(context, camel_content_type_param(ct, "micalg")));
+-	gpg_ctx_set_sigfile (gpg, sigfile);
++	if (sigfile)
++                gpg_ctx_set_sigfile (gpg, sigfile);
+ 	gpg_ctx_set_istream (gpg, istream);
+ 	
+ 	if (gpg_ctx_op_start (gpg) == -1) {
+@@ -1464,6 +1491,7 @@
+ 		unlink (sigfile);
+ 		g_free (sigfile);
+ 	}
++	camel_object_unref(istream);
+ 	
+ 	return validity;
+ 	
+@@ -1597,15 +1625,31 @@
+ 	CamelDataWrapper *content;
+ 	CamelMimePart *encrypted;
+ 	CamelMultipart *mp;
++	CamelContentType *ct;
++	int rv;
+ 	
+-	mp = (CamelMultipart *) camel_medium_get_content_object ((CamelMedium *) ipart);
+-	if (!(encrypted = camel_multipart_get_part (mp, CAMEL_MULTIPART_ENCRYPTED_CONTENT))) {
+-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to decrypt MIME part: protocol error"));
++	ct = camel_mime_part_get_content_type(ipart);
++	/* Encrypted part (using our fake mime type) or PGP/Mime multipart */
++	if (camel_content_type_is(ct, "multipart", "encrypted")) {
++	
++		mp = (CamelMultipart *) camel_medium_get_content_object ((CamelMedium *) ipart);
++		if (!(encrypted = camel_multipart_get_part (mp, CAMEL_MULTIPART_ENCRYPTED_CONTENT))) {
++			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to decrypt MIME part: protocol error"));
++			return NULL;
++		}
++		
++		content = camel_medium_get_content_object ((CamelMedium *) encrypted);
++
++	} else if (camel_content_type_is(ct, "application", "x-inlinepgp-encrypted")) {
++		content = camel_medium_get_content_object ((CamelMedium *) ipart);
++
++	} else {
++		/* Invalid Mimetype */
++		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
++				_("Cannot decrypt message: Incorrect message format"));
+ 		return NULL;
+ 	}
+ 	
+-	content = camel_medium_get_content_object ((CamelMedium *) encrypted);
+-	
+ 	istream = camel_stream_mem_new();
+ 	camel_data_wrapper_decode_to_stream (content, istream);
+ 	camel_stream_reset(istream);
+@@ -1640,7 +1684,20 @@
+ 	}
+ 
+ 	camel_stream_reset(ostream);
+-	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)opart, ostream) != -1) {
++	if (camel_content_type_is(ct, "multipart", "encrypted")) {
++		/* Multipart encrypted - parse a full mime part */
++		rv = camel_data_wrapper_construct_from_stream((CamelDataWrapper *)opart, ostream);
++	} else {
++		/* Inline signed - raw data (may not be a mime part) */
++		CamelDataWrapper *dw;
++		dw = camel_data_wrapper_new ();
++		rv = camel_data_wrapper_construct_from_stream(dw, ostream);
++		camel_medium_set_content_object((CamelMedium *)opart, dw);
++		camel_object_unref(dw);
++		/* Set mime/type of this new part to application/octet-stream to force type snooping */
++		camel_mime_part_set_content_type(opart, "application/octet-stream");
++	}
++	if (rv != -1) {	
+ 		valid = camel_cipher_validity_new();
+ 		valid->encrypt.description = g_strdup(_("Encrypted content"));
+ 		valid->encrypt.status = CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED;
+--- /dev/null	2005-06-13 17:27:12.702721984 +1200
++++ camel-mime-filter-pgp.c	2005-06-13 23:40:29.992070600 +1200
+@@ -0,0 +1,165 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
++/*
++ * Copyright (C) 2005 Matt Brown.
++ *
++ * Authors: Matt Brown <matt@mattb.net.nz>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of version 2 of the GNU General Public
++ * License as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public
++ * License along with this program; if not, write to the
++ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++ * Boston, MA 02111-1307, USA.
++ */
++
++/* Strips PGP message headers from the input stream and also performs
++ * pgp decoding as described in section 7.1 of RFC2440 */
++
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
++#include <string.h>
++#include <ctype.h>
++
++#include "camel-mime-filter-pgp.h"
++
++static void filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
++		    char **out, size_t *outlen, size_t *outprespace);
++static void complete (CamelMimeFilter *f, char *in, size_t len,
++		      size_t prespace, char **out, size_t *outlen,
++		      size_t *outprespace);
++static void reset (CamelMimeFilter *f);
++
++enum {
++	PGPF_HEADER,
++	PGPF_MESSAGE,
++	PGPF_FOOTER,
++};
++
++static void
++camel_mime_filter_pgp_class_init (CamelMimeFilterPgpClass *klass)
++{
++	CamelMimeFilterClass *mime_filter_class = (CamelMimeFilterClass *) klass;
++	
++	mime_filter_class->filter = filter;
++	mime_filter_class->complete = complete;
++	mime_filter_class->reset = reset;
++}
++
++CamelType
++camel_mime_filter_pgp_get_type (void)
++{
++	static CamelType type = CAMEL_INVALID_TYPE;
++	
++	if (type == CAMEL_INVALID_TYPE) {
++		type = camel_type_register (camel_mime_filter_get_type(), "CamelMimeFilterPgp",
++					    sizeof (CamelMimeFilterPgp),
++					    sizeof (CamelMimeFilterPgpClass),
++					    (CamelObjectClassInitFunc) camel_mime_filter_pgp_class_init,
++					    NULL,
++					    NULL,
++					    NULL);
++	}
++	
++	return type;
++}
++
++static void
++filter_run(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace, int last)
++{
++	CamelMimeFilterPgp *pgpfilter = (CamelMimeFilterPgp *)f;
++	char *inptr, *inend;
++	register char *o;
++	char *start = in;
++	int tmplen;
++	
++	/* only need as much space as the input, we're stripping chars */
++	camel_mime_filter_set_size(f, len, FALSE);
++
++	o = f->outbuf;
++	inptr = in;
++	inend = in+len;
++	while (inptr < inend) {
++		start = inptr;
++
++		while (inptr < inend && *inptr != '\n')
++			inptr++;
++			
++		if (inptr == inend) {
++			if (!last) {
++				camel_mime_filter_backup(f, start, inend-start);
++				inend = start;
++			}
++			break;
++		}
++
++		*inptr++ = 0;
++		
++		switch (pgpfilter->state) {
++		case PGPF_HEADER:
++			/* Wait for a blank line */
++			if (strlen(start)==0)
++				pgpfilter->state = PGPF_MESSAGE;
++			break;
++		case PGPF_MESSAGE:
++			/* In the message body, check for end of body */
++			if (strncmp(start, "-----", 5)==0) {
++				pgpfilter->state = PGPF_FOOTER;
++				break;
++			}			
++			/* do dash decoding */
++			if (strncmp(start, "- ", 2)==0) {
++				/* Dash encoded line found, skip encoding */
++				start+=2;
++			}
++			tmplen=strlen(start)+1;
++			inptr[-1] = '\n';
++			strncpy(o, start, tmplen);
++			o+=tmplen;	
++			break;
++		case PGPF_FOOTER:
++			/* After end of message, (ie signature or something) skip it */
++			break;
++		}
++		inptr[-1] = '\n';
++	}
++	
++	*out = f->outbuf;
++	*outlen = o - f->outbuf;
++	*outprespace = f->outpre;
++	
++}
++
++static void
++filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
++{
++	filter_run(f, in, len, prespace, out, outlen, outprespace, FALSE);
++}
++
++static void 
++complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
++{
++	filter_run(f, in, len, prespace, out, outlen, outprespace, TRUE);
++}
++
++static void
++reset (CamelMimeFilter *f)
++{
++	/* no-op */
++}
++
++CamelMimeFilter *
++camel_mime_filter_pgp_new(void)
++{
++	CamelMimeFilterPgp *pgpfilter = (CamelMimeFilterPgp *)camel_object_new (camel_mime_filter_pgp_get_type());
++
++	return (CamelMimeFilter *) pgpfilter;
++}
+--- /dev/null	2005-06-13 17:27:12.702721984 +1200
++++ camel-mime-filter-pgp.h	2005-05-29 22:12:25.000000000 +1200
+@@ -0,0 +1,54 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
++/*
++ * Copyright (C) 2005 Matt Brown..
++ *
++ * Authors: Matt Brown <matt@mattb.net.nz>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of version 2 of the GNU General Public
++ * License as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public
++ * License along with this program; if not, write to the
++ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++ * Boston, MA 02111-1307, USA.
++ */
++
++#ifndef _CAMEL_MIME_FILTER_PGP_H
++#define _CAMEL_MIME_FILTER_PGP_H
++
++#ifdef __cplusplus
++extern "C" {
++#pragma }
++#endif /* __cplusplus */
++
++#include <camel/camel-mime-filter.h>
++
++#define CAMEL_MIME_FILTER_PGP_TYPE         (camel_mime_filter_canon_get_type ())
++#define CAMEL_MIME_FILTER_PGP(obj)         CAMEL_CHECK_CAST (obj, CAMEL_MIME_FILTER_PGP_TYPE, CamelMimeFilterPgp)
++#define CAMEL_MIME_FILTER_PGP_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, CAMEL_MIME_FILTER_PGP_TYPE, CamelMimeFilterPgpClass)
++#define CAMEL_IS_MIME_FILTER_PGP(obj)      CAMEL_CHECK_TYPE (obj, CAMEL_MIME_FILTER_PGP_TYPE)
++
++typedef struct _CamelMimeFilterPgp {
++	CamelMimeFilter filter;
++	int state;
++} CamelMimeFilterPgp;
++
++typedef struct _CamelMimeFilterPgpClass {
++	CamelMimeFilterClass parent_class;
++} CamelMimeFilterPgpClass;
++
++CamelType camel_mime_filter_pgp_get_type (void);
++
++CamelMimeFilter *camel_mime_filter_pgp_new(void);
++
++#ifdef __cplusplus
++}
++#endif /* __cplusplus */
++
++#endif /* ! _CAMEL_MIME_FILTER_PGP_H */

@@ -1,0 +1,17 @@
+diff -rNu original-0.11/www/inc/header.inc.php /home/httpd/www.mattb.net.nz/html/original/inc/header.inc.php
+--- original-0.11/www/inc/header.inc.php	2005-01-15 07:10:23.000000000 +1300
++++ /home/httpd/www.mattb.net.nz/html/original/inc/header.inc.php	2005-11-17 01:06:53.000000000 +1300
+@@ -1,3 +1,6 @@
++<?php
++    if (count($themes) > 1) {
++?>
+ <div class="stylenavbar">
+ [ style: 
+ <?php
+@@ -10,5 +13,6 @@
+ ]
+ </div>
+ <?php
++    }
+ echo "<h1 class=\"title\"><a href=\"http://$HostName$ThisScript\">Photo Gallery<span /></a></h1>\n\n";
+ ?>

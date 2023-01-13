@@ -1,0 +1,14 @@
+01-psql-grants
+02-psql-doc-fixes
+03-dba-open-existing
+04-german-i18n-fixes
+05-modify-default-config
+06-create-config-template
+07-versiondata-base64-decode
+08-upgrade-remove-user-table
+09-upgrade-sql-syntax-fixes
+10-upgrade-password-portable
+11-upgrade-sqlite-nopass
+12-upgrade-mysql-only
+13-create-debian-pages
+14-upgrade-schemas

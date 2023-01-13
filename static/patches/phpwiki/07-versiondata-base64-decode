@@ -1,0 +1,24 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## versiondata-base64-decode by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix a bug in PHPwiki where some stored data is base 64 encoded
+## DP: when the code doesn't expect it to be!
+## DP:
+## DP: See #366892
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/lib/WikiDB/backend/PearDB.php
++++ phpwiki-1.3.12p3/lib/WikiDB/backend/PearDB.php
+@@ -342,6 +342,10 @@
+         if (!$query_result)
+             return false;
+ 
++        if (!strstr($query_result['versiondata'], ":")) {
++            $query_result['versiondata'] = 
++                base64_decode($query_result['versiondata']);
++        }
+         $data = $this->_unserialize($query_result['versiondata']);
+         
+         $data['mtime'] = $query_result['mtime'];

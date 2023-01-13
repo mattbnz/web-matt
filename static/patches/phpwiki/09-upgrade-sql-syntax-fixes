@@ -1,0 +1,37 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## upgrade-sql-syntax-fixes by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix some minor SQL syntax errors in the upgrade wizard
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/lib/upgrade.php
++++ phpwiki-1.3.12p3/lib/upgrade.php
+@@ -239,7 +239,7 @@
+             $dbh->genericSqlQuery("
+ CREATE TABLE $pref_tbl (
+   	userid 	CHAR(48) NOT NULL,
+-  	prefs  	TEXT NULL DEFAULT '',
++  	prefs  	TEXT NULL DEFAULT ''
+ )");
+             $dbh->genericSqlQuery("CREATE UNIQUE INDEX userid ON $pref_tbl (userid)");
+         }
+@@ -259,7 +259,7 @@
+             $dbh->genericSqlQuery("
+ CREATE TABLE $member_tbl (
+ 	userid    CHAR(48) NOT NULL,
+-   	groupname CHAR(48) NOT NULL DEFAULT 'users',
++   	groupname CHAR(48) NOT NULL DEFAULT 'users'
+ )");
+             $dbh->genericSqlQuery("CREATE INDEX userid ON $member_tbl (userid)");
+             $dbh->genericSqlQuery("CREATE INDEX groupname ON $member_tbl (groupname)");
+@@ -287,7 +287,7 @@
+         rateepage INT(11) NOT NULL,
+         ratingvalue FLOAT NOT NULL,
+         rateeversion INT(11) NOT NULL,
+-        tstamp TIMESTAMP(14) NOT NULL,
++        tstamp TIMESTAMP(14) NOT NULL
+ )");
+             $dbh->genericSqlQuery("CREATE UNIQUE INDEX rating"
+                                   ." ON $rating_tbl (dimension, raterpage, rateepage)");

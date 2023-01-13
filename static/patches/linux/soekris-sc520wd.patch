@@ -1,0 +1,74 @@
+--- a/drivers/char/watchdog/sc520_wdt.c	2006-07-11 13:34:21.000000000 +1200
++++ b/drivers/char/watchdog/sc520_wdt.c	2006-07-11 13:59:16.000000000 +1200
+@@ -104,6 +104,7 @@
+  */
+ #define MMCR_BASE	0xfffef000	/* The default base address */
+ #define OFFS_WDTMRCTL	0xCB0	/* Watchdog Timer Control Register */
++#define OFFS_GPIO	0xC00
+ 
+ /* WDT Control Register bit definitions */
+ #define WDT_EXP_SEL_01	0x0001	/* [01] Time-out = 496 us (with 33 Mhz clk). */
+@@ -119,6 +120,7 @@
+ #define WDT_ENB		0x8000	/* [15] Watchdog Timer Enable */
+ 
+ static __u16 __iomem *wdtmrctl;
++static __u16 *gpio;
+ 
+ static void wdt_timer_ping(unsigned long);
+ static struct timer_list timer;
+@@ -133,6 +135,8 @@
+ 
+ static void wdt_timer_ping(unsigned long data)
+ {
++	u_int8_t echo_mode;
++
+ 	/* If we got a heartbeat pulse within the WDT_US_INTERVAL
+ 	 * we agree to ping the WDT
+ 	 */
+@@ -140,8 +144,13 @@
+ 	{
+ 		/* Ping the WDT */
+ 		spin_lock(&wdt_spinlock);
++		echo_mode = readb(gpio);
++		writeb(echo_mode & 0xfe, gpio);
++
+ 		writew(0xAAAA, wdtmrctl);
+ 		writew(0x5555, wdtmrctl);
++
++		writeb(echo_mode, gpio);
+ 		spin_unlock(&wdt_spinlock);
+ 
+ 		/* Re-set the timer interval */
+@@ -160,10 +169,15 @@
+ {
+ 	__u16 dummy;
+ 	unsigned long flags;
++	u_int8_t echo_mode;
+ 
+ 	/* buy some time (ping) */
+ 	spin_lock_irqsave(&wdt_spinlock, flags);
+ 	dummy=readw(wdtmrctl);	/* ensure write synchronization */
++
++	echo_mode = readb(gpio);
++	writeb(echo_mode & 0xfe, gpio);
++	
+ 	writew(0xAAAA, wdtmrctl);
+ 	writew(0x5555, wdtmrctl);
+ 	/* unlock WDT = make WDT configuration register writable one time */
+@@ -171,6 +185,8 @@
+ 	writew(0xCCCC, wdtmrctl);
+ 	/* write WDT configuration register */
+ 	writew(writeval, wdtmrctl);
++
++	writeb(echo_mode, gpio);
+ 	spin_unlock_irqrestore(&wdt_spinlock, flags);
+ }
+ 
+@@ -400,6 +416,7 @@
+ 			WATCHDOG_TIMEOUT);
+ 	}
+ 
++	gpio = ioremap((unsigned long)(MMCR_BASE + OFFS_GPIO), 1);
+ 	wdtmrctl = ioremap((unsigned long)(MMCR_BASE + OFFS_WDTMRCTL), 2);
+ 	if (!wdtmrctl) {
+ 		printk(KERN_ERR PFX "Unable to remap memory\n");

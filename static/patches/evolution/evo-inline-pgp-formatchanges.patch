@@ -1,0 +1,41 @@
+Index: mail/em-format-html.c
+===================================================================
+RCS file: /cvs/gnome/evolution/mail/em-format-html.c,v
+retrieving revision 1.78
+diff -u -r1.78 em-format-html.c
+--- mail/em-format-html.c	19 May 2005 06:06:35 -0000	1.78
++++ mail/em-format-html.c	15 Jun 2005 12:14:16 -0000
+@@ -656,10 +771,6 @@
+ 	int i, count, len;
+ 	struct _EMFormatHTMLCache *efhc;
+ 
+-	camel_stream_printf (stream,
+-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
+-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+-
+ 	flags = efh->text_html_flags;
+ 	
+ 	dw = camel_medium_get_content_object((CamelMedium *)part);
+@@ -727,10 +838,14 @@
+ 
+ 		type = camel_mime_part_get_content_type(newpart);
+ 		if (camel_content_type_is (type, "text", "*")) {
++			camel_stream_printf (stream,
++   					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
++   					efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+ 			camel_stream_write_string(stream, "<tt>\n");
+ 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)newpart));
+ 			camel_stream_flush((CamelStream *)filtered_stream);
+ 			camel_stream_write_string(stream, "</tt>\n");
++			camel_stream_write_string(stream, "</div>\n");
+ 		} else {
+ 			g_string_append_printf(((EMFormat *)efh)->part_id, ".inline.%d", i);
+ 			em_format_part((EMFormat *)efh, stream, newpart);
+@@ -739,7 +854,6 @@
+ 	}
+ 
+ 	camel_object_unref(filtered_stream);
+-	camel_stream_write_string(stream, "</div>\n");
+ }
+ 
+ static void

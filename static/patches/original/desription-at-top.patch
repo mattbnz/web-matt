@@ -1,0 +1,45 @@
+diff -rNu original-0.11/www/index.php /home/httpd/www.mattb.net.nz/html/original/index.php
+--- original-0.11/www/index.php	2005-11-14 13:53:21.000000000 +1300
++++ /home/httpd/www.mattb.net.nz/html/original/index.php	2005-11-17 01:16:38.000000000 +1300
+@@ -271,6 +272,20 @@
+ 		 echo $galerie;
+ 	 }
+ 	 echo "</div>\n\n";
++   
++	 //info
++	 echo "<div id=\"info\">\n";
++	 if ($galeriedesc[$galerie]) {
++		 echo "<p>";
++		 echo "<span class=\"value\">";
++		 echo $galeriedesc[$galerie] . "</span></p>\n";
++	 }
++	 if ($galerieauthor[$galerie]) {
++		 echo "<p><span class=\"key\">Author: </span>";
++		 echo "<span class=\"value\">";
++		 echo $galerieauthor[$galerie] . "</span></p>\n";
++	 }
++	 echo "</div>\n";
+ 
+ 	 //thumbnails
+ 	 echo "<p class=\"bigthumbnails\">\n";
+@@ -343,20 +344,6 @@
+    }
+    echo "</p>\n";
+ 
+-	 //info
+-	 echo "<div id=\"info\">\n";
+-	 if ($galeriedesc[$galerie]) {
+-		 echo "<p>";
+-		 echo "<span class=\"value\">";
+-		 echo $galeriedesc[$galerie] . "</span></p>\n";
+-	 }
+-	 if ($galerieauthor[$galerie]) {
+-		 echo "<p><span class=\"key\">Author: </span>";
+-		 echo "<span class=\"value\">";
+-		 echo $galerieauthor[$galerie] . "</span></p>\n";
+-	 }
+-	 echo "</div>\n";
+-
+    //and links to archived images:
+    echo "\n<p class=\"archives\">\n";
+    if (file_exists("$gallery_dir/$galerie/zip/mq.zip")) {

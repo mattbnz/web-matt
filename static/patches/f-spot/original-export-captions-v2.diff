@@ -1,0 +1,16 @@
+Index: FolderExport.cs
+===================================================================
+RCS file: /cvs/gnome/f-spot/src/FolderExport.cs,v
+retrieving revision 1.23
+diff -u -r1.23 FolderExport.cs
+--- FolderExport.cs	24 Dec 2005 07:45:50 -0000	1.23
++++ FolderExport.cs	19 Jan 2006 07:47:41 -0000
+@@ -483,7 +483,7 @@
+ 
+ 		private void CreateComments(string photo_path, int photo_index)
+ 		{
+-			StreamWriter comment = File.CreateText(SubdirPath  ("comments", AlternateName (photo_index, ".txt")));
++			StreamWriter comment = File.CreateText(SubdirPath  ("comments", String.Format("{0}.txt", photo_index+1)));
+ 			comment.Write("<span>photo " + (photo_index + 1) + "</span> ");
+ 			comment.Write (collection [photo_index].Description + "\n");
+ 			comment.Close();

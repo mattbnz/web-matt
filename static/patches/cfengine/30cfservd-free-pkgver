@@ -1,0 +1,10 @@
+--- cfengine-2.1.20.orig/src/parse.c	2005-10-10 03:59:42.000000000 +1300
++++ cfengine-2.1.20/src/parse.c	2007-03-19 11:18:15.000000000 +1200
+@@ -188,6 +188,7 @@
+ free(MOUNTFROM);
+ free(MOUNTONTO);
+ free(MOUNTOPTS);
++free(PKGVER);
+ free(DESTINATION);
+ free(IMAGEACTION);
+ free(CHDIR);

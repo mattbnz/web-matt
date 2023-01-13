@@ -1,0 +1,46 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## upgrade-remove-usertable by  <debian@mattb.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: The user table is deprecated and should not be created by the
+## DP: upgrade wizard
+
+@DPATCH@
+
+--- phpwiki-1.3.12p3.orig/lib/upgrade.php
++++ phpwiki-1.3.12p3/lib/upgrade.php
+@@ -207,25 +207,6 @@
+         $dbh->genericSqlQuery("CREATE INDEX sess_date on session (sess_date)");
+         echo "  ",_("CREATED");
+         break;
+-    case 'user':
+-        $user_tbl = $prefix.'user';
+-        if ($backend_type == 'mysql') {
+-            $dbh->genericSqlQuery("
+-CREATE TABLE $user_tbl (
+-  	userid 	CHAR(48) BINARY NOT NULL UNIQUE,
+-  	passwd 	CHAR(48) BINARY DEFAULT '',
+-  	PRIMARY KEY (userid)
+-)");
+-        } else {
+-            $dbh->genericSqlQuery("
+-CREATE TABLE $user_tbl (
+-  	userid 	CHAR(48) NOT NULL,
+-  	passwd 	CHAR(48) DEFAULT ''
+-)");
+-            $dbh->genericSqlQuery("CREATE UNIQUE INDEX userid ON $user_tbl (userid)");
+-        }
+-        echo "  ",_("CREATED");
+-        break;
+     case 'pref':
+         $pref_tbl = $prefix.'pref';
+         if ($backend_type == 'mysql') {
+@@ -367,7 +367,7 @@
+     $backend_type = $dbh->_backend->backendType();
+     echo "<h4>",_("Backend type: "),$backend_type,"</h4>\n";
+     $prefix = isset($DBParams['prefix']) ? $DBParams['prefix'] : '';
+-    foreach (explode(':','session:user:pref:member') as $table) {
++    foreach (explode(':','session:pref:member') as $table) {
+         echo sprintf(_("check for table %s"), $table)," ...";
+     	if (!in_array($prefix.$table, $tables)) {
+             installTable($dbh, $table, $backend_type);

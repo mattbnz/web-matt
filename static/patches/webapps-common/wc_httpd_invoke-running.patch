@@ -1,0 +1,16 @@
+Index: httpd
+===================================================================
+RCS file: /cvsroot/webapps-common/webapps-common/internal/httpd,v
+retrieving revision 1.3
+diff -u -r1.3 httpd
+--- httpd	17 Aug 2005 16:40:41 -0000	1.3
++++ httpd	17 Oct 2005 11:22:10 -0000
+@@ -63,7 +63,7 @@
+ 	if [ "$*" ]; then
+ 		httpds=$*
+ 	else
+-		httpds=$wc_httpd_supported
++		httpds=$wc_httpd_running
+ 	fi
+ 	for f in $httpds; do
+ 		if [ -x /etc/init.d/$f ]; then

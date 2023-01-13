@@ -1,0 +1,16 @@
+diff -rNu original-0.11/www/index.php /home/httpd/www.mattb.net.nz/html/original/index.php
+--- original-0.11/www/index.php	2005-11-14 13:53:21.000000000 +1300
++++ /home/httpd/www.mattb.net.nz/html/original/index.php	2005-11-17 01:16:38.000000000 +1300
+@@ -416,7 +403,11 @@
+             echo "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}";
+             echo "&amp;show_thumbs=$show_thumbs\"";
+ 						echo " title=" . get_photo_title($galerie, $x[1]) . ">";
+-            echo "<img class=\"thumb\" ";
++            $class="";
++            if ($x[1] == $snimek) {
++                $class=" selected";
++            }
++            echo "<img class=\"thumb${class}\" ";
+             // hadess' hack (TM) ;)
+             if ($thumbsize) {
+                  echo " width=\"24\" height=\"16\"";

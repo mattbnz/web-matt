@@ -1,0 +1,648 @@
+Index: net80211/ieee80211_node.c
+===================================================================
+--- net80211/ieee80211_node.c	(revision 1735)
++++ net80211/ieee80211_node.c	(working copy)
+@@ -1051,6 +1051,23 @@
+ 	return ni;
+ }
+ 
++static unsigned short
++_ieee80211_alloc_node_vid(struct ieee80211vap *vap)
++{
++	struct ieee80211_node_table *nt = &vap->iv_ic->ic_sta;
++	struct ieee80211_node *ni;
++	unsigned short vid = IEEE80211_NODE_MIN_VID;
++
++	TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
++		if (ni->ni_vlan == 0 || ni->ni_vap != vap || 
++				memcmp(vap->iv_myaddr, ni->ni_macaddr, IEEE80211_ADDR_LEN)==0)
++			continue;
++		if (ni->ni_vlan == vid)
++			vid++;
++	}
++	return vid;
++}
++
+ /*
+  * Add the specified station to the station table.
+  */
+@@ -1068,7 +1085,11 @@
+ 		 */
+ 		ni->ni_authmode = vap->iv_bss->ni_authmode;
+ 		ni->ni_txpower = vap->iv_bss->ni_txpower;
+-		ni->ni_vlan = vap->iv_bss->ni_vlan;	/* XXX?? */
++		if (vap->iv_per_node_vlan) {
++			ni->ni_vlan = _ieee80211_alloc_node_vid(vap);
++		} else {
++			ni->ni_vlan = vap->iv_bss->ni_vlan;	/* XXX?? */
++		}
+ 		IEEE80211_ADDR_COPY(ni->ni_bssid, vap->iv_bss->ni_bssid);
+ 		ieee80211_node_set_chan(ic, ni);
+ 		ni->ni_rsn = vap->iv_bss->ni_rsn;
+@@ -1369,6 +1390,21 @@
+ EXPORT_SYMBOL(ieee80211_find_txnode);
+ #endif
+ 
++struct ieee80211_node *
++ieee80211_find_vlannode(struct ieee80211_node_table *nt, unsigned short vid)
++{
++	struct ieee80211_node *ni;
++
++	TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
++		if (ni->ni_vlan == vid) {
++			ieee80211_ref_node(ni);	/* mark referenced */
++			return ni;
++		}
++	}
++	return NULL;
++}
++EXPORT_SYMBOL(ieee80211_find_vlannode);
++
+ /* Caller must lock the IEEE80211_NODE_LOCK
+  *
+  * Context: hwIRQ, softIRQ and process context
+Index: net80211/ieee80211_node.h
+===================================================================
+--- net80211/ieee80211_node.h	(revision 1735)
++++ net80211/ieee80211_node.h	(working copy)
+@@ -186,6 +186,8 @@
+ #define WME_UAPSD_NODE_INVALIDSEQ	0xffff
+ #define WME_UAPSD_NODE_TRIGSEQINIT(_ni)	(memset(&(_ni)->ni_uapsd_trigseq[0], 0xff, sizeof((_ni)->ni_uapsd_trigseq)))
+ 
++#define IEEE80211_NODE_MIN_VID 2
++
+ static __inline struct ieee80211_node *
+ ieee80211_ref_node(struct ieee80211_node *ni)
+ {
+@@ -286,6 +288,8 @@
+ 	const struct ieee80211_frame_min *);
+ struct ieee80211_node *ieee80211_find_txnode(struct ieee80211vap *,
+ 	const u_int8_t *);
++struct ieee80211_node *ieee80211_find_vlannode(struct ieee80211_node_table *nt,
++	unsigned short vid);
+ #endif
+ int ieee80211_add_wds_addr(struct ieee80211_node_table *, struct ieee80211_node *,
+ 	const u_int8_t *, u_int8_t);
+Index: net80211/ieee80211_input.c
+===================================================================
+--- net80211/ieee80211_input.c	(revision 1735)
++++ net80211/ieee80211_input.c	(working copy)
+@@ -1148,11 +1148,20 @@
+ #else
+ 		skb->protocol = eth_type_trans(skb, dev);
+ #endif
+-		if (ni->ni_vlan != 0 && vap->iv_vlgrp != NULL) {
++
++		/* If this node is marked in a VLAN and the interface has VLANs 
++		 * configured, then tag and send it up to the kernel.
++		 * If we're doing per-node vlans don't tag EAPOL frames, they need
++		 * to stay going to the base device for hostapd to pickup 
++		 */
++		if (ni->ni_vlan != 0 && vap->iv_vlgrp != NULL && 
++				(skb->protocol != __constant_htons(ETHERTYPE_PAE) || 
++				 !vap->iv_per_node_vlan)) {
+ 			/* attach vlan tag */
+ 			vlan_hwaccel_receive_skb(skb, vap->iv_vlgrp, ni->ni_vlan);
+-		} else
++		} else {
+ 			netif_rx(skb);
++		}
+ 		dev->last_rx = jiffies;
+ 	}
+ }
+Index: net80211/ieee80211_output.c
+===================================================================
+--- net80211/ieee80211_output.c	(revision 1735)
++++ net80211/ieee80211_output.c	(working copy)
+@@ -203,9 +203,13 @@
+ 	struct ieee80211vap *vap = dev->priv;
+ 	struct ieee80211com *ic = vap->iv_ic;
+ 	struct net_device *parent = ic->ic_dev;
++	struct ieee80211_node_table *nt = &ic->ic_sta;
+ 	struct ieee80211_node *ni = NULL;
+ 	struct ieee80211_cb *cb;
+-	struct ether_header *eh;
++	struct ether_header *eh = (struct ether_header *)(skb->data);
++	struct vlan_ethhdr *veth = (struct vlan_ethhdr *)(skb->data);
++	unsigned short vlan_TCI;
++	unsigned short vid;
+ 
+ 	/* NB: parent must be up and running */
+ 	if ((parent->flags & (IFF_RUNNING|IFF_UP)) != (IFF_RUNNING|IFF_UP))
+@@ -223,6 +227,36 @@
+ 		goto bad;
+ 	}
+ 
++	if (vap->iv_per_node_vlan && 
++			veth->h_vlan_proto == __constant_htons(ETH_P_8021Q)) {
++		vlan_TCI = ntohs(veth->h_vlan_TCI);
++		vid = (vlan_TCI & VLAN_VID_MASK);
++		if (IEEE80211_IS_MULTICAST(eh->ether_dhost)) {
++			/* Find the node in the specified VLAN and redirect to it */
++			ni = ieee80211_find_vlannode(nt, vid);
++			if (!ni) {
++				/* Specified VLAN is not in use */
++				goto bad;
++			}
++			/* Update the destination address of the packet */
++			memcpy(eh->ether_dhost, ni->ni_macaddr, IEEE80211_ADDR_LEN);
++		} else {
++			/* Ensure packet is directed to the node in this VLAN */
++			ni = ieee80211_find_node(nt, eh->ether_dhost);
++			if (!ni || ni->ni_vlan != vid) {
++				/* No node in the specified VLAN */
++				goto bad;
++			}
++		}
++		if (ni != NULL)
++			ieee80211_free_node(ni);
++		/* Strip VLAN header */
++		memmove(skb->data + (VLAN_ETH_ALEN*2), 
++				skb->data + (VLAN_ETH_ALEN*2) + VLAN_HLEN, 
++				skb->len - ((VLAN_ETH_ALEN*2) + VLAN_HLEN));
++		skb_trim(skb, skb->len - VLAN_HLEN);
++	}
++
+ 	cb = (struct ieee80211_cb *) skb->cb;
+ 	memset(cb, 0, sizeof(struct ieee80211_cb));
+ 	
+@@ -237,12 +271,10 @@
+ 	 * Find the node for the destination so we can do
+ 	 * things like power save.
+ 	 */
+-	eh = (struct ether_header *)skb->data;
+ 	if (vap->iv_opmode == IEEE80211_M_WDS)
+ 		ni = ieee80211_find_txnode(vap, vap->wds_mac);
+ 	else
+ 		ni = ieee80211_find_txnode(vap, eh->ether_dhost);
+-
+ 	if (ni == NULL) {
+ 		/* NB: ieee80211_find_txnode does stat+msg */
+ 		goto bad;
+Index: net80211/ieee80211_var.h
+===================================================================
+--- net80211/ieee80211_var.h	(revision 1735)
++++ net80211/ieee80211_var.h	(working copy)
+@@ -280,6 +280,7 @@
+      int wlen;
+      int max_wlen;
+      char *wbuf;
++     struct ieee80211vap *vap;
+ };
+ 
+ struct ieee80211_proc_entry {
+@@ -304,7 +305,8 @@
+ 	struct ieee80211_proc_entry *iv_proc_entries;
+ #endif
+ 	struct vlan_group *iv_vlgrp;		/* vlan group state */
+-
++	int iv_per_node_vlan;			/* put each node in a separate vlan */
++	
+ 	TAILQ_ENTRY(ieee80211vap) iv_next;	/* list of vap instances */
+ 	u_int iv_unit;				/* virtual AP unit */
+ 	struct ieee80211com *iv_ic;		/* back ptr to common state */
+Index: net80211/ieee80211_linux.c
+===================================================================
+--- net80211/ieee80211_linux.c	(revision 1735)
++++ net80211/ieee80211_linux.c	(working copy)
+@@ -149,8 +149,9 @@
+ {
+ 	struct ieee80211vap *vap = dev->priv;
+ 
+-	if (vap->iv_vlgrp != NULL)
++	if (vap->iv_vlgrp != NULL && !vap->iv_per_node_vlan) {
+ 		vap->iv_bss->ni_vlan = vid;
++	}
+ }
+ 
+ /*
+@@ -161,8 +162,9 @@
+ {
+ 	struct ieee80211vap *vap = dev->priv;
+ 
+-	if (vap->iv_vlgrp != NULL)
++	if (vap->iv_vlgrp != NULL) {
+ 		vap->iv_vlgrp->vlan_devices[vid] = NULL;
++	}
+ }
+ #endif /* IEEE80211_VLAN_TAG_USED */
+ 
+@@ -172,8 +174,10 @@
+ #if IEEE80211_VLAN_TAG_USED
+ 	struct net_device *dev = vap->iv_dev;
+ 
+-	dev->features |= NETIF_F_HW_VLAN_TX | NETIF_F_HW_VLAN_RX |
+-			 NETIF_F_HW_VLAN_FILTER;
++	dev->features |= NETIF_F_HW_VLAN_RX | NETIF_F_HW_VLAN_FILTER;
++	if (!vap->iv_per_node_vlan) {
++		dev->features |= NETIF_F_HW_VLAN_TX;
++	}
+ 	dev->vlan_rx_register = ieee80211_vlan_register;
+ 	dev->vlan_rx_add_vid = ieee80211_vlan_add_vid;
+ 	dev->vlan_rx_kill_vid = ieee80211_vlan_kill_vid;
+@@ -324,35 +328,6 @@
+ static struct proc_dir_entry *proc_madwifi;
+ static int proc_madwifi_count = 0;
+ 
+-static int
+-proc_read_nodes(struct ieee80211vap *vap, char *buf, int space)
+-{
+-        char *p = buf;
+-        struct ieee80211_node *ni;
+-        struct ieee80211_node_table *nt = (struct ieee80211_node_table *) &vap->iv_ic->ic_sta;
+-
+-        //IEEE80211_NODE_LOCK(nt);                                                                               
+-        TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
+-                /* Assume each node needs 500 bytes */
+-                if (buf + space < p + 500)
+-                        break;
+-
+-		if (ni->ni_vap == vap &&
+-		    0 != memcmp(vap->iv_myaddr, ni->ni_macaddr, IEEE80211_ADDR_LEN)) {
+-			struct timespec t;
+-			jiffies_to_timespec(jiffies - ni->ni_last_rx, &t);
+-			p += sprintf(p, "macaddr: <%s>\n", ether_sprintf(ni->ni_macaddr));
+-			p += sprintf(p, " rssi %d\n", ni->ni_rssi);
+-			
+-			p += sprintf(p, " last_rx %ld.%06ld\n", 
+-				     t.tv_sec, t.tv_nsec / 1000);
+-
+-		}
+-        }
+-        //IEEE80211_NODE_UNLOCK(nt);                                                                             
+-        return (p - buf);
+-}
+-
+ static ssize_t
+ proc_ieee80211_read(struct file *file, char __user *buf, size_t len, loff_t *offset)
+ {
+@@ -373,36 +348,33 @@
+ 	return len;
+ }
+ 
+-static int
+-proc_ieee80211_open(struct inode *inode, struct file *file)
++static struct proc_ieee80211_priv *
++proc_ieee80211_setup(struct inode *inode, struct file *file)
+ {
+ 	struct proc_ieee80211_priv *pv = NULL;
+-	struct proc_dir_entry *dp = PDE(inode);
+-	struct ieee80211vap *vap = dp->data;
+ 
+ 	if (!(file->private_data = kmalloc(sizeof(struct proc_ieee80211_priv), GFP_KERNEL)))
+-		return -ENOMEM;
++		return (struct proc_ieee80211_priv *)NULL;
+ 	/* intially allocate both read and write buffers */
+ 	pv = (struct proc_ieee80211_priv *) file->private_data;
+ 	memset(pv, 0, sizeof(struct proc_ieee80211_priv));
+ 	pv->rbuf = vmalloc(MAX_PROC_IEEE80211_SIZE);
+ 	if (!pv->rbuf) {
+ 		kfree(pv);
+-		return -ENOMEM;
++		return (struct proc_ieee80211_priv *)NULL;
+ 	}
+ 	pv->wbuf = vmalloc(MAX_PROC_IEEE80211_SIZE);
+ 	if (!pv->wbuf) {
+ 		vfree(pv->rbuf);
+ 		kfree(pv);
+-		return -ENOMEM;
++		return (struct proc_ieee80211_priv *)NULL;
+ 	}
+ 	memset(pv->wbuf, 0, MAX_PROC_IEEE80211_SIZE);
+ 	memset(pv->rbuf, 0, MAX_PROC_IEEE80211_SIZE);
+ 	pv->max_wlen = MAX_PROC_IEEE80211_SIZE;
+ 	pv->max_rlen = MAX_PROC_IEEE80211_SIZE;
+-	/* now read the data into the buffer */
+-	pv->rlen = proc_read_nodes(vap, pv->rbuf, MAX_PROC_IEEE80211_SIZE);
+-	return 0;
++
++	return pv;
+ }
+ 
+ static ssize_t
+@@ -442,13 +414,178 @@
+ 	return 0;
+ }
+ 
++static int
++proc_read_nodes(struct ieee80211vap *vap, char *buf, int space)
++{
++	char *p = buf;
++	struct ieee80211_node *ni;
++	struct ieee80211_node_table *nt = 
++		(struct ieee80211_node_table *) &vap->iv_ic->ic_sta;
++
++	//IEEE80211_NODE_LOCK(nt);                                                                               
++	TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
++		/* Assume each node needs 500 bytes */
++		if (buf + space < p + 500)
++			break;
++
++		if (ni->ni_vap == vap &&
++				0 != memcmp(vap->iv_myaddr, ni->ni_macaddr, 
++					IEEE80211_ADDR_LEN)) {
++			struct timespec t;
++			jiffies_to_timespec(jiffies - ni->ni_last_rx, &t);
++			p += sprintf(p, "macaddr: <%s>\n", ether_sprintf(ni->ni_macaddr));
++			p += sprintf(p, " rssi %d\n", ni->ni_rssi);
++
++			p += sprintf(p, " last_rx %ld.%06ld\n", 
++					t.tv_sec, t.tv_nsec / 1000);
++			if (ni->ni_vlan > 0)
++				p += sprintf(p, " vlan %d\n", ni->ni_vlan);
++		}
++	}
++	//IEEE80211_NODE_UNLOCK(nt);
++	return (p - buf);
++}
++static int
++proc_open_nodes(struct inode *inode, struct file *file)
++{
++	struct proc_ieee80211_priv *pv = NULL;
++	struct proc_dir_entry *dp = PDE(inode);
++	struct ieee80211vap *vap = dp->data;
++	
++	/* Initial setup */
++	pv = proc_ieee80211_setup(inode, file);
++	if (!pv)
++		return -ENOMEM;
++	
++	/* now read the data into the buffer */
++	pv->rlen = proc_read_nodes(vap, pv->rbuf, MAX_PROC_IEEE80211_SIZE);
++	return 0;
++}
++
+ static struct file_operations proc_ieee80211_ops = {
+         .read = proc_ieee80211_read,
+         .write = proc_ieee80211_write,
+-        .open = proc_ieee80211_open,
++        .open = proc_open_nodes,
+         .release = proc_ieee80211_close,
+ };
+ 
++static int
++proc_read_vlan(struct ieee80211vap *vap, char *buf, int space)
++{
++	char *p = buf;
++	struct ieee80211_node *ni;
++	struct ieee80211_node_table *nt = 
++		(struct ieee80211_node_table *) &vap->iv_ic->ic_sta;
++
++	TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
++		/* Assume each node needs 30 bytes */
++		if (buf + space < p + 30)
++			break;
++		
++		if (ni->ni_vap == vap &&
++			0 != memcmp(vap->iv_myaddr, ni->ni_macaddr, IEEE80211_ADDR_LEN))
++		{
++			p += sprintf(p, "%s %d\n", ether_sprintf(ni->ni_macaddr), 
++					ni->ni_vlan);
++		}
++	}
++	return (p - buf);
++}
++static int
++proc_open_vlan(struct inode *inode, struct file *file)
++{
++	struct proc_ieee80211_priv *pv = NULL;
++	struct proc_dir_entry *dp = PDE(inode);
++	struct ieee80211vap *vap = dp->data;
++	
++	/* Initial setup */
++	pv = proc_ieee80211_setup(inode, file);
++	if (!pv)
++		return -ENOMEM;
++		
++	/* now read the data into the buffer */
++	pv->vap = vap;
++	pv->rlen = proc_read_vlan(vap, pv->rbuf, MAX_PROC_IEEE80211_SIZE);
++	return 0;
++}
++static ssize_t
++proc_write_vlan(struct file *file, const char __user *buf, size_t len, 
++		loff_t *offset)
++{
++	loff_t pos = *offset;
++	struct proc_ieee80211_priv *pv =
++		(struct proc_ieee80211_priv *) file->private_data;
++	char *tmp = NULL;
++	char *tmp2 = NULL;
++	struct ieee80211_node *ni = NULL;
++	int valid=1, line=1, vlan=0;
++	u_int8_t macaddr[IEEE80211_ADDR_LEN];
++	
++	if (!pv->wbuf)
++		return -EINVAL;
++	if (pos < 0)
++		return -EINVAL;
++	if (pos >= pv->max_wlen)
++		return 0;
++	if (len > pv->max_wlen - pos)
++		len = pv->max_wlen - pos;
++	if (copy_from_user(pv->wbuf + pos, buf, len))
++		return -EFAULT;
++	if (pos + len > pv->wlen)
++		pv->wlen = pos + len;
++	*offset = pos + len;
++
++	/* Loop through each line and read the desired vlan */
++	tmp = tmp2 = (char *)buf;
++	while (tmp != '\0' && tmp < (buf + len)) {
++		if (*tmp == ' ') {
++			*tmp = '\0';
++			if (strlen(tmp2) > 17 ||
++					sscanf(tmp2, "%x:%x:%x:%x:%x:%x", 
++					  (unsigned int *)&macaddr[0], (unsigned int *)&macaddr[1],
++					  (unsigned int *)&macaddr[2], (unsigned int *)&macaddr[3],
++				   	  (unsigned int *)&macaddr[4], (unsigned int *)&macaddr[5])
++					!=6) {
++				valid = 0;
++			}
++			tmp2 = ++tmp;
++			/* Check for missing vlan id */
++			if ((int)*tmp2 < 48 || (int)*tmp2 > 57) {
++				valid = 0;
++				tmp--;
++			}
++		} else if (*tmp == '\n') {
++			*tmp = '\0';
++			/* Extract vlan ID */
++			if (sscanf(tmp2, "%d", &vlan)!=1 || vlan==0) {
++				valid =0;
++			}
++			/* Find node and update vlan ID */
++			if (valid) {
++				ni = ieee80211_find_node(&pv->vap->iv_ic->ic_sta, macaddr);
++				if (ni) {
++					ni->ni_vlan = vlan;
++				}
++			}
++			/* Next entry */
++			tmp2 = ++tmp;
++			line++;
++			valid = 1;
++			vlan = 0;
++		}
++		tmp++;
++	}
++	
++	return len;
++}
++
++static struct file_operations proc_ieee80211_vlanops = {
++	.read = proc_ieee80211_read,
++	.write = proc_write_vlan,
++	.open = proc_open_vlan,
++	.release = proc_ieee80211_close,
++};
++
+ #ifdef IEEE80211_DEBUG
+ static int
+ IEEE80211_SYSCTL_DECL(ieee80211_sysctl_debug, ctl, write, filp, buffer,
+@@ -547,6 +684,66 @@
+ 	return ret;
+ }
+ 
++static int
++IEEE80211_SYSCTL_DECL(ieee80211_sysctl_per_node_vlan, ctl, write, filp, buffer,
++		lenp, ppos)
++{
++	struct ieee80211vap *vap = ctl->extra1;
++	struct ieee80211_node *ni;
++	struct ieee80211_node_table *nt = 
++		(struct ieee80211_node_table *) &vap->iv_ic->ic_sta;
++	u_int val;
++	int ret;
++	unsigned short vid = IEEE80211_NODE_MIN_VID;
++
++	ctl->data = &val;
++	ctl->maxlen = sizeof(val);
++	if (write) {
++		ret = IEEE80211_SYSCTL_PROC_DOINTVEC(ctl, write, filp, buffer,
++				lenp, ppos);
++		if (ret == 0)
++			if (val != vap->iv_per_node_vlan) {
++				if (val) {
++					/* Create a proc entry to control each stations vlan */
++					ieee80211_proc_vcreate(vap, &proc_ieee80211_vlanops, 
++							"sta_vlan");
++					/* Allocate a vlan to each node */
++					TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
++						if (ni->ni_vap == vap &&
++								0 != memcmp(vap->iv_myaddr, ni->ni_macaddr, 
++									IEEE80211_ADDR_LEN)) {
++							ni->ni_vlan = vid++;
++						}
++					}
++					/* Turn off hardware VLAN acceleration as we want the
++					 * kernel to give us tagged frames so that we can strip
++					 * them
++					 */
++					vap->iv_dev->features &= ~NETIF_F_HW_VLAN_TX;
++				} else {
++					/* Remove the proc entry */
++					ieee80211_proc_vdestroy(vap, "sta_vlan");
++					/* Remove the vlan flag from each node */
++					TAILQ_FOREACH(ni, &nt->nt_node, ni_list) {
++						if (ni->ni_vap == vap &&
++								0 != memcmp(vap->iv_myaddr, ni->ni_macaddr, 
++									IEEE80211_ADDR_LEN)) {
++							ni->ni_vlan = 0;
++						}
++					}
++					/* Re-enable hardware VLAN acceleration */
++					vap->iv_dev->features |= NETIF_F_HW_VLAN_TX;
++				}
++				vap->iv_per_node_vlan = val;
++			}
++	} else {
++		val = vap->iv_per_node_vlan;
++		ret = IEEE80211_SYSCTL_PROC_DOINTVEC(ctl, write, filp, buffer,
++				lenp, ppos);
++	}
++	return ret;
++}
++
+ #define	CTL_AUTO	-2	/* cannot be CTL_ANY or CTL_NONE */
+ 
+ static const ctl_table ieee80211_sysctl_template[] = {
+@@ -572,6 +769,11 @@
+ 	  .mode		= 0644,
+ 	  .proc_handler	= ieee80211_sysctl_monitor_txf_len
+ 	},
++	{ .ctl_name = CTL_AUTO,
++	  .procname = "per_node_vlan",
++	  .mode     = 0644, 
++	  .proc_handler = ieee80211_sysctl_per_node_vlan
++	}, 
+ 	/* NB: must be last entry before NULL */
+ 	{ .ctl_name	= CTL_AUTO,
+ 	  .procname	= "%parent",
+@@ -715,7 +917,7 @@
+ 
+ 	/* Replace null fileops pointers with our standard functions */
+ 	if (!fileops->open)
+-		fileops->open = proc_ieee80211_open;
++		fileops->open = proc_open_nodes;
+ 	if (!fileops->release)
+ 		fileops->release = proc_ieee80211_close;
+ 	if (!fileops->read)
+@@ -750,6 +952,45 @@
+ }
+ EXPORT_SYMBOL(ieee80211_proc_vcreate);
+ 
++/* Called by other modules to remove a proc entry from the vap directory */
++int 
++ieee80211_proc_vdestroy(struct ieee80211vap *vap, char *name)
++{
++	struct ieee80211_proc_entry *tmp=NULL;
++	struct ieee80211_proc_entry *prev=NULL;
++
++	/* Find the mentioned entry */
++	if (!vap->iv_proc_entries)
++		return 0;
++		
++	tmp = vap->iv_proc_entries;
++	do {
++		if (strcmp(tmp->name, name)==0) {
++			/* Found, remove! */
++			remove_proc_entry(tmp->name, vap->iv_proc);
++			/* Relink */
++			if (prev) {
++				prev->next = tmp->next;
++			} else {
++				vap->iv_proc_entries = tmp->next;
++			}
++			/* Free memory */
++			kfree(tmp);
++			return 0;
++		}
++		/* Check for end of list */
++		if (!tmp->next)
++			break;
++		/* Otherwise move on */
++		prev = tmp;
++		tmp = tmp->next;
++	} while (1);
++
++	/* Not found */
++	return -1;
++}
++EXPORT_SYMBOL(ieee80211_proc_vdestroy);
++
+ void
+ ieee80211_sysctl_vdetach(struct ieee80211vap *vap)
+ {
+Index: net80211/ieee80211_linux.h
+===================================================================
+--- net80211/ieee80211_linux.h	(revision 1735)
++++ net80211/ieee80211_linux.h	(working copy)
+@@ -485,6 +485,7 @@
+ void ieee80211_sysctl_vdetach(struct ieee80211vap *);
+ int ieee80211_proc_vcreate(struct ieee80211vap *, struct file_operations *,
+ 	       char *);
++int ieee80211_proc_vdestroy(struct ieee80211vap *vap, char *name);
+ void ieee80211_proc_cleanup(struct ieee80211vap *);
+ #endif /* CONFIG_SYSCTL */
+ 

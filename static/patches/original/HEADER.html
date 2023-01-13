@@ -1,0 +1,61 @@
+<pre>
+Matt Brown's Patches for Original
+=================================
+
+See http://jimmac.musichall.cz/original.php for the original tarball.
+
+Original Rocks. Thanks Jimmac!
+
+I've hacked up a few patches to make it rock even more, some have general use,
+some are probably specific to my site.
+
+© 2005 Matt Brown
+These patches are all released under the GPL v2 
+
+Contact Matt: <a href="http://www.mattb.net.nz/contact.php">http://www.mattb.net.nz/contact.php</a>
+
+General Use Patches
+-------------------
+
+thumbroll-highlight.patch
+  Put a different coloured border around the currently selected image in the
+  thumbroll to help with navigation.
+
+always-show-thumbroll.patch
+  Make the thumbroll a permanent fixture of the page.
+
+theme-list.patch
+  Only show the list of alternative themes if there is actually more than one
+  theme defined in the configuration file.
+
+original-urlhandling.patch
+  If magic_gpc_quotes is enabled on your webserver gallery names with a '
+  character in them will not work. This patch calls stripslashes on the 
+  gallery name to remove the extraneous slash added by PHP. This patch
+  also takes care of calling rawurlencode before writing gallery names into
+  HTML tags to ensure that galleries with punctation in the name still work.
+
+Possible Use Patches
+--------------------
+
+description-at-top.patch
+  Show the album description above the thumbnails so that it is immediately 
+  visible on albums with lots of images. It gets lost at the bottom of the 
+  page.
+
+quality-buttons-at-side.patch
+  Make the page more vertically compact by displaying the MQ/HQ buttons to
+  the left of the image.
+
+Local Use Patches
+-----------------
+
+mattb-config.patch
+  My config file diff so that I can easily apply it to the next version of
+  Original.
+
+mattb-style.patch
+mattb-style.tar.bz2
+  Style definitions and patch to integrate with my website. Apply the patch
+  and untar the tarball into inc/styles.  
+</pre>

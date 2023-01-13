@@ -1,0 +1,10 @@
+--- cfengine-2.1.20.orig/src/locks.orig 2006-07-13 16:48:23.000000000 +1200
++++ cfengine-2.1.20/src/locks.c 2006-07-13 16:49:16.000000000 +1200
+@@ -100,7 +100,8 @@
+    {
+    snprintf(OUTPUT,CF_BUFSIZE,"Could not write to PID file %s\n",filename);
+    CfLog(cfinform,OUTPUT,"fopen");
++   return;
+    }
+
+ fprintf(fp,"%d\n",getpid());

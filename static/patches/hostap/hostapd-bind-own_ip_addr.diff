@@ -1,0 +1,219 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 31_hostapd-bind-own_ip_addr.diff by Matt Brown <matt@crc.net.nz>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Forces hostapd to bind to the own_ip_addr for RADIUS communication
+
+@DPATCH@
+diff -ur hostapd-0.5.5.orig/accounting.c hostapd-0.5.5/accounting.c
+--- hostapd-0.5.5.orig/accounting.c	2006-06-28 15:24:27.000000000 +1200
++++ hostapd-0.5.5/accounting.c	2006-12-19 14:38:55.000000000 +1300
+@@ -95,17 +95,17 @@
+ 		}
+ 	}
+ 
+-	if (hapd->conf->own_ip_addr.af == AF_INET &&
++	if (hapd->conf->radius->own_ip_addr.af == AF_INET &&
+ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_NAS_IP_ADDRESS,
+-				 (u8 *) &hapd->conf->own_ip_addr.u.v4, 4)) {
++				 (u8 *) &hapd->conf->radius->own_ip_addr.u.v4, 4)) {
+ 		printf("Could not add NAS-IP-Address\n");
+ 		goto fail;
+ 	}
+ 
+ #ifdef CONFIG_IPV6
+-	if (hapd->conf->own_ip_addr.af == AF_INET6 &&
++	if (hapd->conf->radius->own_ip_addr.af == AF_INET6 &&
+ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_NAS_IPV6_ADDRESS,
+-				 (u8 *) &hapd->conf->own_ip_addr.u.v6, 16)) {
++				 (u8 *) &hapd->conf->radius->own_ip_addr.u.v6, 16)) {
+ 		printf("Could not add NAS-IPv6-Address\n");
+ 		goto fail;
+ 	}
+diff -ur hostapd-0.5.5.orig/config.c hostapd-0.5.5/config.c
+--- hostapd-0.5.5.orig/config.c	2006-06-28 17:15:45.000000000 +1200
++++ hostapd-0.5.5/config.c	2006-12-19 14:38:20.000000000 +1300
+@@ -1191,7 +1191,7 @@
+ 				 "%s", pos);
+ #endif /* CONFIG_IAPP */
+ 		} else if (strcmp(buf, "own_ip_addr") == 0) {
+-			if (hostapd_parse_ip_addr(pos, &bss->own_ip_addr)) {
++			if (hostapd_parse_ip_addr(pos, &bss->radius->own_ip_addr)) {
+ 				printf("Line %d: invalid IP address '%s'\n",
+ 				       line, pos);
+ 				errors++;
+diff -ur hostapd-0.5.5.orig/config.h hostapd-0.5.5/config.h
+--- hostapd-0.5.5.orig/config.h	2006-06-28 17:15:45.000000000 +1200
++++ hostapd-0.5.5/config.h	2006-12-19 14:37:58.000000000 +1300
+@@ -145,7 +145,6 @@
+ 			 * RADIUS server */
+ 	struct hostapd_eap_user *eap_user;
+ 	char *eap_sim_db;
+-	struct hostapd_ip_addr own_ip_addr;
+ 	char *nas_identifier;
+ 	struct hostapd_radius_servers *radius;
+ 
+diff -ur hostapd-0.5.5.orig/ieee802_11_auth.c hostapd-0.5.5/ieee802_11_auth.c
+--- hostapd-0.5.5.orig/ieee802_11_auth.c	2006-06-28 17:08:27.000000000 +1200
++++ hostapd-0.5.5/ieee802_11_auth.c	2006-12-19 14:39:12.000000000 +1300
+@@ -126,17 +126,17 @@
+ 		goto fail;
+ 	}
+ 
+-	if (hapd->conf->own_ip_addr.af == AF_INET &&
++	if (hapd->conf->radius->own_ip_addr.af == AF_INET &&
+ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_NAS_IP_ADDRESS,
+-				 (u8 *) &hapd->conf->own_ip_addr.u.v4, 4)) {
++				 (u8 *) &hapd->conf->radius->own_ip_addr.u.v4, 4)) {
+ 		printf("Could not add NAS-IP-Address\n");
+ 		goto fail;
+ 	}
+ 
+ #ifdef CONFIG_IPV6
+-	if (hapd->conf->own_ip_addr.af == AF_INET6 &&
++	if (hapd->conf->radius->own_ip_addr.af == AF_INET6 &&
+ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_NAS_IPV6_ADDRESS,
+-				 (u8 *) &hapd->conf->own_ip_addr.u.v6, 16)) {
++				 (u8 *) &hapd->conf->radius->own_ip_addr.u.v6, 16)) {
+ 		printf("Could not add NAS-IPv6-Address\n");
+ 		goto fail;
+ 	}
+diff -ur hostapd-0.5.5.orig/ieee802_1x.c hostapd-0.5.5/ieee802_1x.c
+--- hostapd-0.5.5.orig/ieee802_1x.c	2006-07-27 17:19:10.000000000 +1200
++++ hostapd-0.5.5/ieee802_1x.c	2006-12-19 14:39:55.000000000 +1300
+@@ -433,17 +433,17 @@
+ 		goto fail;
+ 	}
+ 
+-	if (hapd->conf->own_ip_addr.af == AF_INET &&
++	if (hapd->conf->radius->own_ip_addr.af == AF_INET &&
+ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_NAS_IP_ADDRESS,
+-				 (u8 *) &hapd->conf->own_ip_addr.u.v4, 4)) {
++				 (u8 *) &hapd->conf->radius->own_ip_addr.u.v4, 4)) {
+ 		printf("Could not add NAS-IP-Address\n");
+ 		goto fail;
+ 	}
+ 
+ #ifdef CONFIG_IPV6
+-	if (hapd->conf->own_ip_addr.af == AF_INET6 &&
++	if (hapd->conf->radius->own_ip_addr.af == AF_INET6 &&
+ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_NAS_IPV6_ADDRESS,
+-				 (u8 *) &hapd->conf->own_ip_addr.u.v6, 16)) {
++				 (u8 *) &hapd->conf->radius->own_ip_addr.u.v6, 16)) {
+ 		printf("Could not add NAS-IPv6-Address\n");
+ 		goto fail;
+ 	}
+diff -ur hostapd-0.5.5.orig/radius_client.c hostapd-0.5.5/radius_client.c
+--- hostapd-0.5.5.orig/radius_client.c	2006-04-24 16:54:39.000000000 +1200
++++ hostapd-0.5.5/radius_client.c	2006-12-19 15:34:25.000000000 +1300
+@@ -855,15 +855,43 @@
+ 	radius->auth_serv_sock = socket(PF_INET, SOCK_DGRAM, 0);
+ 	if (radius->auth_serv_sock < 0)
+ 		perror("socket[PF_INET,SOCK_DGRAM]");
+-	else
+-		ok++;
++    else {
++        if (conf->own_ip_addr.af == AF_INET) {
++            struct sockaddr_in bind_addr;
++            bzero(&bind_addr, sizeof(bind_addr));
++            memcpy(&bind_addr.sin_addr, &conf->own_ip_addr.u.v4, 
++                    sizeof(bind_addr.sin_addr));
++            bind_addr.sin_family = AF_INET;
++            bind_addr.sin_port = 0;
++            if (bind(radius->auth_serv_sock, (struct sockaddr *)&bind_addr, 
++                        sizeof(bind_addr)) < 0) {
++                perror("bind[AF_INET]");
++                close(radius->auth_serv_sock);
++            } else
++                ok++;
++        }
++    }
+ 
+ #ifdef CONFIG_IPV6
+ 	radius->auth_serv_sock6 = socket(PF_INET6, SOCK_DGRAM, 0);
+ 	if (radius->auth_serv_sock6 < 0)
+ 		perror("socket[PF_INET6,SOCK_DGRAM]");
+-	else
+-		ok++;
++    else {
++        if (conf->own_ip_addr.af == AF_INET6) {
++            struct sockaddr_in6 bind_addr;
++            bzero(&bind_addr, sizeof(bind_addr));
++            memcpy(&bind_addr.sin6_addr, &conf->own_ip_addr.u.v6, 
++                    sizeof(bind_addr.sin6_addr));
++            bind_addr.sin6_family = AF_INET6;
++            bind_addr.sin6_port = 0;
++            if (bind(radius->auth_serv_sock6, (struct sockaddr *)&bind_addr, 
++                        sizeof(bind_addr)) < 0) {
++                perror("bind[AF_INET6]");
++                close(radius->auth_serv_sock6);
++            } else
++                ok++;
++        }
++    }
+ #endif /* CONFIG_IPV6 */
+ 
+ 	if (ok == 0)
+@@ -905,8 +933,47 @@
+ 	radius->acct_serv_sock = socket(PF_INET, SOCK_DGRAM, 0);
+ 	if (radius->acct_serv_sock < 0)
+ 		perror("socket[PF_INET,SOCK_DGRAM]");
+-	else
+-		ok++;
++    else {
++        if (conf->own_ip_addr.af == AF_INET) {
++            struct sockaddr_in bind_addr;
++            bzero(&bind_addr, sizeof(bind_addr));
++            memcpy(&bind_addr.sin_addr, &conf->own_ip_addr.u.v4, 
++                    sizeof(bind_addr.sin_addr));
++            bind_addr.sin_family = AF_INET;
++            bind_addr.sin_port = 0;
++            if (bind(radius->acct_serv_sock, (struct sockaddr *)&bind_addr, 
++                        sizeof(bind_addr)) < 0) {
++                perror("bind[AF_INET]");
++                close(radius->acct_serv_sock);
++            } else
++                ok++;
++        }
++    }
++
++#ifdef CONFIG_IPV6
++	radius->acct_serv_sock6 = socket(PF_INET6, SOCK_DGRAM, 0);
++	if (radius->acct_serv_sock6 < 0)
++		perror("socket[PF_INET6,SOCK_DGRAM]");
++    else {
++        if (conf->own_ip_addr.af == AF_INET6) {
++            struct sockaddr_in6 bind_addr;
++            bzero(&bind_addr, sizeof(bind_addr));
++            memcpy(&bind_addr.sin6_addr, &conf->own_ip_addr.u.v6, 
++                    sizeof(bind_addr.sin6_addr));
++            bind_addr.sin6_family = AF_INET6;
++            bind_addr.sin6_port = 0;
++            if (bind(radius->acct_serv_sock6, (struct sockaddr *)&bind_addr, 
++                        sizeof(bind_addr)) < 0) {
++                perror("bind[AF_INET6]");
++                close(radius->acct_serv_sock6);
++            } else
++                ok++;
++        }
++    }
++#endif /* CONFIG_IPV6 */
++
++	if (ok == 0)
++		return -1;
+ 
+ 	radius_change_server(radius, conf->acct_server, NULL,
+ 			     radius->acct_serv_sock, radius->acct_serv_sock6,
+Only in hostapd-0.5.5: .radius_client.c.swp
+diff -ur hostapd-0.5.5.orig/radius_client.h hostapd-0.5.5/radius_client.h
+--- hostapd-0.5.5.orig/radius_client.h	2006-04-01 14:38:13.000000000 +1200
++++ hostapd-0.5.5/radius_client.h	2006-12-19 14:38:06.000000000 +1300
+@@ -53,6 +53,8 @@
+ 	struct hostapd_radius_server *acct_servers, *acct_server;
+ 	int num_acct_servers;
+ 
++	struct hostapd_ip_addr own_ip_addr;
++
+ 	int retry_primary_interval;
+ 	int acct_interim_interval;
+ 
