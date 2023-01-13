@@ -153,12 +153,12 @@
                         {{- $icon.Content | safeHTML}}
                     </div>
                 </a></li>
-                <li>
+                <li><a href="{{ relref . "keys"}}" class="hover:text-pink-500">
                     (gpg): A48F065A
                     <div class="inline ml-2">
                         {{- $icon := resources.Get "key-fill.svg" }}
                         {{- $icon.Content | safeHTML}}
-                    </div>
+                    </a></div>
                 </li>
             </ul>
         </div>
