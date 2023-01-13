@@ -43,11 +43,11 @@ jobs:
       - name: Package
         uses: a7ul/tar-action@v1.1.2
         with:
-          command: cj
+          command: c
           cwd: ./public
           files: |
             *
-          outpath: site-${GITHUB_SHA:0:7}.tar.bz2
+          outpath: site-${GITHUB_SHA:0:7}.tar.gz
 
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
@@ -55,4 +55,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "latest"
           title: "Website"
-          files: site-${GITHUB_SHA:0:7}.tar.bz2
+          files: site-${GITHUB_SHA:0:7}.tar.gz
