@@ -112,7 +112,9 @@
                     <a class="text-pink-500 px-10 py-10" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
                 {{ end }}
             </p>
-            <p>Or <a href="#" class="pt-5 text-pink-500">browse all writing!</a></p>
+            {{ with .Site.GetPage "/w" }}
+                <p>Or <a href="{{ .RelPermalink }}" class="pt-5 text-pink-500">browse all writing!</a></p>
+            {{ end }}
         </div>
     </div>
 </cta>
