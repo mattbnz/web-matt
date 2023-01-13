@@ -1,4 +1,4 @@
-{{ define "mainwrap" }}
+{{ define "contentwrap" }}
 
 <hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
     <div class="flex items-end mx-4 md:mx-auto md:w-2/3" >
@@ -78,9 +78,9 @@
                        <a href="{{.RelPermalink}}">
                         <li class="border-b border-slate-300 flex justify-between items-end py-2">
                         <p>{{.Title}}</p>
-                        <div class="text-sm text-slate-500">
-                            <p>{{.PublishDate.Format "02 Jan '06"}}</p>
-                            <p>{{.ReadingTime}} min read</p>
+                        <div class="text-sm text-slate-500 ml-2">
+                            <p>{{ replace (.PublishDate.Format "02 Jan '06") " " "&nbsp;" | safeHTML}}</p>
+                            <p>{{.ReadingTime}}&nbsp;min&nbsp;read</p>
                         </div>
                     </li>
                     </a>
@@ -95,9 +95,9 @@
                        <a href="{{.RelPermalink}}">
                         <li class="border-b border-slate-300 flex justify-between items-end py-2">
                         <p>{{.Title}}</p>
-                        <div class="text-sm text-slate-500">
-                            <p>{{.PublishDate.Format "02 Jan '06"}}</p>
-                            <p>{{.ReadingTime}} min read</p>
+                        <div class="text-sm text-slate-500 ml-2">
+                            <p>{{ replace (.PublishDate.Format "02 Jan '06") " " "&nbsp;" | safeHTML}}</p>
+                            <p>{{.ReadingTime}}&nbsp;min&nbsp;read</p>
                         </div>
                     </li>
                     </a>
