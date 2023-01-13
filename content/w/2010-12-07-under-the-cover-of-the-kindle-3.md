@@ -16,7 +16,7 @@ Under the cover the Kindle reveals a fairly standard Linux installation. While t
 
 **Hardware**
 
-  * ï»¿Freescale MX35 ARMv6 based CPU with Java specific instruction support.
+  * Freescale MX35 ARMv6 based CPU with Java specific instruction support.
   * 256MB RAM
   * 4GB of internal flash presented as an SDHC device with four partitions. A ~700MB root partition, a ~30MB /var/local partition, another roughly 30MB kernel partition and then the rest (~3.1G) as the writeable &#8220;user&#8221; partition where your books and other content are stored. The root and /var/local partitions are ext3! (not jffs or some other more traditional flash based file system) while the user partition is vfat for easy use with Windows, etc.
   * The board is code-named &#8216;luigi&#8217; and there are lots of references to &#8216;mario&#8217; and &#8216;fiona&#8217; scattered around the device, and even in some URLs on Amazon&#8217;s website. Someone was obviously a Super Mario fan.
@@ -35,21 +35,21 @@ Under the cover the Kindle reveals a fairly standard Linux installation. While t
 The application/framework code is heavily obfuscated apparently using the [Allatori Java Obfuscator][5]. The [jrename][6] and [jd-gui][7] utilities have proven very handy in helping to untangle the puzzle, although they still only leave you with a pile of Java source code with mostly single letter alphabetic variable and class names! I&#8217;ve been using IntelliJ&#8217;s support for refactoring/renaming Java code to slowly work through it (thanks in large part to error/log messages and string constants found through the code which can&#8217;t be obfuscated easily and help to explain what is going on), and I&#8217;m slowly beginning to piece together how the book reading functionality works. I&#8217;ll maybe write more on this in a future post.
 
 In one of my initial tweets about the Kindle I mentioned that it seemed to be regularly uploading syslog data to Amazon based on some `sendlogs` scripts I&#8217;d noticed and a few syslog lines containing GPS co-ordinates that had been pasted on the Mobile Read forums. I can&#8217;t find any trace of GPS co-ordinates in any syslog messages I&#8217;ve seen on my device, but there is definitely information about the cell sites that my Kindle can see, the books that I&#8217;m opening and where I&#8217;m up to in them:
-`<br />
-101206:235431 wand[2515]: I dtp:diag: t=4cfd77b7,MCC MNC=272 01,Channel=10762,Band=WCDMA I IMT 2000,Cell ID=1362209,LAC=3021,RAC=1<br />
-,Network Time=0000/00/00 00.00.00,Local Time Offset=Not provided,Selection Mode=Automatic,Test Mode=0,Bars=4,Roaming=1,RSSI=-88,Tx<br />
- Power=6,System Mode=WCDMA,Data Service Mode=HSDPA,Service Status=Service,Reg Status=Success,Call Status=Conversation,MM Attach St<br />
-ate=Attach accept,MM LU State=LU update,GMM Attach State=Attach accept,GMM State=Registered,GMM RAU State=Not available,PDP State=<br />
-Active,Network Mode=CS PS separate attach mode,PMM Mode=Connected,SIM Status=Valid; PIN okay; R3,MM Attach Error=No error,MM LU Er<br />
-ror=No error,GMM Attach Error=No error,GMM RAU Error=Not available,PDP Rej Reason=No error,Active/Monitored Sets=0;39;-11 1;180;-1<br />
-5,RSCP=-111,DRX=64,HSDPA Status=Active,HSDPA Indication=HSDPA HSUPA unsupp,Neighbor Cells=,Best 6 Cells=,Pathloss=,MFRM=,EGPRS Ind<br />
+```
+101206:235431 wand[2515]: I dtp:diag: t=4cfd77b7,MCC MNC=272 01,Channel=10762,Band=WCDMA I IMT 2000,Cell ID=1362209,LAC=3021,RAC=1
+,Network Time=0000/00/00 00.00.00,Local Time Offset=Not provided,Selection Mode=Automatic,Test Mode=0,Bars=4,Roaming=1,RSSI=-88,Tx
+ Power=6,System Mode=WCDMA,Data Service Mode=HSDPA,Service Status=Service,Reg Status=Success,Call Status=Conversation,MM Attach St
+ate=Attach accept,MM LU State=LU update,GMM Attach State=Attach accept,GMM State=Registered,GMM RAU State=Not available,PDP State=
+Active,Network Mode=CS PS separate attach mode,PMM Mode=Connected,SIM Status=Valid; PIN okay; R3,MM Attach Error=No error,MM LU Er
+ror=No error,GMM Attach Error=No error,GMM RAU Error=Not available,PDP Rej Reason=No error,Active/Monitored Sets=0;39;-11 1;180;-1
+5,RSCP=-111,DRX=64,HSDPA Status=Active,HSDPA Indication=HSDPA HSUPA unsupp,Neighbor Cells=,Best 6 Cells=,Pathloss=,MFRM=,EGPRS Ind
 ication=,HPLMN=,RPLMN=272;01 ,FPLMN=234;33  234;30  234;20  272;05 ,n=1:</p>
-<p>101206:235758 cvm[3426]: I Reader:BOOK INFO:book asin=B003IWZZ3Y,file size=233168,file last mod date=2010-11-27 19.18.22 +0000,con<br />
-tent type=ebook,length=MobiPosition_ 465747,access=2010-12-06 09.44.32 +0000,last read position=MobiPosition_ 464387,isEncrypted=f<br />
+<p>101206:235758 cvm[3426]: I Reader:BOOK INFO:book asin=B003IWZZ3Y,file size=233168,file last mod date=2010-11-27 19.18.22 +0000,con
+tent type=ebook,length=MobiPosition_ 465747,access=2010-12-06 09.44.32 +0000,last read position=MobiPosition_ 464387,isEncrypted=f
 alse,isSample=false,isNew=false,isTTSMetdataPresent=false,isTTSMetadataAllowed=true,fileExtn=azw:</p>
-<p>101206:233416 udhcpc[5639]: Offer from server xxx.xxx.2.254 received<br />
-101206:233416 udhcpc[5639]: Sending select for xxx.xxx.2.10...<br />
-`
+<p>101206:233416 udhcpc[5639]: Offer from server xxx.xxx.2.254 received
+101206:233416 udhcpc[5639]: Sending select for xxx.xxx.2.10...
+```
 
 Interestingly you can see from the last two lines, that Amazon has taken some care to preserve privacy by not including the full IP address given to the device by my local Wifi network, so in light of that I find it interesting that they decided not to obfuscate the Cell and Book IDs in those respective log messages too. Seems rather inconsistent.
 

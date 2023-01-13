@@ -15,21 +15,21 @@ Like most CAs these days the certificate which signs your server certificate is 
 
 Unlike Apache which explicitly allows you to specify a certificate chain file, the openssl methods used by Cyrus 2.2 only seem to recognise a single CA certificate in the file pointed to by `tls_ca_file`. All as not lost however, as the openssl libraries are actually quite smart and will automagically determine which intermediate certs they need to bundle into the handshake if you install them appropriately under /etc/ssl/certs (at least on Debian).
 
-The trick is that you have to install the intermediate CA cert into a file named after the hash of the certificate, like so:  
-`<br />
-# wget http://www.startssl.com/certs/sub.class1.server.ca.pem -O /etc/ssl/certs/startcom-class1-intermediate.pem<br />
-# hash=$(openssl x509 -hash -noout -in /etc/ssl/certs/startcom-class1-intermediate.pem)<br />
-# ln -s ./startcom-class1-intermediate.pem /etc/ssl/certs/${hash}.0<br />
-# ls -l /etc/ssl/certs/${hash}.0<br />
-lrwxrwxrwx 1 root root 34 2011-06-13 07:43 /etc/ssl/certs/ea59305e.0 -> ./startcom-class1-intermediate.pem<br />
-` 
+The trick is that you have to install the intermediate CA cert into a file named after the hash of the certificate, like so:
+```
+# wget http://www.startssl.com/certs/sub.class1.server.ca.pem -O /etc/ssl/certs/startcom-class1-intermediate.pem
+# hash=$(openssl x509 -hash -noout -in /etc/ssl/certs/startcom-class1-intermediate.pem)
+# ln -s ./startcom-class1-intermediate.pem /etc/ssl/certs/${hash}.0
+# ls -l /etc/ssl/certs/${hash}.0
+lrwxrwxrwx 1 root root 34 2011-06-13 07:43 /etc/ssl/certs/ea59305e.0 -> ./startcom-class1-intermediate.pem
+```
 
-Then in `imapd.conf`:  
-`<br />
-tls_cert_file: /etc/ssl/certs/your-server-cert.pem<br />
-tls_key_file: /etc/ssl/private/your-server-key.key<br />
-tls_ca_file: /etc/ssl/certs/startcom-ca.pem<br />
-` 
+Then in `imapd.conf`:
+```
+tls_cert_file: /etc/ssl/certs/your-server-cert.pem
+tls_key_file: /etc/ssl/private/your-server-key.key
+tls_ca_file: /etc/ssl/certs/startcom-ca.pem
+```
 
 Voila. Works everywhere I&#8217;ve tried so far.
 

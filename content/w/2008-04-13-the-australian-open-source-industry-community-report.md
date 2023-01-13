@@ -8,8 +8,7 @@ categories:
   - WLUG / LinuxNZ
 
 ---
-<img src="/blog/dump/aosicr08-cover.png" style="border: 0; float: right; margin-left: 15px;" />  
-I highly recommend making some time to read the [The Australian Open Source Industry & Community Report][1]. Based on a census of the Australian Open Source community conducted at the end of last year, it presents a range statistics about the state of the Open Source community and industry in Australia. 
+I highly recommend making some time to read the [The Australian Open Source Industry & Community Report][1]. Based on a census of the Australian Open Source community conducted at the end of last year, it presents a range statistics about the state of the Open Source community and industry in Australia.
 
 The report seems to be aimed at demonstrating to Government and Businesses that Open Source has become a very viable business strategy in Australia and in particular how increased adoption of Open Source would reduce the Australian trade deficit. You don&#8217;t need to worry about being put to sleep. The report is relatively casual in tone and easy to read with lots of bright graphs to present the key statistics and findings. Including:
 
