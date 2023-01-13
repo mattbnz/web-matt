@@ -29,7 +29,6 @@ fi
 
 CURRENT=$(cat current 2>/dev/null)
 if [ "$CURRENT" == "$LATEST" ]; then
-    echo "Site is up to date!"
     exit
 fi
 
@@ -55,8 +54,10 @@ if [ "$CHANGED" -gt "$THOLD" -a "$FORCE" != "1" ]; then
 fi
 
 echo "$CHANGED/$OLD files are being updated"
-rsync -aqvz --delete "$SD/" html/
-if [ "$?" != "0" ]; then
+rsync -aqvz --exclude=.well-known/ --delete "$SD/" html/
+rv="$?"
+chmod 755 html/
+if [ "$rv" != "0" ]; then
     echo "Error: rsync failed, state may be inconsistent!"
     exit 1
 fi
