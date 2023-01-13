@@ -39,18 +39,18 @@
 
         <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden mt-2 sm:mt-0 sm:space-x-2">
             {{ with .Site.GetPage "/about" }}
-            <li>
-                <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
+            <li class="px-2">
+                <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
             {{ end }}
             {{ with .Site.GetPage "/projects" }}
-            <li>
-                <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
+            <li class="px-2">
+                <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
             {{ end }}
             {{ range .Site.Sections }}
-            <li>
-                <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
+            <li class="px-2">
+                <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
             {{ end }}
         </ul>
