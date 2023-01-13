@@ -42,7 +42,7 @@ jobs:
 
       - name: Package
         run: tar cjf ../site-${GITHUB_SHA:0:7}.tar.gz *
-        workind-directory: ./public
+        working-directory: ./public
 
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
