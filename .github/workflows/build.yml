@@ -41,7 +41,7 @@ jobs:
       - run: hugo --minify
 
       - name: Package
-        run: tar cjf ../site-${GITHUB_SHA:0:7}.tar.bz2 * .?*
+        run: tar cjf ../site-${GITHUB_SHA:0:7}.tar.bz2 * .??*
         working-directory: ./public
 
       - run: ls
