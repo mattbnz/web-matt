@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# Blog Feed
+RewriteRule ^blog/feed/?$ /w/index.xml [L]
