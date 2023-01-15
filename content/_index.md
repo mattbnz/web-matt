@@ -5,7 +5,7 @@ aliases:
 
 experience:
 - title: Leadership
-  icon: 2614.svg
+  icon: E249.svg
   desc: Successful teams and individual growth is the heart of any successful software project.  I've built and led successful teams as both manager and technical lead at sizes from 3 - 50+  people.
 - title: SRE / Devops
   icon: 269B.svg
