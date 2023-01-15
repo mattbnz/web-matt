@@ -1,11 +1,11 @@
 <svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
   <g id="color">
-    <circle cx="21" cy="17" r="3" fill="#FCEA2B" stroke="none"/>
-    <circle cx="55.9917" cy="26.3237" r="3" fill="#FCEA2B" stroke="none"/>
-    <circle cx="29.9928" cy="47.0078" r="3" fill="#FCEA2B" stroke="none"/>
-    <polygon fill="#FCEA2B" stroke="none" points="15.4366,27.1041 18.5181,24.3901 23.3523,24.1922 26.3208,27.0193 27.0051,30.9992 14.924,30.9914"/>
-    <polygon fill="#FCEA2B" stroke="none" points="50.4911,36.4303 53.5726,33.7163 58.4069,33.5184 61.3753,36.3454 62.0596,40.3254 49.9785,40.3176"/>
-    <polygon fill="#FCEA2B" stroke="none" points="24.4847,57.1118 27.5662,54.3979 32.4005,54.2 35.3689,57.027 36.0532,61.007 23.9721,60.9992"/>
+    <circle cx="21" cy="17" r="3" fill="#B399C8" stroke="none"/>
+    <circle cx="55.9917" cy="26.3237" r="3" fill="#B399C8" stroke="none"/>
+    <circle cx="29.9928" cy="47.0078" r="3" fill="#B399C8" stroke="none"/>
+    <polygon fill="#B399C8" stroke="none" points="15.4366,27.1041 18.5181,24.3901 23.3523,24.1922 26.3208,27.0193 27.0051,30.9992 14.924,30.9914"/>
+    <polygon fill="#B399C8" stroke="none" points="50.4911,36.4303 53.5726,33.7163 58.4069,33.5184 61.3753,36.3454 62.0596,40.3254 49.9785,40.3176"/>
+    <polygon fill="#B399C8" stroke="none" points="24.4847,57.1118 27.5662,54.3979 32.4005,54.2 35.3689,57.027 36.0532,61.007 23.9721,60.9992"/>
   </g>
   <g id="hair"/>
   <g id="skin"/>
