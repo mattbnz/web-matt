@@ -23,7 +23,6 @@ function cleanup() {
 curl -s https://api.github.com/repos/$REPO/releases/tags/latest -o "$MD"
 LATEST=$(jq -r .assets[0].name "$MD")
 if ! echo "$LATEST" | egrep -q "site-[0-9a-f]{7}\.tar\.bz2"; then
-    echo "Could not fetch latest version, got: $LATEST"
     exit 1
 fi
 
