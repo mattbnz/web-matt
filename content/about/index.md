@@ -4,6 +4,8 @@ date: 2023-01-08
 aliases:
  - about.php
  - cv.php
+
+contactsidebar: true
 ---
 
 With over 20 years experience, I'm an experienced technical leader and skilled distributed systems engineer, specialising in building and operating large software systems at high reliability while also achieving development velocity, performance and an efficient resource usage and cost base.
@@ -11,6 +13,8 @@ With over 20 years experience, I'm an experienced technical leader and skilled d
 I have strong communication skills and a keen ability to translate business needs into precise technical solutions.
 
 After a long and successful career at Google, I'm embarking on the challenge of building my own business focused on providing technology consulting and development services to local and global clients. I aspire to solve problems for a range of businesses, but with a specific interest in addressing problems in the agriculture and electricity industries that work towards reducing emissions and addressing climate change.
+
+I'm actively working on building my professional network and connecting with other like-minded folks - if that sounds like you, I'd love to hear from you via the links in the sidebar (or below if you're on a small screen).
 
 ## Career Profile
 
