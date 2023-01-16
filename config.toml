@@ -9,3 +9,6 @@ rssLimit = 1
 
 [permalinks]
     w = '/w/:year/:month/:day/:title'
+
+[markup.goldmark.parser.attribute]
+    block = true
