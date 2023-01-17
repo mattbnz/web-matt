@@ -13,6 +13,8 @@
     {{- end }}
     {{- partial "footer.html" . -}}
     {{- block "scripts" . }}{{- end }}
+    {{- $script := resources.Get "audience-minutes.js" }}
+    <script async src="{{ $script.RelPermalink }}"></script>
 </body>
 
 </html>
