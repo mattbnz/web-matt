@@ -16,8 +16,14 @@
 
     <nav class="flex items-center justify-between flex-wrap">
         <a href="{{ .Site.Home.RelPermalink }}" class="flex items-center text-gray-700 font-bold">
-            {{- $avatar := resources.Get "matt-headshot-20170208-small.jpg" }}
-            <img class="w-10 h-10 mr-5 rounded-full" src="{{ $avatar.RelPermalink }}" alt="Rounded avatar">
+            {{- with resources.Get "matt-headshot-20170208-small.jpg" }}
+                {{ $webp := .Resize "40x40 webp" }}
+                {{ $jpg := .Resize "40x40 jpeg" }}
+                <picture class="w-10 h-10 mr-5" >
+                    <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+                    <img src="{{ $jpg.RelPermalink }}" alt="Rounded avatar"  class="w-10 h-10 rounded-full" >
+                </picture>
+            {{end}}
             {{ .Site.Title }}
         </a>
 

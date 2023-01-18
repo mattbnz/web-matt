@@ -6,8 +6,14 @@
             Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real
              problems.
         </h1>
-        {{- $img := resources.Get "matt-front.png" }}
-        <img class="w-1/4 h-1/4 rounded-lg hidden lg:flex lg:mx-3 lg:my-10" src="{{ $img.RelPermalink }}" alt="Headshot of Matt looking at the camera">
+        {{- with resources.Get "matt-front.png" }}
+            {{ $webp := .Resize "x400 webp" }}
+            {{ $jpg := .Resize "x400 jpeg" }}
+            <picture class="hidden lg:flex lg:mx-3 lg:my-10" >
+                <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+                <img src="{{ $jpg.RelPermalink }}" alt="Headshot of Matt looking at the camera"  class="rounded-lg" >
+            </picture>
+        {{end}}
     </div>
 </hero>
 
