@@ -15,6 +15,33 @@
     {{- block "scripts" . }}{{- end }}
     {{- $script := resources.Get "audience-minutes.js" }}
     <script async src="{{ $script.RelPermalink }}"></script>
+
+    {{ if .Site.Params.ReviewPopover }}
+    <div id="reviewPopover" class="absolute top-0 left-0 h-full w-full bg-orange-600/90">
+        <div class="mx-auto mt-20 prose text-center bg-slate-100 rounded-lg p-4 border-2 border-orange-800">
+            <h1 class="text-2xl">Should you be here?</h1>
+            <p>This is the draft/review copy of <a href="{{.Site.BaseURL}}">{{.Site.BaseURL}}</a></p>
+
+            <p>You shouldn't be here unless you've been specifically requested to review something.</p>
+            <button
+                class="bg-green-600 hover:bg-green-500 p-2 rounded-lg text-white"
+                onclick="javascript:sessionStorage.setItem('reviewer', '1'); document.getElementById('reviewPopover').classList.add('hidden');"
+            >That's me! Continue &gt;&gt;</button>
+            <p>Otherwise, you'll be returned to <a href="{{.Site.BaseURL}}">{{.Site.BaseURL}}</a> in just a moment...</p>
+        </div>
+    </div>
+    <script>
+        var pop = document.getElementById("reviewPopover");
+        var url = new URL(window.location.href);
+        if (url.searchParams.get("review") == "1") {
+            sessionStorage.setItem("reviewer", "1");
+        }
+        var reviewer = sessionStorage.getItem("reviewer");
+        if (reviewer == "1") {
+            pop.classList.add("hidden");
+        }
+    </script>
+    {{ end }}
 </body>
 
 </html>
