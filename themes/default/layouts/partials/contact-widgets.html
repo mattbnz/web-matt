@@ -53,7 +53,7 @@ Book a 30 min VC
         e.disabled = true;
         b.disabled = true;
         b.value = "Subscribing...";
-        postData("https://subscribe.mattb.nz/", {email: e.value}).then((r) => {
+        postData("{{ site.Params.SubscribeUrl | safeURL }}", {email: e.value}).then((r) => {
           if (r.ok) {
             w.classList.add("hidden");
             m.classList.add("hidden");

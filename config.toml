@@ -12,3 +12,6 @@ rssLimit = 1
 
 [markup.goldmark.parser.attribute]
     block = true
+
+[params]
+    SubscribeUrl = "http://localhost:8080/"
