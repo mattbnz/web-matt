@@ -3,6 +3,7 @@ languageCode = 'en-nz'
 title = 'Matt Brown'
 theme = 'default'
 rssLimit = 1
+enableRobotsTXT = true
 
 [build]
     writeStats = true
