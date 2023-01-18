@@ -25,8 +25,7 @@
             <p>You shouldn't be here unless you've been specifically requested to review something.</p>
             <button
                 class="bg-green-600 hover:bg-green-500 p-2 rounded-lg text-white"
-                onclick="javascript:sessionStorage.setItem('reviewer', '1'); document.getElementById('reviewPopover').classList.add('hidden');"
-            >That's me! Continue &gt;&gt;</button>
+                id="loadButton">That's me! Continue &gt;&gt;</button>
             <p>Otherwise, you'll be returned to <a href="{{.Site.BaseURL}}">{{.Site.BaseURL}}</a> in just a moment...</p>
         </div>
     </div>
@@ -36,9 +35,20 @@
         if (url.searchParams.get("review") == "1") {
             sessionStorage.setItem("reviewer", "1");
         }
+        var timer = null;
         var reviewer = sessionStorage.getItem("reviewer");
         if (reviewer == "1") {
             pop.classList.add("hidden");
+        } else {
+            timer = setTimeout(() => { window.location = "{{.Site.BaseURL}}"; }, 10000);
+            var but = document.getElementById("loadButton");
+            but.addEventListener("click", loadSite);
+        }
+
+        function loadSite() {
+            clearTimeout(timer);
+            sessionStorage.setItem('reviewer', '1');
+            document.getElementById('reviewPopover').classList.add('hidden');
         }
     </script>
     {{ end }}
