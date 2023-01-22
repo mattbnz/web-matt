@@ -10,7 +10,7 @@ categories:
 
 A new year is upon us! In theory, having left Google at the end of April '22 planning to [take 3 months off](https://www.linkedin.com/posts/mattbrown_last-saturday-april-30th-was-my-15th-googleversary-activity-6927072668626157568-M7Z3), January 2023 should find me nearly 6 months into the journey of starting my own business!
 
-I did incorporate a company pretty much on schedule, but as 2022 progressed, "3 months" somewhat extended itself and despite many best intentions and a few toes dipped into the water, actually mustering the motivation and impetus to seriously start that journey has been much much harder than I expected.
+I did incorporate a company pretty much on schedule, but as 2022 progressed, "3 months" somewhat extended itself and despite many best intentions and a few toes dipped into the water, actually finding the motivation to seriously start that journey has been much much harder than I expected.
 
 For several years my friend Nat, and Will Larson who I don't yet know personally, have been posting annual goals, which I always enjoy reading and find inspiring. So taking their lead, I'm going to do the same in this post. 
 
@@ -19,24 +19,30 @@ Already the basic act of just writing down and articulating my motivations and g
 If you want the TL;DR you can skip [straight to the goals](#2023-goals), or keep reading to dive into my thought process for arriving at them. 
 
 
-## Reflection Time
+## Reflections
 
-### Google
-Going into 2022, after several years of declining happiness at Google, I knew I was going to need some time to recharge and I thought 3 months would be plenty. Clearly I underestimated that! But on the positive side, the extended break gave me plenty of time to reflect on both what led to my unhappiness and also what I want from the next chapter of my career.
+It's been frustrating to struggle for motivation over the last few months, I want to get started!, but on the positive side, it's given me plenty of time to reflect on the first chapters of my career, draw some lessons I wish I'd learnt sooner and gather some clarity about how I want to go about the next chapter.
 
-Ultimately I think it comes down to values and motivation and the match, or mismatch between mine and Google's. In the beginning that match existed and I had a great time. At the point we moved back to NZ, although I didn't entirely realise or admit it to myself at the time, that alignment had shifted and my motivations were changed. I fought hard to work remotely and certainly enjoyed plenty of satisfaction, success and rewards during the last 5 years of my career, but given what I know now, I'd tell 2016 Matt to just end on the high and take the leap into the unknown. 
+On the whole, working at Google was a fantastic experience for which I'm incredibly grateful - I learnt and grew professionally and personally, worked with amazing people and enjoyed all the benefits and perks of working for a tech giant through the peak of an industry boom. But, in hindsight, I should have mustered the courage to leave several years ago when my happiness first started declining - instead I spent several increasingly draining years to trying to find some way restore the fulfillment I experienced during the first 9 years.
 
-THe key realisation behind this is what drives me - alignment with a bigger purpose, a need to feel like my work is going to leave a positive impact on the world is deeply engrained within my personal psyche. DUring my formative years I got that through my involvement in the open source community, and in my early google career, I was a believe in GOogle's mission and felt the link between my work and the good I felt GOogle was doing in the world. In my later Google career, I lost that link between my work and Google's supposed mission - my motivation for staying was to further my career and personal growth and the financial rewards I wanted to reap from the work I'd done. Not realising that my growing unhappiness and lack of motivation was rooted in that mismatch of alignment and trying to change roles, or push through to find happiness again is what I thikn ultimately led to the need for such a long period of reset, reflection and recharging. 
+With the benefit of time and distance, I've realised the unhappiness that I thought was driven by specific situations and my iteractions with them was actually much less about the situation itself, and much more due to having lost alignment between what fundamentally drives and motivates me as a person and what I was pursuing and trying to achieve in the moment.
 
-For clarity, lest the above sound like I'm very down on Google - I'm not - on balance, Google was an fantastic phase of my career and life, for which I'm incredibly grateful. I gained immense experience in both leadership and technical realms, made wonderful friends and memories while experiencing all the benefits and perks of working at a tech giant through the peak of an industry boom. For the majority of the time it was a dream job that I was proud of. The key lesson I'm trying to convey here is simply the importance of alignment, and the wish I'd learnt the lesson to leave when that alignment broke sooner. 
+Specifically, I lost an articulation or story for how the work I was pouring energy into was contributing to making the world a better place in some way. It know that sounds trite and cliched, but I can't get away from the fact that looking back on every job or period where I've been fulfilled and happiest, it's been because I've felt like I'm contributing to solving a bigger problem and improving life for some community. Moving from working on infrastructure to cloud was the core factor in losing that link for me, but being focused on career growth and what seemed at the time to be interesting professional challenges obscured my clarity of that fact.
  
-### Me
+### Remote work
 
-- WFH/covid, lack of network, compounding effects
+Unlike many I've always enjoyed office life, working remotely has never been my preference, but when we moved back to NZ in 2016 I rationalized it as a cost I was willing to bear to keep the benefits of continuing to work with people I loved on projects that were interesting to me at the time.
 
-### Lessons 
+By early 2020 I was aware that cost/benefit equation was no longer balancing as I had hoped and articulated, but how much of that was down to me, and how much was down to trying to be a square peg in the round hole of Google's office centric culture was not obvious. When the pandemic forced everyone home, and brought the opportunity to try a different team with it, I jumped at the chance in the hope the leveled playing field would make a difference. 
 
-I need to be able to clearly articulate the link between my work and how it's going to leave a positive impact on the world. 
+It didn't and I think it's clear now that much of the struggles I've experienced with remote work is down to my personality and approach. While I can project a confident and extroverted exterior in situations where I'm already well established, or experiencing significant support/sponsorship, I've come to realise I'm not at all skilled at reaching out and building or maintaining relationships beyond my direct scope of effort, and after 6 years of working remotely without the benefit of chance hallway meetings and other social supports to supplement that I feel like my professional network is more isolated than ever.
+
+### Moving Forward 
+
+My key take-aways to bring into the next chapter of my career are:
+
+1. I need to be able to clearly and robustly articulate how my work is leaving a positive impact on the world. 
+1. I need to explicitly focus on building relationships and being part of a community - it's not going to just happen naturally for me. 
 
 Additionally, I highly value:
  * Impact - lots.
@@ -44,7 +50,8 @@ Additionally, I highly value:
  * Community - .
  * Financial reward - stewardship. 
 
-So, let's take that and try and articulate the vision, mission, strategy and goals that are going to drive me going forward.  
+So, let's take that and try and articulate the vision, mission, strategy and goals that are going to drive me going forward. 
+ 
 
 ## Vision
 
