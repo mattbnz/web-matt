@@ -43,26 +43,44 @@ Lastly, I've been reflecting on a set of principles that are important to me. Th
 
 * Independence - I can't entirely explain why or where it comes from, but since the start of my professional career (which I consider to be my consulting/freelancing development during high school) I've understood that I'm far more motivated by building and growing my own business than I am by working for someone else. Working for myself has always felt like the default and sensible course - I'm excited to get back to that. I do worry that I'm limiting, or at least delaying, my potential impact vs joining an existing effort whose purpose I can identify with, but the tradeof feels worthwhile to me to have the opportunity to build a business from scratch.
 
-* Openness - Open is better than closed, in terms of software, business model and organisational processes. This continues to be a strong belief and something I want to uphold in my business endeavours. Competition should be based on superior technical quality or service, not artificial constraints or barriers to entry to lock customers and users into a single solution or market. Protocols and networks should be open for wide participation and easily acceesible to new entrants and competition.
+* Openness - Open is better than closed, in terms of software, business model and organisational processes. This continues to be a strong belief and something I want to uphold in my business endeavours. Competition should be based on superior technical quality or service, not artificial constraints or barriers to entry that lock customers and users into a single solution or market. Protocols and networks should be open for wide participation and easily acceesible to new entrants and competition.
 
 * People first - This applies both to how we work with each other - respectfully, valuing diversity and with integrity, and to how we apply technology to our world - with consideration for all stakeholders it may affect and awareness of both the intendend and potential unintented impacts.
 
 
 ## Framework
 
-The [Vision, Mission, Strategy planning framework](https://www.aha.io/blog/vision-vs-mission-vs-strategy) has worked quite well for me when building and growing teams over the years, so I plan to re-use it personally to help organise the above reflections into a hopefully cohesive plan than results in some useful 2023 goals.
+Using [Vision, Mission and Strategy](https://www.aha.io/blog/vision-vs-mission-vs-strategy) as a planning framework has worked quite well for me when building and growing teams over the years, so I plan to re-use it personally to help organise the above reflections into a hopefully cohesive plan than results in some useful 2023 goals.
+
+I consider this a first draft, which I intend to revise and evolve further over the next 6-12 months. I don't plan major changes to the intent or underlying ideas, but finding the best words to express and convey that intent clearly is not something I expect to get right on the first take.
+
 
 ### Vision
 
-**Software systems make a positive and meaningful contribution to improving life in all aspects, but particularly in helping to drive a change in direction of our planet's climate indicators.**
+**Software systems contribute direct and meaningful impact to solving real problems in our world.**
 
-Software technology is an amazing force multiplier that has significant additional potential to help address many of the problems we face as a species, but like all technology, it's not a given that positive outcomes will directly result from the application of software technology to any particular problem, we have to be intentional and careful about how we apply it to ensure all stakeholders experience positive outcomes and the expected impact is meaningfully realised.
+Each word has a fair bit of meaning behind it for me, so breaking it down a little bit:
 
-Of all the problems that can be addressed with software technology, climate change is the most pressing and motivating to me to focus on. We're at an inflection point in history, where it's crucial we achieve a directional change in key climate indicators such as atmospheric CO2, and while that's going to take significant changes throughout society as a whole to achieve, software can play a crucial enabling role to support the larger change.
+* software - excites me because it is still [eating the world](https://a16z.com/2011/08/20/why-software-is-eating-the-world/) and has significant potential to do good.
+* systems - reminds me that as well as usually being a complex system in its own right, software also exists as part of the complex system that is our modern world.
+* contribute - follows from being part of a system. Software alone doesn't solve problems, and misapplied can easily make things worse. To contribute software needs to be designed and evaluated intentionally and with an awareness of risks it could pose.
+* direct and meaningful impact - means I'm not looking for broad outcomes like improving productivity or communication, which apply generally across many problems. I want to see software applied to solve specific blockers whose removal makes a significant impact on the problem.
+* real problems - as opposed to straightforward problems. The types of issue where the acknowledgement of it as a "real problem" often ends the sentence as it feels too big to tackle. Climate change and pandemic risk are examples of real problems. Decentralizing finance or selling more widgets are not.
+* in our world - is mostly filler to round out the sentence nicely, but I do think we should probably sort out the mess we're making on our own planet before trying to colonize anywhere else.
+
 
 ### Mission
 
-**To develop software systems with positive and meaningful impacts on their communities of stakeholders while also contributing, supporting and helping to develop technology communities and the individuals within them.**
+**To lead the development and operation of software systems that deliver new opportunities for individuals, businesses and communities to participate in solving the real problems in their community.**
+
+Again breaking down the intent a little bit:
+
+* lead - having meaningful impact on real problems is a big job I won't succeed at as a one man band. It will require building and growing a larger team.
+* development and operation - hints that the software systems we need don't always yet exist and need to be developed, but further that even post development the ongoing operation and integration of those software systems into their broader social and human systems of our world is a much more important and ongoing need.
+* new opportunities - (including improvements to existing proceses) are important to drive and motivate investment in the adoption of technology. Building or operating a system that maintains the status quo is not motivating for me.
+* individuals, businesses and communities - essentially everyone, but highlighting that focus on specific groups who will at different times assume roles as customers, users or stakeholders of a system and who will each have diverse needs is key to ensuring the system achieves the desired contribution and impact.
+* participate - real problems often inspire or result in lack of action due to the scale of the challenge. Software systems scale easily, offering the potential to enable participation as a small part of a larger whole.
+* their community - refines the ambition from the vision to an achievable scope of action within which to execute the mission. We won't solve our problems by targeting one big global fix, but if we each participate in solving the problems in our community collectively it will make a difference.
 
 ### Strategy
 
