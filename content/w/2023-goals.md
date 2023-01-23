@@ -8,60 +8,51 @@ categories:
 
 ---
 
-A new year is upon us! [My plan](https://www.linkedin.com/posts/mattbrown_last-saturday-april-30th-was-my-15th-googleversary-activity-6927072668626157568-M7Z3) was to be 6 months into the journey of starting my own business by this point.
+A new year is upon us! [My plan](https://www.linkedin.com/posts/mattbrown_last-saturday-april-30th-was-my-15th-googleversary-activity-6927072668626157568-M7Z3) was to be 6 months into the journey of starting a business by this point.
 
-I did makee some tentative progress towards that goal in 2022, registering a company and starting some consulting work, but on the whole despite many best intentions I've found it much harder than expected to gather the necessary motivation and energy to begin that journey in earnest.
+I made some very tentative progress towards that goal in 2022, registering a company and starting some consulting work, but on the whole I've found it much harder than expected to gather the necessary energy to begin that journey in earnest.
 
 I need to do better, so I'm going to take the example of a couple of people I respect (my friend Nat, and Will Larson) who write wonderful annual goal reviews. I've always enjoyed reading these and already the basic act of just writing down and articulating my motivations and goals has been incredibly useful to clarify my thoughts and create some tangible next steps.
 
 I hope that by also publishing this, you too might find it interesting, and the additional public accountability it creates will be a positive encouragement to me. I'd certainly love to hear your input and feedback!
 
-If you want the TL;DR you can skip [straight to the goals](#2023-goals), or keep reading to dive into my thought process for arriving at them.
+If you want the TL;DR you can skip [straight to the goals](#2023-goals), or keep reading for a (much) more detailed explanation of my thought process.
 
 
 ## Reflection
 
-The struggle for motivation and energy over the last half of 2022 has been frustrating. I want to get started on my business journey! But on the positive side, it's given me plenty of time to reflect on the first chapters of my career, draw some lessons I wish I'd learnt sooner and gather some clarity about how I want to move forward.
+I'm excited about the next chapter of my career, so the fact that I've been struggling to get started has been frustrating. The only upside is that the delay has given me plenty of time to reflect on the last few years and what I can learn from them and draw some lessons to help better manage and sustain my energy going forward.
 
-### The importance of purpose
+### Purpose
 
-My struggles of 2022 didn't come from nowhere. I'd been increasingly unhappy at Google for a number of years. I blamed it on a series of situations and challenges that arose, some in my control, some not. Regardless of their source, as someone in a relatively senior leadership position, it felt right to continue investing time and energy into trying to deliver successful outcomes despite the circumstances, after all isn't that how we grow?
+A large part of what I've realized is that I should have left Google years ago. It was a great place to work, and I'm incredibly grateful for everything I learned and received during my time there. For years it was my dream job, but my happiness had been declining, and instead of taking the (relatively small) risk of leaving to the unknown, I tried several variations of team and role in the hope of restoring the dream.
 
-With the benefit of time and distance, I've realised the increasing unhappiness was actually not about the situations themselves, or my perceived success in them, but was a symptom of having lost alignment between what fundamentally energizes me as a person and the goals and objectives I was pursuing.
+The reality is that a significant chunk of my motivation and energy comes from being able to link my work back to a bigger purpose that delivers concrete positive impact in the world. I felt that link through Google's mission to make information universally accessible and useful for the first 10-11 years, but for the latter 4-5 years my ability to see that link was tenuous at best and trying to push through the challenges presented without that link providing a reliable source of energy is what drove my unhappiness and led to needing a longer break to recharge.
 
-The most fulfilling and happiest times of my career, have been when I've been able to link my work back to a bigger purpose and concrete positive impact in the world. Prior to Google that was through open source contributions and connecting underserved rural communities with wireless broadband. For the first two thirds of my Google career, I really did feel like my work was enabling and supporting Google's altruistic mission of making information universally accessible and useful.
+I expect the challenges of starting a business to be even greater than what I experienced at Google, so the lessson I'm taking from this is that it's crucial for me to understand what the link between my work and the bigger purpose with concrete positive impact in the world that I'm aiming to contribute to is.
 
-In the last 4-5 years at Google, my ability to see a link to a bigger purpose or positive impact in the world has been tenuous at best. But given the lure of continued career growth and associated benefits, plus a genuine love and appreciation for the many awesome people I worked with, it was easy to ignore the niggling doubts and keep going.
+### Community
 
-A wiser and more self aware individual might have realised the futility of continuing to expend such energy without a balancing source to replenish it. It's not like this is a novel revelation after all. But even if it took an underwhelming end to an otherwise amazing experience and 9 months of frustrating contemplation to get there, I'm grateful to have finally learned this basic lesson.
+The second factor that I've slowly come to realise has been missing from my career in the last few years has been participation in a professional community and a variety of enriching interpersonal relationships. As much as I value and need this type of interaction, fostering and sustaining it unfortunately doesn't come naturally to me. Working remotely since 2016 and then taking a 9 month break out of the industry are not particularly helpful contributors to building and maintaining a wide network either!
 
-I know that going forward, I must always maintain that link from my work to a a bigger purpose and concrete positive impact in the world, because it is what provides me energy and motivation to push through the inevitable challenges that will occur, and I need to be willing to leave any job or situation when I can't find that link any more.
+The lesson here is simply that I'm going to need to push past my comfort zone in reaching out and introducing myself to a range of people in order to grow my professional network, and equally I need to be diligent and disciplined in making time to maintain and regularly connect with people whom I respect and find energizing to interact with.
 
-### The importance of community
+### Personal Influences
 
-Unlike many I've always enjoyed office life, working remotely has never been my preference, but when we moved back to NZ in 2016 I rationalized it as a cost I was willing to bear to keep the benefits of continuing to work with people I loved on projects that were interesting to me at the time.
+Lastly, I've been reflecting on a set of principles that are important to me. These are not so much new lessons, more confirming to myself what I value moving forward. There are many things I could include here, but to keep it somewhat brief, the key influences on my thinking are:
 
-By early 2020 I was aware that cost/benefit equation was no longer balancing as I had hoped and articulated, but how much of that was down to me, and how much was down to trying to be a square peg in the round hole of Google's office centric culture was not obvious. When the pandemic forced everyone home, and brought the opportunity to try a different team with it, I jumped at the chance in the hope the leveled playing field would make a difference.
+* Independence - I can't entirely explain why or where it comes from, but since the start of my professional career (which I consider to be my consulting/freelancing development during high school) I've understood that I'm far more motivated by building and growing my own business than I am by working for someone else. Working for myself has always felt like the default and sensible course - I'm excited to get back to that. I do worry that I'm limiting, or at least delaying, my potential impact vs joining an existing effort whose purpose I can identify with, but the tradeof feels worthwhile to me to have the opportunity to build a business from scratch.
 
-It didn't and I think it's clear now that much of the struggles I've experienced with remote work is down to my personality and approach. While I can project a confident and extroverted exterior in situations where I'm already well established, or experiencing significant support/sponsorship, I've come to realise I'm not at all skilled at reaching out and building or maintaining relationships beyond my direct scope of effort, and after 6 years of working remotely without the benefit of chance hallway meetings and other social supports to supplement that I feel like my professional network is more isolated than ever.
+* Openness - Open is better than closed, in terms of software, business model and organisational processes. This continues to be a strong belief and something I want to uphold in my business endeavours. Competition should be based on superior technical quality or service, not artificial constraints or barriers to entry to lock customers and users into a single solution or market. Protocols and networks should be open for wide participation and easily acceesible to new entrants and competition.
 
-### Moving Forward
-
-My key take-aways to bring into the next chapter of my career are:
-
-1. I need to be able to clearly and robustly articulate how my work is leaving a positive impact on the world.
-1. I need to explicitly focus on building relationships and being part of a community - it's not going to just happen naturally for me.
-
-Additionally, I highly value:
- * Impact - lots.
- * Independence - control of direction/strategy.
- * Community - .
- * Financial reward - stewardship.
-
-So, let's take that and try and articulate the vision, mission, strategy and goals that are going to drive me going forward.
+* People first - This applies both to how we work with each other - respectfully, valuing diversity and with integrity, and to how we apply technology to our world - with consideration for all stakeholders it may affect and awareness of both the intendend and potential unintented impacts.
 
 
-## Vision
+## Framework
+
+The [Vision, Mission, Strategy planning framework](https://www.aha.io/blog/vision-vs-mission-vs-strategy) has worked quite well for me when building and growing teams over the years, so I plan to re-use it personally to help organise the above reflections into a hopefully cohesive plan than results in some useful 2023 goals.
+
+### Vision
 
 **Software systems make a positive and meaningful contribution to improving life in all aspects, but particularly in helping to drive a change in direction of our planet's climate indicators.**
 
@@ -69,11 +60,11 @@ Software technology is an amazing force multiplier that has significant addition
 
 Of all the problems that can be addressed with software technology, climate change is the most pressing and motivating to me to focus on. We're at an inflection point in history, where it's crucial we achieve a directional change in key climate indicators such as atmospheric CO2, and while that's going to take significant changes throughout society as a whole to achieve, software can play a crucial enabling role to support the larger change.
 
-## Mission
+### Mission
 
 **To develop software systems with positive and meaningful impacts on their communities of stakeholders while also contributing, supporting and helping to develop technology communities and the individuals within them.**
 
-## Strategy
+### Strategy
 
 Meaningfully contributing to the scope of the mission will require multiple years of commitment and execution through ups and downs, necessitating a strategy that balances across what I think I've identified as four factors that significantly impact my overall happiness and fufillment in my professional life:
  * Impact.
