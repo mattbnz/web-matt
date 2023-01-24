@@ -1,6 +1,7 @@
 ---
 title: Goals for 2023 and Beyond
 draft: true
+recommended: true
 
 date: 2023-01-18
 categories:
