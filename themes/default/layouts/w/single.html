@@ -45,6 +45,10 @@
     {{- block "sidebar" . }}
     <sidebar class="ml-10 xl:ml-20 border-l-2 border-slate-300 w-1/4 hidden md:block px-2">
         {{ partialCached "sb-writing.html" . }}
+
+        {{if .Params.contactsidebar}}
+            {{ partialCached "sb-contact.html" . }}
+        {{end}}
     </sidebar>
     {{- end }}
 </div>
