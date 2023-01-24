@@ -84,45 +84,42 @@ Again breaking down the intent a little bit:
 
 ### Strategy
 
-Meaningfully contributing to the scope of the mission will require multiple years of commitment and execution through ups and downs, necessitating a strategy that balances across what I think I've identified as four factors that significantly impact my overall happiness and fufillment in my professional life:
- * Impact.
- * Independence.
- * Community.
- * Financial reward.
+**Build a sustainable business that provides a home and infrastructure to support the development, validation and growth of software systems fulfilling the mission and vision above.**
+* Accumulate meaningful impact via a portfolio of systems rather than one big bet.
+* Focus on opportunities that promote the decarbonisation of our economy (the most pressing problem our society faces), but not at the expense of ignoring compelling opportunities to contribute impact to other real problems also.
+* Favour the marathon over the sprint - while being first can be fun and convey benefits, it's often the fast-followers who learn from the intial mistakes and deliver lasting change and broader impact.
 
-Putting all this together, I think the right approach for me is to build my own business with a structure that enables me to undertake a mixture of consulting and product development work.
+I'm not going to write a lot here about the rationale for this strategy. Firstly because I can't do so briefly, and secondly because I don't think the rationale is critically important. Strategy is relatively easy to adapt and change, and I'm fortunate enough to be in a position where I have the runway and freedom to give this a go, and then course correct or pivot if I realise its not working or completely the wrong approach.
 
-Testing this strategy against the most obvious alternatives, why don't I:
- * Take a senior level role in an existing company with an aligned vision and mission, with the obvious potential upside of achieving significantly higher levels of impact sooner, than I'll be able to achieve starting from scratch on my own. I haven't found, and nor do I think I'm likely to find such a role which gives the level of independence/control that I think will serve my goals above.
- * Commit to pursuing a single idea or opportunity in depth, rather than spreading my time between consulting and product development. I definitely haven't ruled this out, but I don't think now is the right time - I don't have an idea or product that I feel sufficiently passionate about to be willing to commit solely to yet. I may very well come back to this, if, or hopefully when the right idea presents itself through my other product development or consulting work.
+With that said, in keeping with the final bullet point, I aim to evaluate the strategy against a long-term view of success. What excites me about it is that it has the potential to provide structure and clarity for my work while also enabling multiple options future paths - from operating a portfolio of micro-SaaS products that each solve real problems for a specific niche or community, diving deep into a single compelling opportunity for a year or two, joining with others to partner on shared ventures or some combination of all three and variations in between.
 
 ## 2023 Goals
 
-To put that strategy into action this year, I'm going to focus on three specific goals for my business:
+Taking the above long-term strategy and focusing on 2023, my specific strategy for the year is to bootstrap the business by offering my existing skills and experiences as a consultant while also allocating time to gaining experience with product development by exploring some existing product ideas I'm excited about.
 
-1. Build awareness of my consulting offering and develop a pipeline of opportunities and engagements that provide a baseline of revenue and exposure to interesting problems in a variety of domains and contexts.
+That leads to three specific goals I intend to focus on in 2023:
 
-2. Explore several software product ideas in my areas of interest and develop at least two ideas to MVP stage with customer feedback received, and at least one product launched with a growing revenue stream.
+1. Execute a series of successful consulting engagements, earning sufficient revenue to bootstrap the business while also leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
+
+2. Grow my product development skillset by taking several ideas to MVP stage with customer feedback received, and launch at least one product which generates revenue and has growth potential.
 
 3. Develop and maintain a broad professional network.
 
+
 ### Consulting
 
-I see consulting as a useful way to earn a baseline revenue stream while also providing the opportunity to work with a variety of clients and their respective business problems. Based on my background and experience, I plan to target my consulting across three areas:
+In addition to being a source of revenue, I'm excited about the potential to learn and explore a variety of businesses and problem spaces through consulting engagements. Based on my background and experience, I plan to target my consulting across three areas:
 
-1. Leadership - building and growing operationally focused software SRE/devops teams. Drawing on my experiences building strong SRE teams, a typical engagement may involve helping a client establish to a new SRE/devops practice, or to develop and strengthen the structure and processes in their existing team.
+1. Leadership - building and growing operationally focused software SRE/devops teams. A typical engagement may involve helping a client establish to a new SRE/devops practice, or to develop and strengthen the structure and processes in their existing team.
 
 2. Architecture - applying deep technical expertise to the design of large software systems, particularly focusing on their reliability and operability. A typical engagement may involve providing design input and decision making support on key aspects of a new system, or offering external review and advice of an existing design.
 
 3. Technology Strategy - translating high-level business needs into appropriate technical roadmaps and understandable explanations of how software can help, and an iterative series of appropriate sized projects to drive implementation. A typical customer for this would be a small to medium sized business outside of the software industry with a desire to use software in a transformative way to improve their business but lacking the necessary in-house expertise to drive the transition.
 
-I expect to spend around half my time on consulting projects, with areas 1 and 2 likely to involve shorter project based engagements for a wider number of clients and area 3 requiring a longer-term ongoing relationship with a smaller set of clients.
 
 ### Product Development
 
-As much as I'm looking forward to the variety of problems and businesses that consulting work can expose me to, I ultimately aim to have an impact that scales beyond the direct hours that I invest in my work, which means building products and the business model supporting them that can scale beyond me and my direct involvement.
-
-As noted above, I want to explore a range of different opportunities and ideas over the year, but there are 3 particular areas that I am passionate about and want to pay particular attention to:
+The intial product ideas I'd like to explore include:
 
 1. Decarbonisation through electrification. NZ is well positioned to drive significant carbon reductions over the next 10 years by electrifying significant portions of our current energy usage, but achieving that potential requires significant transformation and change, particularly in our electricity industry. NZ's electricity system fascinates me, it's a classic complex, distributed system and the challenges of dealing with a greater number of players and dynamic behaviour driven by the entrance of further renewable generation and distributed energy resources (DER) presents huge needs and opportunities for software systems to enable and support the change. There's lots of conversations happening across the industry, and it feels like there are big opportunities in this space.
 
@@ -130,14 +127,12 @@ As noted above, I want to explore a range of different opportunities and ideas o
 
 3. Air Quality Monitoring. I started co2mon.nz to support monitoring at our local school, but I still see a large unmet need in many offices, retail shops, restaurants and other indoor public spaces for ventilation monitoring to support air quality improvements. While we're all tired of Covid and wish it were over, I firmly believe we're still only in the early stages of seeing the long-term legacy of this pandemic and improved indoor ventilation should be one of those. co2mon.nz is already past the MVP stage on the software side, the challenge for me here will be whether I can scale the hardware needed to support the business in a reliable and sustainable way. I'm not willing to go all in on it, but as a side project I think there's still further room to explore.
 
-The major risk I need to manage in this space is time and trying to do too much in too many areas at once and balancing time between consulting and product development. I don't have a fully coherent plan for how to address this yet, but broadly speaking it's clear the answer is that I'll need to bring in additional people to drive any product that goes beyond an initial MVP stage - likely via contracting out specific development, customer support or business process tasks as an initial step.
-
 
 ### Developing my professional network
 
 Breaking out of the bad habits I've developed in this space is important both for my general happiness and well being, but is also fundamentally necessary from a marketing and awareness perspective - I'm not going to develop a pipeline of consulting work, or meet potential partners and collaborators to develop products with if I'm not out there visibly, and reguarly interacting with others in my professional sphere.
 
-I'm setting myself 2 goals in this space:
+I'm setting myself 3 sub-goals in this space:
 
 1. To build professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
 
