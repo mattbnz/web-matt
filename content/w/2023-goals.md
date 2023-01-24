@@ -139,7 +139,7 @@ There are three, currently extremely high level, product ideas closely aligned t
 
     One factor contributing to this is the lack of widely available systems for continously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
 
-In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainabilty of the business both through direct revenue contribution and by providing economies of scale in the many backend proceses and infrastructure required to deliver secure, reliable and performant software systems.
+In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainabilty of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
 
 ### Developing my professional network
 
@@ -154,6 +154,6 @@ To help make this goal more actionable and measurable I've decided to break it i
 
 ## Next Steps
 
-There's a lot to get underway with here and as I share my progress and thoughts, I'd love to have your feedback and engagement - please use the box in the sidebar (or on the [front page](/), if you're on a phone) to be notified when I post new writing, drop my an email with your thoughts or even book a meeting - you might be helping me reach one of my goals :)
+There's a lot to get underway with here and as I share my progress and thoughts, I'd love to have your feedback and engagement - please use the box in the sidebar (or on the [front page](/), if you're on a phone) to be notified when I post new writing, drop me an email with your thoughts or even book a meeting - you might be helping me reach one of my goals :)
 
 Thanks for reading this far!
