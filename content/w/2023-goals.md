@@ -62,10 +62,10 @@ I consider this a first draft, which I intend to revise and evolve further over 
 Each word has a fair bit of meaning behind it for me, so breaking it down a little bit:
 
 * software - excites me because it is still [eating the world](https://a16z.com/2011/08/20/why-software-is-eating-the-world/) and has significant potential to do good.
-* systems - reminds me that as well as usually being a complex system in its own right, software also exists as part of the complex system that is our modern world.
-* contribute - follows from being part of a system. Software alone doesn't solve problems, and misapplied can easily make things worse. To contribute software needs to be designed and evaluated intentionally and with an awareness of risks it could pose.
-* direct and meaningful impact - means I'm not looking for broad outcomes like improving productivity or communication, which apply generally across many problems. I want to see software applied to solve specific blockers whose removal makes a significant impact on the problem.
-* real problems - as opposed to straightforward problems. The types of issue where the acknowledgement of it as a "real problem" often ends the sentence as it feels too big to tackle. Climate change and pandemic risk are examples of real problems. Decentralizing finance or selling more widgets are not.
+* systems - to reminds me that as well as being a complex system in its own right, software also exists as part of the complex system that is our modern world.
+* contribute - follows from being part of a system. Software alone doesn't solve problems, and misapplied can easily make things worse. To contribute software needs to be designed intentionally and evaluated with an awareness of risks it could pose.
+* direct and meaningful impact - means I'm not looking for broad outcomes like improving productivity or communication, which apply generally across many problems. I want to see software applied to solve specific blockers whose removal makes unlocks significant progress towards solving a problem.
+* real - as opposed to straightforward problems. The types of issue where the acknowledgement of it as a "real problem" often ends the sentence as it feels too big to tackle. Climate change and pandemic risk are examples of real problems. Decentralizing finance or selling more widgets are not.
 * in our world - is mostly filler to round out the sentence nicely, but I do think we should probably sort out the mess we're making on our own planet before trying to colonize anywhere else.
 
 
@@ -76,11 +76,11 @@ Each word has a fair bit of meaning behind it for me, so breaking it down a litt
 Again breaking down the intent a little bit:
 
 * lead - having meaningful impact on real problems is a big job I won't succeed at as a one man band. It will require building and growing a larger team.
-* development and operation - hints that the software systems we need don't always yet exist and need to be developed, but further that even post development the ongoing operation and integration of those software systems into their broader social and human systems of our world is a much more important and ongoing need.
-* new opportunities - (including improvements to existing proceses) are important to drive and motivate investment in the adoption of technology. Building or operating a system that maintains the status quo is not motivating for me.
+* development and operation - hints that the software systems we need don't always yet exist and must be created, but also that even post development the ongoing operation and integration of those software systems into their broader social and human systems of our world is a much more important and ongoing need.
+* new opportunities - are important to drive and motivate investment in the adoption of technology. Building or operating a system that maintains the status quo is not motivating for me.
 * individuals, businesses and communities - essentially everyone, but highlighting that focus on specific groups who will at different times assume roles as customers, users or stakeholders of a system and who will each have diverse needs is key to ensuring the system achieves the desired contribution and impact.
 * participate - real problems often inspire or result in lack of action due to the scale of the challenge. Software systems scale easily, offering the potential to enable participation as a small part of a larger whole.
-* their community - refines the ambition from the vision to an achievable scope of action within which to execute the mission. We won't solve our problems by targeting one big global fix, but if we each participate in solving the problems in our community collectively it will make a difference.
+* their community - refines the ambition from the vision to an achievable scope of action within which to execute the mission. We won't solve our problems by targeting one big global fix, but if we each participate in solving the problems in our community, collectively it will make a difference.
 
 ### Strategy
 
@@ -91,15 +91,14 @@ Again breaking down the intent a little bit:
 
 I'm not going to write a lot here about the rationale for this strategy. Firstly because I can't do so briefly, and secondly because I don't think the rationale is critically important. Strategy is relatively easy to adapt and change, and I'm fortunate enough to be in a position where I have the runway and freedom to give this a go, and then course correct or pivot if I realise its not working or completely the wrong approach.
 
-With that said, in keeping with the final bullet point, I aim to evaluate the strategy against a long-term view of success. What excites me about it is that it has the potential to provide structure and clarity for my work while also enabling multiple options future paths - from operating a portfolio of micro-SaaS products that each solve real problems for a specific niche or community, diving deep into a single compelling opportunity for a year or two, joining with others to partner on shared ventures or some combination of all three and variations in between.
+With that said, in keeping with the final bullet point, I aim to evaluate the strategy against a long-term view of success. What excites me about it is that it has the potential to provide structure and clarity for my work while also enabling many future paths - from operating a portfolio of micro-SaaS products that each solve real problems for a specific niche or community, or diving deep into a single compelling opportunity for a year or two, joining with others to partner on shared ventures or some combination of all three and other variations in between.
+
 
 ## 2023 Goals
 
-Taking the above long-term strategy and focusing on 2023, my specific strategy for the year is to bootstrap the business by offering my existing skills and experiences as a consultant while also allocating time to gaining experience with product development by exploring some existing product ideas I'm excited about.
+In 2023, I'm going to focus on the very initial stages of the long-term strategy by bootstrapping the business into existence with 3 specific goals:
 
-That leads to three specific goals I intend to focus on in 2023:
-
-1. Execute a series of successful consulting engagements, earning sufficient revenue to bootstrap the business while also leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
+1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
 
 2. Grow my product development skillset by taking several ideas to MVP stage with customer feedback received, and launch at least one product which generates revenue and has growth potential.
 
@@ -108,38 +107,41 @@ That leads to three specific goals I intend to focus on in 2023:
 
 ### Consulting
 
-In addition to being a source of revenue, I'm excited about the potential to learn and explore a variety of businesses and problem spaces through consulting engagements. Based on my background and experience, I plan to target my consulting across three areas:
+I'm keen to balance my time between consulting and product development, because I see consulting as an interesting and sustainable process by which to learn more about and explore a variety of businesses and problem spaces while delivering value to those engaging me. Based on my background and experience, I plan to target my consulting across three areas:
 
 1. Leadership - building and growing operationally focused software SRE/devops teams. A typical engagement may involve helping a client establish to a new SRE/devops practice, or to develop and strengthen the structure and processes in their existing team.
 
 2. Architecture - applying deep technical expertise to the design of large software systems, particularly focusing on their reliability and operability. A typical engagement may involve providing design input and decision making support on key aspects of a new system, or offering external review and advice of an existing design.
 
-3. Technology Strategy - translating high-level business needs into appropriate technical roadmaps and understandable explanations of how software can help, and an iterative series of appropriate sized projects to drive implementation. A typical customer for this would be a small to medium sized business outside of the software industry with a desire to use software in a transformative way to improve their business but lacking the necessary in-house expertise to drive the transition.
+3. Technology Strategy - translating high-level business needs into appropriate technical roadmaps that provide understandable explanations of the value software can deliver in that context, and the iterative series of appropriately sized projects required to realise it. A typical customer for this would be a small to medium sized business outside of the software industry with a desire to use software in a transformative way to improve their business but who does not employ the necessary in-house expertise to lead that transition.
 
 
 ### Product Development
 
-The intial product ideas I'd like to explore include:
+There are three, currently extremely high level, product ideas closely aligned to my chosen mission that I'm excited to explore:
 
-1. Decarbonisation through electrification. NZ is well positioned to drive significant carbon reductions over the next 10 years by electrifying significant portions of our current energy usage, but achieving that potential requires significant transformation and change, particularly in our electricity industry. NZ's electricity system fascinates me, it's a classic complex, distributed system and the challenges of dealing with a greater number of players and dynamic behaviour driven by the entrance of further renewable generation and distributed energy resources (DER) presents huge needs and opportunities for software systems to enable and support the change. There's lots of conversations happening across the industry, and it feels like there are big opportunities in this space.
+1. Improve co-ordination of electricity resources to support and accelerate the eletrification of NZ's energy needs and the transition to zero carbon grid. NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with. There's a huge gap of experience and expertise in building and operating such systems that needs to be bridged and which matches well with my skillset and background operating large, high-reliabilty distributed software systems. The industry has awareness of the problem and there is a lot of energy and motivation directed towards finding solutions to enable a rapid transition to a zero carbon, highly electrified energy future for NZ - it seems like a perfect confluence of timing to get involved and narrow down how I might help.
 
-2. Farm management SaaS. It's potentially a crowded space, with a number of existing applications and tools already on offer, but typically owned and developed by a particular vendor, supplier or organisation and from what I can gather not hugely interoperable. In parallel the information required from and the compliance tasks expected of farmers is increasing. I'd like to explore whether there's demand for a top-level tool that focuses first and foremost on supporting efficiency in day to day farm management tasks, helps to drive overall productivity analysis and improvements, and can reduce or eliminate the need for farmers to interact with or spend time on supplier or organisation specific tasks.
 
-3. Air Quality Monitoring. I started co2mon.nz to support monitoring at our local school, but I still see a large unmet need in many offices, retail shops, restaurants and other indoor public spaces for ventilation monitoring to support air quality improvements. While we're all tired of Covid and wish it were over, I firmly believe we're still only in the early stages of seeing the long-term legacy of this pandemic and improved indoor ventilation should be one of those. co2mon.nz is already past the MVP stage on the software side, the challenge for me here will be whether I can scale the hardware needed to support the business in a reliable and sustainable way. I'm not willing to go all in on it, but as a side project I think there's still further room to explore.
+1. Drive reduced agricultural emissions by making sustainable farm management, including compliance reporting, straightforward, fun and effective for busy farmers. NZ farmers are caught between two difficult forces. Agricultural emissions are NZ's biggest category and must come down. Programs to drive and incentive this behaviour (both existing, and upcoming) are increasing compliance and reporting burdens on already very busy farmers who don't have the time or inclination to provide similar data multiple times to different regulators and authorities. In tandem, general business costs are rising and despite already world leading levels of productivity, running a sustainable farming business requires continuous improvements in the efficiency, performance and farm management processes. Many industry organsiations and associated software players offer existing solutions aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, piecemeal solutions that are often frustrating and time consuming, little loved and are a burden rather than a source of contiuous improvement. It seems like there might be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and support farmers to do what they do best, rather than being a burden.
 
+1. Lower sickness rates and improve cognitive performance by enabling every indoor space to benefit from continuous ventilation monitoring and reporting. Indoor air quality is important in reducing disease transmission risk and promoting optimal cognitive performance, but despite the current pandemic temporarily raising its profile, a focus on indoor air quality generally remains under the radar for most people. One factor contributing to this is the lack of widely available systems for continously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
+
+In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainabilty of the business both through direct revenue contribution and by providing economies of scale in the many backend proceses and infrastructure required to deliver secure, reliable and performant software systems.
 
 ### Developing my professional network
 
-Breaking out of the bad habits I've developed in this space is important both for my general happiness and well being, but is also fundamentally necessary from a marketing and awareness perspective - I'm not going to develop a pipeline of consulting work, or meet potential partners and collaborators to develop products with if I'm not out there visibly, and reguarly interacting with others in my professional sphere.
-
-I'm setting myself 3 sub-goals in this space:
+To help make this goal more actionable and measurable I've decided to break it into 3 sub goals:
 
 1. To build professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
 
-2. To publish at least once a week a piece of writing on this site that generates interesting conversations and feedback. I'll use this as an opportunity to explore product ideas, highlight my consulting expertise and generally contribute interesting technical content into the world.
+2. To publish a piece of writing on this site at least once a week, and for many of those to generate interesting conversations and feedback. I'll use this as an opportunity to explore product ideas, highlight my consulting expertise and generally contribute interesting technical content into the world.
 
-3. To help build and grow the local technical community by sharing my experience and knowledge with others on a voluntary basis, e.g. mentoring,
+3. To support the growth of my local technical community by volunteering my experience and knowledge with others through activities such as mentoring, conference talks and similar.
 
-## What do you think?
 
-If you made it this far, thanks! I'd love to hear your thoughts and feedback - please do get in touch!
+## Next Steps
+
+There's a lot to get underway with here and as I share my progress and thoughts, I'd love to have your feedback and engagement - please use the box in the sidebar (or below on a small screen) to be notified when I post new writing, drop my an email with your thoughts or even book a meeting - you might be helping me reach one of my goals :)
+
+Thanks for reading this far!
