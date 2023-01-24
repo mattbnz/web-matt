@@ -3,7 +3,7 @@ title: Goals for 2023 and Beyond
 draft: true
 recommended: true
 
-date: 2023-01-18
+date: 2023-01-25 00:00:00+1300
 categories:
   - General
 
@@ -13,9 +13,9 @@ A new year is upon us! [My plan](https://www.linkedin.com/posts/mattbrown_last-s
 
 I made some very tentative progress towards that goal in 2022, registering a company and starting some consulting work, but on the whole I've found it much harder than expected to gather the necessary energy to begin that journey in earnest.
 
-I need to do better, so I'm going to take the example of a couple of people I respect (my friend Nat, and Will Larson) who write wonderful annual goal reviews. I've always enjoyed reading these and already the basic act of just writing down and articulating my motivations and goals has been incredibly useful to clarify my thoughts and create some tangible next steps.
+I need to do better, so I'm going to draw from the example of a couple of people ([my friend Nat](https://writing.natwelch.com/post/717), and [Will Larson](https://lethain.com/2022-in-review/)) whose annual review posts I've always enjoyed and attempt something similar.
 
-I hope that by also publishing this, you too might find it interesting, and the additional public accountability it creates will be a positive encouragement to me. I'd certainly love to hear your input and feedback!
+Already the basic act of just writing down and articulating my motivations and goals has been incredibly useful to clarify my thoughts and create some tangible next steps. I hope that by also publishing this, you too might find it interesting, and the additional public accountability it creates will be a positive encouragement to me. I'd certainly love to hear your input and feedback!
 
 If you want the TL;DR you can skip [straight to the goals](#2023-goals), or keep reading for a (much) more detailed explanation of my thought process.
 
