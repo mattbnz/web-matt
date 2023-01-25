@@ -22,7 +22,7 @@ Following the goals themselves, I've also included the [reflections](#reflection
 
 ## 2023 Goals
 
-My focus for 2023 is to bootstrap the business I plan to use to execution my [mission](#mission) through three goals:
+My focus for 2023 is to bootstrap the business through which I plan to execute my [mission](#mission) via three goals:
 
 1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
 
@@ -35,7 +35,7 @@ My focus for 2023 is to bootstrap the business I plan to use to execution my [mi
 
 I'm keen to balance my time between consulting and product development, because I see consulting as a mechanism by which to learn more about and explore a variety of businesses and problem spaces while delivering value to those engaging me. Based on my background and experience, I plan to target my consulting across three areas:
 
-1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish a new SRE/devops practice, or develop and strengthen the structure and processes in their existing team.
+1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish a new SRE/devops practice, or strengthening the structure and processes in their existing team.
 
 2. Architecture - applying deep technical expertise to the design of large software systems, particularly focusing on their reliability and operability. A typical engagement may involve providing design input and decision making support on key aspects of a new system, or offering external review and advice of an existing design.
 
@@ -44,19 +44,19 @@ I'm keen to balance my time between consulting and product development, because 
 
 ### Product Development
 
-There are three, currently extremely high level, product ideas closely aligned to my chosen mission that I'm excited to explore:
+There are three, currently extremely high level, product ideas that I'm excited to explore:
 
 1. Improve co-ordination of electricity resources to accelerate the electrification of NZ's energy demand and the transition to zero carbon grid.
 
-    NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources (DER) in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with. There's a huge gap of experience and expertise in building and operating such systems that needs to be bridged.
+    NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources (DER) in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with.
 
-    The concept of improving DER coordination is hardly novel, but I think there is a strong match between my experience with large, high-reliability distributed software systems, and the need in the industry. I see many active but early-stage discussions occurring, coupled with renewed motivation for rapid progress in our transition. Combined, these factors make this a very compelling space to explore further with the intent of developing a more detailed product opportunity to pursue.
+    The concept of improving DER coordination is not novel, but our grid has unique characteristics that mean we're likely to need to build localised solutions. There is a strong match between my experience with large, high-reliability distributed software systems, and this need. With renewed motivation in the industry for rapid progress and many conversations and consultations still in their early stages this a very compelling space to explore further with the intent of developing a more detailed product opportunity to pursue.
 
-1. Drive reduced agricultural emissions by making sustainable farm management, including compliance reporting, straightforward, fun and effective for busy farmers.
+1. Reduce agricultural emissions by making high performance farm management, including effortless compliance reporting, straightforward, fun and effective for busy farmers.
 
-    NZ farmers are caught between two difficult forces. Agricultural emissions are NZ's biggest category and must come down. Programs to drive and incentive this behaviour (both existing, and upcoming) are increasing compliance and reporting burdens on already very busy farmers who don't have the time or inclination to provide similar data multiple times to different regulators and authorities. In tandem, rising business costs and constraints drive a need for continuous improvements in efficiency, performance and farm management processes increasing the complexity and amount of data farmers must work with.
+    NZ's commitments to reduce agricultural emissions (our largest single sector) place increased compliance and reporting burdens on busy farmers who don't want to report the same data multiple times to different regulators and authorities. In tandem, rising business costs and constraints drive a need for continuous improvements in efficiency, performance and farm management processes in order to remain profitable which drives increases in complexity and volume of data that farmers must work with.
 
-    Many industry organisations and associated software players offer existing solutions aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, little loved, piecemeal solutions that are often frustrating to use - a burden rather than a source of continuous improvement. It seems like there could be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and support farmers to do what they do best, rather than being a burden.
+    Many industry organisations and associated software developers offer existing products aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, piecemeal solutions that are often frustrating to use - a burden rather than a source of continuous improvement. It looks like there could be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and help farmers run more profitable and sustainable farms while also reducing compliance costs and effort.
 
 1. Lower sickness rates and improve cognitive performance by enabling every indoor space to benefit from continuous ventilation monitoring and reporting.
 
@@ -64,13 +64,13 @@ There are three, currently extremely high level, product ideas closely aligned t
 
     One factor contributing to this is the lack of widely available systems for continuously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
 
-In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialised or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainability of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
+In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that deliver useful value by serving the needs of a specialised or niche business or industry. Even when not directly linked to the overall mission, the development and operation of products of this type can support the strategy. Each application adds direct revenue and also contributes to achieving better economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
 
 ### Developing my professional network
 
 To help make this goal more actionable and measurable I've decided to break it into 3 sub goals:
 
-1. To build professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
+1. To build a professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
 
 2. To publish a piece of writing on this site at least once a week, and for many of those to generate interesting conversations and feedback. I'll use this as an opportunity to explore product ideas, highlight my consulting expertise and generally contribute interesting technical content into the world.
 
