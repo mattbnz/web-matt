@@ -20,24 +20,4 @@ experience:
     Translating an ever changing technology landscape into practical applications for your business is hard!
 
     Let me help you break complex topics into achievable and realistic software solutions that deliver results.
-
-connect:
-- title: Twitter
-  icon: twitter.svg
-  href: https://twitter.com/xleem
-- title: Mastodon
-  icon: mastodon.svg
-  href: https://mastodon.nz/@mattb
-- title: LinkedIn
-  icon: linkedin.svg
-  href: https://www.linkedin.com/in/mattbrown/
-- title: GitHub
-  icon: github.svg
-  href: https://github.com/mattbnz
-
 ---
-
-
-
-
-I'm particularly experienced dealing with the SRE/DevOps aspects (balancing reliability, performance, scalability and development velocity) of these systems.
