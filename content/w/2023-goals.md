@@ -1,5 +1,5 @@
 ---
-title: Goals for 2023 and Beyond
+title: Goals for 2023 and beyond
 draft: true
 recommended: true
 contactsidebar: true
