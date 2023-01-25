@@ -26,7 +26,7 @@ My focus for 2023 is to bootstrap the business I plan to use to execution my [mi
 
 1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
 
-2. Grow my product development skillset by taking several ideas to MVP stage with customer feedback received, and launch at least one product which generates revenue and has growth potential.
+2. Grow my product development skill set by taking several ideas to MVP stage with customer feedback received, and launch at least one product which generates revenue and has growth potential.
 
 3. Develop and maintain a broad professional network.
 
@@ -46,25 +46,25 @@ I'm keen to balance my time between consulting and product development, because 
 
 There are three, currently extremely high level, product ideas closely aligned to my chosen mission that I'm excited to explore:
 
-1. Improve co-ordination of electricity resources to support and accelerate the eletrification of NZ's energy needs and the transition to zero carbon grid.
+1. Improve co-ordination of electricity resources to support and accelerate the electrification of NZ's energy needs and the transition to zero carbon grid.
 
     NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources (DER) in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with. There's a huge gap of experience and expertise in building and operating such systems that needs to be bridged.
 
-    So while the concept of improving DER coordination is hardly novel, I think the match between my experience with large, high-reliabilty distributed software systems, the need in the industry, and the current motivation towards finding solutions to enable a rapid transition to a zero carbon, highly electrified energy future for NZ, makes this a very compelling area to look for a more detailed product need and opportunity in.
+    So while the concept of improving DER coordination is hardly novel, I think the match between my experience with large, high-reliability distributed software systems, the need in the industry, and the current motivation towards finding solutions to enable a rapid transition to a zero carbon, highly electrified energy future for NZ, makes this a very compelling area to look for a more detailed product need and opportunity in.
 
 1. Drive reduced agricultural emissions by making sustainable farm management, including compliance reporting, straightforward, fun and effective for busy farmers.
 
     NZ farmers are caught between two difficult forces. Agricultural emissions are NZ's biggest category and must come down. Programs to drive and incentive this behaviour (both existing, and upcoming) are increasing compliance and reporting burdens on already very busy farmers who don't have the time or inclination to provide similar data multiple times to different regulators and authorities. In tandem, rising business costs and constraints drive a need for continuous improvements in efficiency, performance and farm management processes increasing the complexity and amount of data farmers must work with.
 
-    Many industry organsiations and associated software players offer existing solutions aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, little loved, piecemeal solutions that are often frustrating to use - a burden rather than a source of continuous improvement. It seems like there could be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and support farmers to do what they do best, rather than being a burden.
+    Many industry organisations and associated software players offer existing solutions aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, little loved, piecemeal solutions that are often frustrating to use - a burden rather than a source of continuous improvement. It seems like there could be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and support farmers to do what they do best, rather than being a burden.
 
 1. Lower sickness rates and improve cognitive performance by enabling every indoor space to benefit from continuous ventilation monitoring and reporting.
 
     Indoor air quality is important in reducing disease transmission risk and promoting optimal cognitive performance, but despite the current pandemic temporarily raising its profile, a focus on indoor air quality generally remains under the radar for most people.
 
-    One factor contributing to this is the lack of widely available systems for continously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
+    One factor contributing to this is the lack of widely available systems for continuously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
 
-In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainabilty of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
+In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainability of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
 
 ### Developing my professional network
 
@@ -87,7 +87,7 @@ A large part of what I've realized is that I should have left Google years ago. 
 
 The reality is that a significant chunk of my motivation and energy comes from being able to link my work back to a bigger purpose that delivers concrete positive impact in the world. I felt that link through Google's mission to make information universally accessible and useful for the first 10-11 years, but for the latter 4-5 years my ability to see that link was tenuous at best and trying to push through the challenges presented without that link providing a reliable source of energy is what drove my unhappiness and led to needing a longer break to recharge.
 
-I expect the challenges of starting a business to be even greater than what I experienced at Google, so the lessson I'm taking from this is that it's crucial for me to understand what the link between my work and the bigger purpose with concrete positive impact in the world that I'm aiming to contribute to is.
+I expect the challenges of starting a business to be even greater than what I experienced at Google, so the lesson I'm taking from this is that it's crucial for me to understand what the link between my work and the bigger purpose with concrete positive impact in the world that I'm aiming to contribute to is.
 
 ### Community
 
@@ -101,9 +101,9 @@ Lastly, I've been reflecting on a set of principles that are important to me. Th
 
 * Independence - I can't entirely explain why or where it comes from, but since the start of my professional career (which I consider to be my consulting/freelancing development during high school) I've understood that I'm far more motivated by building and growing my own business than I am by working for someone else. Working for myself has always felt like the default and sensible course - I'm excited to get back to that.
 
-* Openness - Open is better than closed, in terms of software, business model and organisational processes. This continues to be a strong belief and something I want to uphold in my business endeavours. Competition should be based on superior technical quality or service, not artificial constraints or barriers to entry that lock customers and users into a single solution or market. Protocols and networks should be open for wide participation and easily acceesible to new entrants and competition.
+* Openness - Open is better than closed, in terms of software, business model and organisational processes. This continues to be a strong belief and something I want to uphold in my business endeavours. Competition should be based on superior technical quality or service, not artificial constraints or barriers to entry that lock customers and users into a single solution or market. Protocols and networks should be open for wide participation and easily accessible to new entrants and competition.
 
-* People first - This applies both to how we work with each other - respectfully, valuing diversity and with integrity, and to how we apply technology to our world - with consideration for all stakeholders it may affect and awareness of both the intendend and potential unintented impacts.
+* People first - This applies both to how we work with each other - respectfully, valuing diversity and with integrity, and to how we apply technology to our world - with consideration for all stakeholders it may affect and awareness of both the intended and potential unintended impacts.
 
 
 ## Framework
@@ -144,7 +144,7 @@ Again breaking down the intent a little bit:
 **Build a sustainable business that provides a home and infrastructure to support a continuous cycle of development, validation and growth of software systems fulfilling the mission and vision above.**
 * Accumulate meaningful impact via a portfolio of systems rather than one big bet.
 * Focus on opportunities that promote the decarbonisation of our economy (the most pressing problem our society faces), but not at the expense of ignoring compelling opportunities to contribute impact to other real problems also.
-* Favour the marathon over the sprint - while being first can be fun and convey benefits, it's often the fast-followers who learn from the intial mistakes and deliver lasting change and broader impact.
+* Favour the marathon over the sprint - while being first can be fun and convey benefits, it's often the fast-followers who learn from the initial mistakes and deliver lasting change and broader impact.
 
 I'm not going to write a lot here about the rationale for this strategy. Firstly because I can't do so briefly, and secondly because I don't think the rationale is critically important. Strategy is relatively easy to adapt and change, and I'm fortunate enough to be in a position where I have the runway and freedom to give this a go, and then course correct or pivot if I realise its not working or completely the wrong approach.
 
