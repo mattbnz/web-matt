@@ -18,7 +18,63 @@ I need to do better, so I'm going to draw from the example of a couple of people
 
 Already the basic act of just writing down and articulating my motivations and goals has been incredibly useful to clarify my thoughts and create some tangible next steps. I hope that by also publishing this, you too might find it interesting, and the additional public accountability it creates will be a positive encouragement to me. I'd certainly love to hear your input and feedback!
 
-If you want the TL;DR you can skip [straight to the goals](#2023-goals), or keep reading for a (much) more detailed explanation of my thought process.
+Following the goals themselves, I've also included the [reflections](#reflection) that I used to craft a [vision](#vision), [mission](#mission) and [strategy](#strategy) to guide the next phase of my career.
+
+## 2023 Goals
+
+My focus for 2023 is to bootstrap the business I plan to use to execution my [mission](#mission) through three goals:
+
+1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
+
+2. Grow my product development skillset by taking several ideas to MVP stage with customer feedback received, and launch at least one product which generates revenue and has growth potential.
+
+3. Develop and maintain a broad professional network.
+
+
+### Consulting
+
+I'm keen to balance my time between consulting and product development, because I see consulting as a mechanism by which to learn more about and explore a variety of businesses and problem spaces while delivering value to those engaging me. Based on my background and experience, I plan to target my consulting across three areas:
+
+1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish to a new SRE/devops practice, or to develop and strengthen the structure and processes in their existing team.
+
+2. Architecture - applying deep technical expertise to the design of large software systems, particularly focusing on their reliability and operability. A typical engagement may involve providing design input and decision making support on key aspects of a new system, or offering external review and advice of an existing design.
+
+3. Technology Strategy - translating high-level business needs into appropriate technical roadmaps that provide understandable explanations of the value software can deliver in that context, and the iterative series of appropriately sized projects required to realise it. A typical customer for this would be a small to medium sized business outside of the software industry with a desire to use software in a transformative way to improve their business but who does not employ the necessary in-house expertise to lead that transition.
+
+
+### Product Development
+
+There are three, currently extremely high level, product ideas closely aligned to my chosen mission that I'm excited to explore:
+
+1. Improve co-ordination of electricity resources to support and accelerate the eletrification of NZ's energy needs and the transition to zero carbon grid.
+
+    NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources (DER) in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with. There's a huge gap of experience and expertise in building and operating such systems that needs to be bridged.
+
+    So while the concept of improving DER coordination is hardly novel, I think the match between my experience with large, high-reliabilty distributed software systems, the need in the industry, and the current motivation towards finding solutions to enable a rapid transition to a zero carbon, highly electrified energy future for NZ, makes this a very compelling area to look for a more detailed product need and opportunity in.
+
+1. Drive reduced agricultural emissions by making sustainable farm management, including compliance reporting, straightforward, fun and effective for busy farmers.
+
+    NZ farmers are caught between two difficult forces. Agricultural emissions are NZ's biggest category and must come down. Programs to drive and incentive this behaviour (both existing, and upcoming) are increasing compliance and reporting burdens on already very busy farmers who don't have the time or inclination to provide similar data multiple times to different regulators and authorities. In tandem, rising business costs and constraints drive a need for continuous improvements in efficiency, performance and farm management processes increasing the complexity and amount of data farmers must work with.
+
+    Many industry organsiations and associated software players offer existing solutions aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, little loved, piecemeal solutions that are often frustrating to use - a burden rather than a source of continuous improvement. It seems like there could be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and support farmers to do what they do best, rather than being a burden.
+
+1. Lower sickness rates and improve cognitive performance by enabling every indoor space to benefit from continuous ventilation monitoring and reporting.
+
+    Indoor air quality is important in reducing disease transmission risk and promoting optimal cognitive performance, but despite the current pandemic temporarily raising its profile, a focus on indoor air quality generally remains under the radar for most people.
+
+    One factor contributing to this is the lack of widely available systems for continously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
+
+In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainabilty of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
+
+### Developing my professional network
+
+To help make this goal more actionable and measurable I've decided to break it into 3 sub goals:
+
+1. To build professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
+
+2. To publish a piece of writing on this site at least once a week, and for many of those to generate interesting conversations and feedback. I'll use this as an opportunity to explore product ideas, highlight my consulting expertise and generally contribute interesting technical content into the world.
+
+3. To support the growth of my local technical community by volunteering my experience and knowledge with others through activities such as mentoring, conference talks and similar.
 
 
 ## Reflection
@@ -93,64 +149,6 @@ Again breaking down the intent a little bit:
 I'm not going to write a lot here about the rationale for this strategy. Firstly because I can't do so briefly, and secondly because I don't think the rationale is critically important. Strategy is relatively easy to adapt and change, and I'm fortunate enough to be in a position where I have the runway and freedom to give this a go, and then course correct or pivot if I realise its not working or completely the wrong approach.
 
 With that said, in keeping with the final bullet point, I aim to evaluate the strategy against a long-term view of success. What excites me about it is that it has the potential to provide structure and clarity for my work while also enabling many future paths - from operating a portfolio of micro-SaaS products that each solve real problems for a specific niche or community, or diving deep into a single compelling opportunity for a year or two, joining with others to partner on shared ventures or some combination of all three and other variations in between.
-
-
-## 2023 Goals
-
-In 2023, I'm going to focus on the very initial stages of the long-term strategy by bootstrapping the business into existence through three goals:
-
-1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
-
-2. Grow my product development skillset by taking several ideas to MVP stage with customer feedback received, and launch at least one product which generates revenue and has growth potential.
-
-3. Develop and maintain a broad professional network.
-
-
-### Consulting
-
-I'm keen to balance my time between consulting and product development, because I see consulting as a mechanism by which to learn more about and explore a variety of businesses and problem spaces while delivering value to those engaging me. Based on my background and experience, I plan to target my consulting across three areas:
-
-1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish to a new SRE/devops practice, or to develop and strengthen the structure and processes in their existing team.
-
-2. Architecture - applying deep technical expertise to the design of large software systems, particularly focusing on their reliability and operability. A typical engagement may involve providing design input and decision making support on key aspects of a new system, or offering external review and advice of an existing design.
-
-3. Technology Strategy - translating high-level business needs into appropriate technical roadmaps that provide understandable explanations of the value software can deliver in that context, and the iterative series of appropriately sized projects required to realise it. A typical customer for this would be a small to medium sized business outside of the software industry with a desire to use software in a transformative way to improve their business but who does not employ the necessary in-house expertise to lead that transition.
-
-
-### Product Development
-
-There are three, currently extremely high level, product ideas closely aligned to my chosen mission that I'm excited to explore:
-
-1. Improve co-ordination of electricity resources to support and accelerate the eletrification of NZ's energy needs and the transition to zero carbon grid.
-
-    NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources (DER) in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with. There's a huge gap of experience and expertise in building and operating such systems that needs to be bridged.
-
-    So while the concept of improving DER coordination is hardly novel, I think the match between my experience with large, high-reliabilty distributed software systems, the need in the industry, and the current motivation towards finding solutions to enable a rapid transition to a zero carbon, highly electrified energy future for NZ, makes this a very compelling area to look for a more detailed product need and opportunity in.
-
-1. Drive reduced agricultural emissions by making sustainable farm management, including compliance reporting, straightforward, fun and effective for busy farmers.
-
-    NZ farmers are caught between two difficult forces. Agricultural emissions are NZ's biggest category and must come down. Programs to drive and incentive this behaviour (both existing, and upcoming) are increasing compliance and reporting burdens on already very busy farmers who don't have the time or inclination to provide similar data multiple times to different regulators and authorities. In tandem, rising business costs and constraints drive a need for continuous improvements in efficiency, performance and farm management processes increasing the complexity and amount of data farmers must work with.
-
-    Many industry organsiations and associated software players offer existing solutions aimed at addressing aspects of these problems, but anecdotal feedback indicates these are poorly integrated, little loved, piecemeal solutions that are often frustrating to use - a burden rather than a source of continuous improvement. It seems like there could be an opportunity for a delightful, comprehensive farm management and reporting system to disrupt the industry and support farmers to do what they do best, rather than being a burden.
-
-1. Lower sickness rates and improve cognitive performance by enabling every indoor space to benefit from continuous ventilation monitoring and reporting.
-
-    Indoor air quality is important in reducing disease transmission risk and promoting optimal cognitive performance, but despite the current pandemic temporarily raising its profile, a focus on indoor air quality generally remains under the radar for most people.
-
-    One factor contributing to this is the lack of widely available systems for continously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
-
-In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainabilty of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
-
-### Developing my professional network
-
-To help make this goal more actionable and measurable I've decided to break it into 3 sub goals:
-
-1. To build professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
-
-2. To publish a piece of writing on this site at least once a week, and for many of those to generate interesting conversations and feedback. I'll use this as an opportunity to explore product ideas, highlight my consulting expertise and generally contribute interesting technical content into the world.
-
-3. To support the growth of my local technical community by volunteering my experience and knowledge with others through activities such as mentoring, conference talks and similar.
-
 
 ## Next Steps
 
