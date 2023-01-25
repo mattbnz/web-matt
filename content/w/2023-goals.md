@@ -35,7 +35,7 @@ My focus for 2023 is to bootstrap the business I plan to use to execution my [mi
 
 I'm keen to balance my time between consulting and product development, because I see consulting as a mechanism by which to learn more about and explore a variety of businesses and problem spaces while delivering value to those engaging me. Based on my background and experience, I plan to target my consulting across three areas:
 
-1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish to a new SRE/devops practice, or to develop and strengthen the structure and processes in their existing team.
+1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish a new SRE/devops practice, or develop and strengthen the structure and processes in their existing team.
 
 2. Architecture - applying deep technical expertise to the design of large software systems, particularly focusing on their reliability and operability. A typical engagement may involve providing design input and decision making support on key aspects of a new system, or offering external review and advice of an existing design.
 
@@ -46,11 +46,11 @@ I'm keen to balance my time between consulting and product development, because 
 
 There are three, currently extremely high level, product ideas closely aligned to my chosen mission that I'm excited to explore:
 
-1. Improve co-ordination of electricity resources to support and accelerate the electrification of NZ's energy needs and the transition to zero carbon grid.
+1. Improve co-ordination of electricity resources to accelerate the electrification of NZ's energy demand and the transition to zero carbon grid.
 
     NZ has huge potential to be a world-leader in decarbonising energy use through electrification, but requires a massive transition to realise the benefits. Many of the challenges to that transition involve coordination of an order of magnitude more distributed energy resources (DER) in a much more dynamic and software-oriented manner than the electricity industry is traditionally experienced with. There's a huge gap of experience and expertise in building and operating such systems that needs to be bridged.
 
-    So while the concept of improving DER coordination is hardly novel, I think the match between my experience with large, high-reliability distributed software systems, the need in the industry, and the current motivation towards finding solutions to enable a rapid transition to a zero carbon, highly electrified energy future for NZ, makes this a very compelling area to look for a more detailed product need and opportunity in.
+    The concept of improving DER coordination is hardly novel, but I think there is a strong match between my experience with large, high-reliability distributed software systems, and the need in the industry. I see many active but early-stage discussions occurring, coupled with renewed motivation for rapid progress in our transition. Combined, these factors make this a very compelling space to explore further with the intent of developing a more detailed product opportunity to pursue.
 
 1. Drive reduced agricultural emissions by making sustainable farm management, including compliance reporting, straightforward, fun and effective for busy farmers.
 
@@ -64,7 +64,7 @@ There are three, currently extremely high level, product ideas closely aligned t
 
     One factor contributing to this is the lack of widely available systems for continuously monitoring and reporting on air quality. I built https://co2mon.nz/ to help address this problem in my children's school during 2022, and there is potential to further market and raise awareness of this capability for use in any indoor environment.
 
-In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialized or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainability of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
+In addition to these mission aligned product ideas, I'm also interested in exploring the creation of small to medium sized SaaS applications that while not directly linked to solving a "real problem" in the world still deliver useful value by serving the needs of a specialised or niche business or industry. The development and operation of systems of this type can contribute to the mission by improving the sustainability of the business both through direct revenue contribution and by providing economies of scale in the many backend processes and infrastructure required to deliver secure, reliable and performant software systems.
 
 ### Developing my professional network
 
@@ -83,7 +83,7 @@ I'm excited about the next chapter of my career, so the fact that I've been stru
 
 ### Purpose
 
-A large part of what I've realized is that I should have left Google years ago. It was a great place to work, and I'm incredibly grateful for everything I learned and received during my time there. For years it was my dream job, but my happiness had been declining, and instead of taking the (relatively small) risk of leaving to the unknown, I tried several variations of team and role in the hope of restoring the dream.
+A large part of what I've realised is that I should have left Google years ago. It was a great place to work, and I'm incredibly grateful for everything I learned and received during my time there. For years it was my dream job, but my happiness had been declining, and instead of taking the (relatively small) risk of leaving to the unknown, I tried several variations of team and role in the hope of restoring the dream.
 
 The reality is that a significant chunk of my motivation and energy comes from being able to link my work back to a bigger purpose that delivers concrete positive impact in the world. I felt that link through Google's mission to make information universally accessible and useful for the first 10-11 years, but for the latter 4-5 years my ability to see that link was tenuous at best and trying to push through the challenges presented without that link providing a reliable source of energy is what drove my unhappiness and led to needing a longer break to recharge.
 
@@ -93,7 +93,7 @@ I expect the challenges of starting a business to be even greater than what I ex
 
 The second factor that I've slowly come to realise has been missing from my career in the last few years has been participation in a professional community and a variety of enriching interpersonal relationships. As much as I value and need this type of interaction, fostering and sustaining it unfortunately doesn't come naturally to me. Working remotely since 2016 and then taking a 9 month break out of the industry are not particularly helpful contributors to building and maintaining a wide network either!
 
-The lesson here is simply that I'm going to need to push past my comfort zone in reaching out and introducing myself to a range of people in order to grow my professional network, and equally I need to be diligent and disciplined in making time to maintain and regularly connect with people whom I respect and find energizing to interact with.
+The lesson here is simply that I'm going to need to push past my comfort zone in reaching out and introducing myself to a range of people in order to grow my professional network, and equally I need to be diligent and disciplined in making time to maintain and regularly connect with people whom I respect and find energising to interact with.
 
 ### Personal Influences
 
@@ -120,11 +120,11 @@ I consider this a first draft, which I intend to revise and evolve further over 
 Each word has a fair bit of meaning behind it for me, so breaking it down a little bit:
 
 * software - excites me because it is still [eating the world](https://a16z.com/2011/08/20/why-software-is-eating-the-world/) and has significant potential to do good.
-* systems - to reminds me that as well as being a complex system in its own right, software also exists as part of the complex system that is our modern world.
+* systems - to remind me that as well as being a complex system in its own right, software also exists as part of the complex system that is our modern world.
 * contribute - follows from being part of a system. Software alone doesn't solve problems, and misapplied can easily make things worse. To contribute software needs to be designed intentionally and evaluated with an awareness of risks it could pose.
-* direct and meaningful impact - I'm not looking for broad outcomes like improving productivity or communication, which apply generally across many problems. I want to see software applied to solve specific blockers whose removal makes unlocks significant progress towards solving a problem.
-* real - as opposed to straightforward problems. The types of issue where the acknowledgement of it as a "real problem" often ends the sentence as it feels too big to tackle. Climate change and pandemic risk are examples of real problems. Decentralizing finance or selling more widgets are not.
-* in our world - is mostly filler to round out the sentence nicely, but I do think we should probably sort out the mess we're making on our own planet before trying to colonize anywhere else.
+* direct and meaningful impact - I'm not looking for broad outcomes like improving productivity or communication, which apply generally across many problems. I want to see software applied to solve specific blockers whose removal unlocks significant progress towards solving a problem.
+* real - as opposed to straightforward problems. The types of issue where the acknowledgement of it as a "real problem" often ends the sentence as it feels too big to tackle. Climate change and pandemic risk are examples of real problems. Decentralising finance or selling more widgets are not.
+* in our world - is mostly filler to round out the sentence nicely, but I do think we should probably sort out the mess we're making on our own planet before trying to colonise anywhere else.
 
 
 ### Mission
@@ -133,7 +133,7 @@ Each word has a fair bit of meaning behind it for me, so breaking it down a litt
 
 Again breaking down the intent a little bit:
 
-* lead - having meaningful impact on real problems is a big job. I won't succeed as a one man band. It will require building and growing a larger team.
+* lead - having a meaningful impact on real problems is a big job. I won't succeed as a one man band. It will require building and growing a larger team.
 * development and operation - development is fun and necessary, but I also wanted to highlight that the ongoing operation and integration of those software systems into the broader social and human systems of our world is an equally important and ongoing need.
 * new opportunities - are important to drive and motivate investment in the adoption of technology. Building or operating a system that maintains the status quo is not motivating for me.
 * individuals, businesses and communities - aka everyone! But each of these groups (as examples, not specific) will have diverse roles, needs and interactions with the software which must be considered to ensure the system achieves the desired contribution and impact.
