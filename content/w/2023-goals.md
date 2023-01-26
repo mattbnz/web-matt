@@ -4,21 +4,23 @@ draft: true
 recommended: true
 contactsidebar: true
 
-date: 2023-01-26 16:00:00+1300
+date: 2023-01-26 17:38:00+1300
 categories:
   - General
 
 ---
 
-Yesterday, I wrote about the [reflections]({{< relref "2023-01-26-vision.md#reflection" >}}) that I used to craft a [vision]({{< relref "2023-01-26-vision.md#vision" >}}), [mission]({{< relref "2023-01-26-vision.md#mission" >}}) and [strategy]({{< relref "2023-01-26-vision.md#strategy" >}}) to use as a guide for the next phase of my career.
+This is part two of a two-part post covering my specific goals for 2023. See the [first]({{< relref "2023-01-26-vision.md#reflection" >}}) part to understand the [vision]({{< relref "2023-01-26-vision.md#vision" >}}), [mission]({{< relref "2023-01-26-vision.md#mission" >}}) and [strategy]({{< relref "2023-01-26-vision.md#strategy" >}}) driving these goals.
+{.text-xs .text-slate-500 .italic .px-4 .text-center}
 
-The idea for these posts was inspired by [my friend Nat](https://writing.natwelch.com/post/717), and [Will Larson](https://lethain.com/2022-in-review/)) whose annual reviews I've always enjoyed reading.
 
-By following in their footsteps, I've found the process of writing down and articulating my motivations to be useful in helping to clarify my thoughts and create tangible next steps which I'm grateful for in and of itself. I hope that by also publishing this, you too might find it interesting, and the additional public accountability it creates will be a positive encouragement to me.
+I want to thank [my friend Nat](https://writing.natwelch.com/post/717), and [Will Larson](https://lethain.com/2022-in-review/) whose annual reviews I've always enjoyed reading for inspiring me to write these posts.
+
+I've found the process articulating my motivations and goals very useful to clarify my thoughts and create tangible next steps. I'm grateful for that in and of itself, but I also hope that by publishing this you too might find it interesting, and the additional public accountability it creates will be a positive encouragement to me.
 
 ## 2023 Goals
 
-My focus for 2023 is to bootstrap the business through which I plan to execute my [mission](#mission) via three goals:
+My focus for 2023 is to bootstrap a business with the characteristics described in the [strategy]({{< relref "2023-01-26-vision.md#strategy" >}}) from the previous post. I'm going to track this via three goals:
 
 1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.
 
@@ -29,7 +31,7 @@ My focus for 2023 is to bootstrap the business through which I plan to execute m
 
 ### Consulting
 
-I'm keen to balance my time between consulting and product development, because I see consulting as a mechanism by which to learn more about and explore a variety of businesses and problem spaces while delivering value to those engaging me. Based on my background and experience, I plan to target my consulting across three areas:
+Based on my background and experience, I plan to target my consulting across three areas:
 
 1. Leadership - building and growing operationally focused software teams following SRE/devops principles. A typical engagement may involve helping a client establish a new SRE/devops practice, or strengthening the structure and processes in their existing team.
 
@@ -64,7 +66,7 @@ In addition to these mission aligned product ideas, I'm also interested in explo
 
 ### Developing my professional network
 
-To help make this goal more actionable and measurable I've decided to break it into 3 sub goals:
+To help make this goal more actionable and measurable I will track 3 sub goals:
 
 1. To build a professional relationship with at least 30 new people this year, meaning that we've met and had a decent conversation at least a couple of times and keep in touch at least every few months in some form.
 
@@ -74,6 +76,6 @@ To help make this goal more actionable and measurable I've decided to break it i
 
 ## Next Steps
 
-There's a lot to get underway with here and as I share my progress and thoughts, I'd love to have your feedback and engagement - please use the box in the sidebar (or on the [front page](/), if you're on a phone) to be notified when I post new writing, drop me an email with your thoughts or even book a meeting - you might be helping me reach one of my goals :)
+Over the coming weeks I'll write more about each of these topics - you can use the box in the sidebar (or on the [front page](/), if you're on a phone) to be notified when I post new writing.
 
-Thanks for reading this far!
+I'd love to have your feedback and engagement on these goals too, - please drop me an email with your thoughts or even book a meeting - it won't be a distraction to me, you'll be helping me goal of developing my network :)
