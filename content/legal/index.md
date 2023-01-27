@@ -4,9 +4,11 @@ title: Privacy & Legal Formalities
 
 ## Copyright
 
-© 2023 Matt Brown. All Rights Reserved.
+© 2023 Matt Brown.
 
-If you'd like to republish or re-use any page or content in its entirety please [get in touch](mailto:hi@mattb.nz).
+Licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+If you'd like to republish or re-use any page or content under different terms (e.g. commercially), please [get in touch](mailto:hi@mattb.nz).
 
 You are very welcome (and encouraged!) to share snippets and quotes from my writing, but please include a link back to the original page.
 
