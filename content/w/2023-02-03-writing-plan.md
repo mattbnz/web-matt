@@ -1,7 +1,11 @@
 ---
 title: "2023 Writing Plan"
 date: 2023-02-03T10:07:21+13:00
-draft: true
+recommended: true
+contactsidebar: true
+
+categories:
+  - General
 ---
 
 To achieve my [goal]({{< relref "2023-goals.md" >}}) of publishing one high-quality piece of writing per week this year, I've put together a draft writing plan and a few organisational notes.
