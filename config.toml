@@ -2,7 +2,7 @@ baseURL = 'https://www.mattb.nz/'
 languageCode = 'en-nz'
 title = 'Matt Brown'
 theme = 'default'
-rssLimit = 1
+rssLimit = 4
 enableRobotsTXT = true
 
 [build]
