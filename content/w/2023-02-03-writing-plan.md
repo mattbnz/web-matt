@@ -35,7 +35,7 @@ This series of posts will be pitched primarily at potential consulting customers
 
 I have an ever-growing list of potential software opportunities and products which I think would be fun to build, but which generally don't ever leave my head due to lack of time to develop the idea, or being unable to convince myself that there's a viable business case or market for it.
 
-I'd like to start sharing some very rudimentary business plan sketches for some of these ideas as a way of getting some feedback on my assessment of their potential. Whether that's confirmation that it's not worth pursuing, an expressions of interest in the product, or potential partnership/collaboration opportunities - anything is better than the idea just sitting in my head.
+I'd like to start sharing some very rudimentary business plan sketches for some of these ideas as a way of getting some feedback on my assessment of their potential. Whether that's confirmation that it's not worth pursuing, an expression of interest in the product, or potential partnership/collaboration opportunities - anything is better than the idea just sitting in my head.
 
 Initial ideas include:
  * Business oriented Mastodon hosting.
