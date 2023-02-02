@@ -16,9 +16,9 @@ I have strong communication skills and a keen ability to translate business need
 
 I started building technology solutions for local businesses and global clients while still in high school, and continued developing my skills while studying for a BCMS from Waikato University.
 
-After graduating in 2004, I joined a start-up ISP that grew out of work associated with my honours project and helped develop and deploy wiresless networks across a range of rural communities.
+After graduating in 2004, I joined a start-up ISP that grew out of work associated with my honours project and helped develop and deploy wireless networks across a range of rural communities.
 
-From 2007 - 2022 I worked as an SRE at Google across a wide range of teams, systems and countries, gaining singificant technical experience, leadership expertise and exposure to the biggest and best distributed systems on the planet.
+From 2007 - 2022 I worked as an SRE at Google across a wide range of teams, systems and countries, gaining significant technical experience, leadership expertise and exposure to the biggest and best distributed systems on the planet.
 
 ## Vision, Mission and Strategy
 
