@@ -47,7 +47,6 @@ tar -C "$SD" -xjf "$TB"
 REMOVED=0
 CHANGED=0
 STAT=$(diff -uwbr html/ "$SD/" | diffstat -S html -p 2 -s)
-echo "hi"
 # Can't get diffstat to give machine readable summaries, so have to do this hack
 if echo "$STAT" | egrep -q '[0-9]+ files changed, [0-9]+ deletions\(-\), [0-9]+ modifications'; then
     REMOVED=$(echo "$STAT" | awk '{print $4}')
@@ -60,10 +59,9 @@ else
     # stats probably OK, but echo for testing checks...
     echo $STAT
 fi
-echo "hi"
 
 echo "$CHANGED lines changed, $REMOVED lines removed"
-LINES=$(find html/ | xargs wc -l | tail -n1 | awk '{print $1}')
+LINES=$(find html/ | xargs wc -l 2>/dev/null | tail -n1 | awk '{print $1}')
 let REMOVAL_THOLD="$LINES / 20"  # 5%
 if [ "$REMOVED" -gt "$REMOVAL_THOLD" -a "$FORCE" != "1" ]; then
     echo "Error: $REMOVED/$LINES lines removed (> $REMOVAL_THOLD). Cannot proceed"
