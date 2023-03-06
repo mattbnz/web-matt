@@ -44,15 +44,38 @@ fi
 
 tar -C "$SD" -xjf "$TB"
 
-OLD=$(find ./html/ -type f | wc -l)
-CHANGED=$(diff -uwbr html/ "$SD/" | diffstat -s | awk '{print $1}')
-let THOLD="$OLD / 10"
-if [ "$CHANGED" -gt "$THOLD" -a "$FORCE" != "1" ]; then
-    echo "Error: $CHANGED/$OLD files changed (> $THOLD). Cannot proceed"
+REMOVED=0
+CHANGED=0
+STAT=$(diff -uwbr html/ "$SD/" | diffstat -S html -p 2 -s)
+echo "hi"
+# Can't get diffstat to give machine readable summaries, so have to do this hack
+if echo "$STAT" | egrep -q '[0-9]+ files changed, [0-9]+ deletions\(-\), [0-9]+ modifications'; then
+    REMOVED=$(echo "$STAT" | awk '{print $4}')
+    CHANGED=$(echo "$STAT" | awk '{print $6}')
+elif echo "$STAT" | egrep -q '[0-9]+ files changed, [0-9]+ insertions\(\+\), [0-9]+ deletions\(-\), [0-9]+ modifications'; then
+    REMOVED=$(echo "$STAT" | awk '{print $6}')
+    CHANGED=$(echo "$STAT" | awk '{print $8}')
+else
+    echo "Diffstat returned:"
+    # stats probably OK, but echo for testing checks...
+    echo $STAT
+fi
+echo "hi"
+
+echo "$CHANGED lines changed, $REMOVED lines removed"
+LINES=$(find html/ | xargs wc -l | tail -n1 | awk '{print $1}')
+let REMOVAL_THOLD="$LINES / 20"  # 5%
+if [ "$REMOVED" -gt "$REMOVAL_THOLD" -a "$FORCE" != "1" ]; then
+    echo "Error: $REMOVED/$LINES lines removed (> $REMOVAL_THOLD). Cannot proceed"
     exit 1
 fi
 
-echo "$CHANGED/$OLD files are being updated"
+let CHANGE_THOLD="$LINES / 2"  # 50%
+if [ "$CHANGED" -gt "$CHANGE_THOLD" -a "$FORCE" != "1" ]; then
+    echo "Error: $CHANGED/$LINES lines modified (> $CHANGE_THOLD). Cannot proceed"
+    exit 1
+fi
+
 rsync -aqvz --exclude=.well-known/ --delete "$SD/" html/
 rv="$?"
 chmod 755 html/
