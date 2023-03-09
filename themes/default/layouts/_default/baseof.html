@@ -6,7 +6,7 @@
     {{- partial "dev/dev-tools.html" . -}}
     {{- partial "header.html" . -}}
     {{- block "contentwrap" . }}
-        <content class="flex-1 justify-between mx-4 lg:mx-auto lg:w-3/4 xl:w-2/3 mt-2 pt-4 sm:pt-16 border-t-2 border-slate-300">
+        <content class="flex-1 justify-between mt-2 pt-4 sm:pt-16 border-t-2 border-slate-300 {{ partialCached "width-classes.html" (dict) "" }}">
             <div id="flash"></div>
             {{- block "main" . }}{{- end }}
         </content>

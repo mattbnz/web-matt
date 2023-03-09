@@ -1,11 +1,11 @@
 {{ define "main" }}
 <div class="flex">
-    <article class="mb-16 prose max-w-none md:w-3/4 text-gray-700 sm:px-4 lg:prose-lg">
+    <article class="mb-16 prose max-w-none md:w-3/4 text-gray-700 lg:prose-lg">
         <h1>{{ .Title }}</h1>
         {{ .Content }}
     </article>
     {{- block "sidebar" . }}
-    <sidebar class="ml-10 xl:ml-20 border-l-2 border-slate-300 w-1/4 hidden md:block px-2">
+    <sidebar class="ml-10 xl:ml-20 pl-2 border-l-2 border-slate-300 w-1/4 hidden md:block">
         {{ partialCached "sb-writing.html" . }}
 
         {{if .Params.contactsidebar}}

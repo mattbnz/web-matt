@@ -1,7 +1,7 @@
 {{ define "contentwrap" }}
 
 <hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
-    <div class="flex items-end mx-4 md:mx-auto md:w-2/3" >
+    <div class="flex items-end {{ partialCached "width-classes.html" (dict) "" }}" >
         <h1 class="text-2xl md:text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
             Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real
              problems.
@@ -17,10 +17,10 @@
     </div>
 </hero>
 
-<div class="mx-4 md:mx-auto md:w-2/3 my-2 sm:my-4 font-bold">
+<div class="{{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 font-bold">
     I can improve your business by applying my experience in:
 </div>
-<keysell class="flex-1 mx-4 md:mx-auto md:w-2/3 my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-10">
+<keysell class="flex-1 {{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-10">
     {{ range .Params.experience }}
     <div class="grid grid-cols-2 gap-x-1 gap-y-0 md:grid-cols-1">
         <div>
@@ -39,16 +39,16 @@
 </keysell>
 
 <cta class="my-2 sm:my-4 py-10 md:py-5 bg-slate-100">
-    <div class="mx-4 md:mx-auto md:w-2/3 mb-5">
+    <div class="{{ partialCached "width-classes.html" (dict) "" }} mb-5">
         <h2 class="text-2xl inline mr-3">Next Steps</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 mx-4 md:mx-auto md:w-2/3" >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 {{ partialCached "width-classes.html" (dict) "" }}" >
         {{ partialCached "contact-widgets.html" (dict "full" true) "cwhome" }}
     </div>
 </cta>
 
 <cta class="my-2 sm:my-4">
-    <div class="items-end mx-4 md:mx-auto md:w-2/3" >
+    <div class="items-end {{ partialCached "width-classes.html" (dict) "" }}" >
         <h2 class="text-2xl">Writing</h2>
         <p class="mt-2 mb-5">Ideas make the world go round. I aspire to contribute to the conversation and create interesting and
             useful writing on a range of topics
