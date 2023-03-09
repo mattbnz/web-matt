@@ -8,7 +8,7 @@ aliases:
 contactsidebar: true
 ---
 
-With over 20 years experience, I'm an experienced technical leader and skilled distributed systems engineer, specialising in building and operating large software systems at high reliability while also achieving development velocity, performance and an efficient resource usage and cost base.
+I'm an experienced technical leader and skilled distributed systems engineer with over 20 years experience, 15 of have been in Site Reliability Engineering at Google. I specialise in building and operating large software systems at high reliability while also achieving development velocity, performance and an efficient resource usage and cost base.
 
 I have strong communication skills and a keen ability to translate business needs into precise technical solutions.
 

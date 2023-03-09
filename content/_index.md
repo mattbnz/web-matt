@@ -13,7 +13,7 @@ experience:
 - title: Architecture
   icon: 269B.svg
   desc: |
-    With 15+ years experience building and operating the biggest distributed systems on the planet, I can help you apply SRE/DevOps practices to balance reliability vs your other business needs from day one.
+    With 15 years of experience at Google building and operating the biggest distributed systems on the planet, I can help you apply SRE/DevOps practices to balance reliability vs your other business needs from day one.
 - title: Technology Strategy
   icon: 1F4A1.svg
   desc: |
