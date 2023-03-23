@@ -14,6 +14,11 @@ enableRobotsTXT = true
 [markup.goldmark.parser.attribute]
     block = true
 
+[markup.tableOfContents]
+    startLevel = 2
+    endLevel = 2
+    ordered = false
+
 [params]
     SubscribeUrl = "http://localhost:8080/"
     connect = [
