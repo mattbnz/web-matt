@@ -2,7 +2,7 @@
 <div class="flex">
     <article class="mb-16 md:w-3/4 text-gray-700">
         <div class="text-center mb-5">
-            <h1 class="text-4xl font-black">{{ .Title }}</h1>
+            <h1 class="text-4xl font-black">{{ .Title }}{{ if .Params.subtitle}}: {{ .Params.subtitle }}{{ end }}</h1>
             <div class="text-sm text-slate-500">
                 Written on {{ replace (.PublishDate.Format "02 January 2006") " " "&nbsp;" | safeHTML}}, {{.ReadingTime}}&nbsp;min&nbsp;read.
             </div>
