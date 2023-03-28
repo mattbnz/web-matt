@@ -1,8 +1,7 @@
 ---
 title: Ventilation Monitoring
 subtitle: Ensuring every space has clean, fresh air
-date: 2023-03-24T11:41:21+13:00
-draft: true
+date: 2023-03-28T13:44:21+13:00
 
 categories:
   - Technology
