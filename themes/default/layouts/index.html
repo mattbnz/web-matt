@@ -58,7 +58,7 @@
             <div>
                 <h3 class="text-xl">Latest</h3>
                 <ul>
-                    {{ range first 5 (where (where .Site.Pages "Section" "w") "Kind" "page") }}
+                    {{ range first 5 (where (where (where .Site.Pages "Section" "w") "Kind" "page") "Draft" false) }}
                        <a href="{{.RelPermalink}}">
                         <li class="border-b border-slate-300 flex justify-between items-end py-2">
                         <p>{{.Title}}</p>
