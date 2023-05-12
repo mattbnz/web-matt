@@ -16,6 +16,11 @@ jobs:
         with:
           submodules: recursive  # Fetch the Docsy theme
           fetch-depth: 0         # Fetch all history for .GitInfo and .Lastmod
+          path: matt
+      - uses: actions/checkout@v3
+        with:
+          repository: mattbnz/metrics
+          path: metrics
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -34,17 +39,22 @@ jobs:
           # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
           cache-dependency-path: '**/package-lock.json'
 
+      - run: npm install ../metrics/js
+        working-directory: ./matt
       - run: npm ci
+        working-directory: ./matt
       - run: npm ci
-        working-directory: ./themes/default
+        working-directory: ./matt/themes/default
 
       - run: hugo --minify
+        working-directory: ./matt
 
       - name: Package
         run: tar cjf ../site-${GITHUB_SHA:0:7}.tar.bz2 * .??*
-        working-directory: ./public
+        working-directory: ./matt/public
 
       - run: ls
+        working-directory: ./matt
 
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
