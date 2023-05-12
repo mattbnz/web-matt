@@ -13,7 +13,7 @@
     {{- end }}
     {{- partial "footer.html" . -}}
     {{- block "scripts" . }}{{- end }}
-    {{- $script := resources.Get "audience-minutes.js" }}
+    {{- $script := resources.Get "index.js" | js.Build }}
     <script async src="{{ $script.RelPermalink }}"></script>
 
     {{ if .Site.Params.ReviewPopover }}
@@ -24,8 +24,8 @@
 
             <p>You shouldn't be here unless you've been specifically requested to review something.</p>
             <button
-                class="bg-green-600 hover:bg-green-500 p-2 rounded-lg text-white"
-                id="loadButton">That's me! Continue &gt;&gt;</button>
+                class="bg-green-600 hover:bg-green-500 p-2 rounded-lg text-white notify-click"
+                id="continueReview">That's me! Continue &gt;&gt;</button>
             <p>Otherwise, you'll be returned to <a href="{{.Site.BaseURL}}">{{.Site.BaseURL}}</a> in just a moment...</p>
         </div>
     </div>
@@ -41,7 +41,7 @@
             pop.classList.add("hidden");
         } else {
             timer = setTimeout(() => { window.location = "{{.Site.BaseURL}}"; }, 10000);
-            var but = document.getElementById("loadButton");
+            var but = document.getElementById("continueReview");
             but.addEventListener("click", loadSite);
         }
 
