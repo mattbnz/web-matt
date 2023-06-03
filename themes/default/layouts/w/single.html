@@ -44,6 +44,23 @@
     </article>
     {{- block "sidebar" . }}
     <sidebar class="ml-10 xl:ml-20 border-l-2 border-slate-300 w-1/4 hidden md:block px-2">
+        {{if .Params.discuss}}
+            <h3 class="text-lg font-bold">Discuss this post on</h3>
+            <ul class="list-disc pl-5 mb-5">
+            {{if .Params.hnlink}}
+                <li><a class="text-pink-600 font-bold text-sm" href="{{.Params.hnlink}}">Hacker News</a></li>
+            {{end}}
+            {{if .Params.twlink}}
+                <li><a class="text-pink-600 font-bold text-sm" href="{{.Params.twlink}}">Twitter</a></li>
+            {{end}}
+            {{if .Params.mastolink}}
+                <li><a class="text-pink-600 font-bold text-sm" href="{{.Params.mastolink}}">Mastodon</a></li>
+            {{end}}
+            {{if .Params.lilink}}
+                <li><a class="text-pink-600 font-bold text-sm" href="{{.Params.lilink}}">LinkedIn</a></li>
+             {{end}}
+            </ul>
+        {{end}}
         {{ partialCached "sb-writing.html" . }}
 
         {{if .Params.contactsidebar}}
