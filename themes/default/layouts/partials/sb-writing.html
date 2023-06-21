@@ -11,7 +11,7 @@
     </a>
     {{ end }}
 </ul>
-<h3 class="text-lg font-bold mt-5">Featured<span class="hidden xl:inline"> Writing</span></h3>
+<h3 class="text-lg font-bold mt-5">Popular<span class="hidden xl:inline"> Writing</span></h3>
 <ul>
     {{ range first 5 (where (where .Site.Pages "Section" "w") "Params.recommended" true) }}
        <a href="{{.RelPermalink}}">

@@ -4,7 +4,7 @@ date: 2012-03-17T23:08:27+00:00
 aliases: /blog/2012/03/17/kindle-reading-stats/
 categories:
   - General
-recommended: true
+
 ---
 I&#8217;ve [written before][1] about my initial investigations into the Kindle, and I&#8217;ve learnt much more about the software and how it communicates with the Amazon servers since then, but it all requires detailed technical explanation which I can never seem to find the motivation to write down. Extracting reading data out of the system log files is however comparatively simple.
 

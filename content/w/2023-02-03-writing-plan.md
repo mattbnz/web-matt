@@ -1,7 +1,6 @@
 ---
 title: "2023 Writing Plan"
 date: 2023-02-03T10:07:21+13:00
-recommended: true
 contactsidebar: true
 
 categories:
