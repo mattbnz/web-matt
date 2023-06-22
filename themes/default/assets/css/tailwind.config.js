@@ -3,7 +3,8 @@ module.exports = {
     "./themes/**/layouts/**/*.html",
     "./content/**/layouts/**/*.html",
     "./layouts/**/*.html",
-    "./content/**/*.html"
+    "./content/**/*.html",
+    "./config.toml",
   ],
   theme: {
     extend: {},

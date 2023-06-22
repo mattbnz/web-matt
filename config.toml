@@ -27,3 +27,11 @@ enableRobotsTXT = true
         { "title" = "LinkedIn", icon = "linkedin.svg", "href" = "https://www.linkedin.com/in/mattbrown/" },
         { "title" = "GitHub", icon = "github.svg", "href" = "https://github.com/mattbnz" },
     ]
+
+[params.images]
+    alignment_start_class_name = "xl:float-left xl:mr-5"
+    alignment_end_class_name = "xl:float-right xl:ml-5"
+
+[module]
+[[module.imports]]
+    path = 'github.com/hugomods/images'
