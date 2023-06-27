@@ -1,23 +1,20 @@
 ---
 title: "Designing a PCBA friendly CO2 monitor"
-date: 2023-06-22T14:36:12+12:00
-draft: true
+date: 2023-06-27T12:05:29+12:00
 
 categories:
   - Technology
 ---
 
-[co2mon.nz]({{% relref "2023-04-18-co2mon.md" %}}) started from the observation that none of the existing commercial ventilation monitoring options were a good match for the feature set needed at our local school. This led to me personally building monitors based off Oliver Seiler's [open source design](https://github.com/oseiler2/CO2Monitor) which is unsustainable if co2mon.nz is to become a feasible business.
-
-This post covers my exploration of how to outsource the production of a CO2 monitor that could enable the growth of co2mon.nz.
+[co2mon.nz]({{% relref "2023-04-18-co2mon.md" %}}) currently uses monitors based on Oliver Seiler's [open source design](https://github.com/oseiler2/CO2Monitor) which I am personally building. This post describes my exploration of how to achieve production of a CO2 monitor that could enable the growth of co2mon.nz.
 
 ## Goals
 
-The primary goal is to design to a CO2 monitor where the majority of the production can be outsourced, in particular the PCB should be able to be assembled in an automated fashion (PCBA).
+Primarily I want to design a CO2 monitor which allows the majority of the production process to be outsourced. In particular, the PCB should be able to be assembled in an automated fashion (PCBA).
 
-The secondary aim is to improve the aesthetics and design of the monitor while retaining the unique feature of displaying clear visual indication of the current ventilation level through coloured lights.
+As a secondary goal, I'd like to improve the aesthetics of the monitor while retaining the unique feature of displaying clear visual indication of the current ventilation level through coloured lights.
 
-Combined, success would be a visually attractive CO2 monitor which takes less than 10 minutes per monitor to assemble/box/ship and whose production cost has the potential to be lower than the current model.
+Overall, I'll consider the project successfull if I can achieve a visually attractive CO2 monitor which takes me less than 10 minutes per monitor to assemble/box/ship and whose production cost has the potential to be lower than the current model.
 
 ## PCB
 
@@ -104,9 +101,13 @@ I tried a variety of filament colours, but settled on a [transparent filament](h
 
 Building this monitor has been a really fun project, both in seeing something progress from an idea, to plans on a screen to a nice physical thing on my wall, but also in learning and developing a bunch of new skills in PCB design, assembly and 3D design.
 
-[![completed monitor](final.jpg?width=400px#float-end)](final.jpg) The goal of having a CO2 monitor which I can outsource the vast majority of production of is as close to being met as I think possible without actually ordered many of them and the final assembly steps are quick, easy and well below the level of effort and time it was taking me to produce the original monitors.
+[![completed monitor](final.jpg?width=400px#float-end)](final.jpg) The goal of having a CO2 monitor which I can outsource the vast majority of production of is as close to being met as I think is possible without undertaking the final proof of placing a large order. I've satisfied myself that each step is feasible and that the final assembly process is quick, easy and well below the level of effort and time it was taking me to produce the original monitors.
 
-As fun as this has been, it has also given me a much better appreciation for how much I'm only just scratching the surface of the potential complexities and challenges in producing a hardware product of this type. I'm reasonably confident I could successfully produce a few hundred and maybe even a few thousand monitors using this approach, but it's also clear that getting beyond that point is and would be a whole further level of effort and learning.
+Cost wise it's also a huge win, primarily in terms of the time taken, but also in the raw components - currently the five prototypes I ordered and built are on par with the component cost of the original CO2 monitor, but this will drop further with larger orders due to price breaks and amortisation of the setup and shipping expenses across more monitors.
+
+This project has also given me a much better appreciation for how much I'm only just scratching the surface of the potential complexities and challenges in producing a hardware product of this type.
+
+I'm reasonably confident I could successfully produce a few hundred and maybe even a few thousand monitors using this approach, but it's also clear that getting beyond that point is and would be a whole further level of effort and learning.
 
 Hardware is hard work. That's not news to anyone, including me, but there is something to be said for experiencing the process first hand to make the reality of what's required real.
 
