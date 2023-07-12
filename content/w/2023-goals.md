@@ -19,6 +19,9 @@ I've found the process articulating my motivations and goals very useful to clar
 
 ## 2023 Goals
 
+**Note:** I revised these goals in my [Mid Year Review]({{% relref "2023-mid-year-review.md" %}}), so you probably want to look at the [Updated Versions]({{% relref "2023-mid-year-review.md#appendix-revised-2023-goals" %}}) instead.
+{.bg-pink-100 .p-2 .rounded-md}
+
 My focus for 2023 is to bootstrap a business that I can use to build software that solves real problems (see the [strategy]({{< relref "2023-01-26-vision.md#strategy" >}}) from the previous post for more details on this). I'm going to track this via three goals:
 
 1. Execute a series of successful consulting engagements, building a reputation for myself and leaving happy customers willing to provide testimonials that support a pipeline of future opportunities.

@@ -1,7 +1,6 @@
 ---
 title: "2023 Mid Year Review"
-date: 2023-07-04T09:58:24+12:00
-draft: true
+date: 2023-07-13T00:44:24+12:00
 
 categories:
   - Retrospectives
