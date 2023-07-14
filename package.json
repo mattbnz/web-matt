@@ -1,7 +1,7 @@
 {
   "dependencies": {
+    "@mattbnz/metrics": "^0.0.2",
     "autoprefixer": "^10.4.13",
-    "metrics": "file:../metrics/js",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0"
   }
