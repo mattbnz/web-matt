@@ -13,7 +13,7 @@
     {{- end }}
     {{- partial "footer.html" . -}}
     {{- block "scripts" . }}{{- end }}
-    {{- $script := resources.Get "index.js" | js.Build }}
+    {{- $script := resources.Get "index.js" | js.Build (dict "params" (dict "MetricsHost" .Site.Params.MetricsHost)) }}
     <script async src="{{ $script.RelPermalink }}"></script>
 
     {{ if .Site.Params.ReviewPopover }}

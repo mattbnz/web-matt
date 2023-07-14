@@ -21,6 +21,7 @@ enableRobotsTXT = true
 
 [params]
     SubscribeUrl = "http://localhost:8080/"
+    MetricsHost = "http://argon:8080/"
     connect = [
         { "title" = "Twitter", icon = "twitter.svg", "href" = "https://twitter.com/xleem" },
         { "title" = "Mastodon", icon = "mastodon.svg", "href" = "https://mastodon.nz/@mattb" },
@@ -35,3 +36,9 @@ enableRobotsTXT = true
 [module]
 [[module.imports]]
     path = 'github.com/hugomods/images'
+
+[deployment]
+
+[[deployment.targets]]
+    name = 'gcs'
+    URL = 'gs://mattbnz-site/'

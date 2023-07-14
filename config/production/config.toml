@@ -1,2 +1,3 @@
 [params]
     SubscribeUrl = "https://subscribe.mattb.nz/"
+    MetricsHost = "https://metrics.mkmba.nz"

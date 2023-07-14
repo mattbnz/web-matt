@@ -1,3 +1,4 @@
 import * as metrics from 'metrics';
+import * as params from '@params';
 
-metrics.SetupMetrics("https://metrics.mkmba.nz/", 60);
+metrics.SetupMetrics(params.MetricsHost, 60);
