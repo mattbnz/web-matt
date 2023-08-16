@@ -14,7 +14,8 @@
     {{- partial "footer.html" . -}}
     {{- block "scripts" . }}{{- end }}
     {{- $script := resources.Get "index.js" | js.Build (dict "params" (dict "MetricsHost" .Site.Params.MetricsHost "SubscribeUrl" .Site.Params.SubscribeUrl)) }}
-    <script async src="{{ $script.RelPermalink }}"></script>
+    {{- $fscript := resources.Fingerprint $script }}
+    <script async src="{{ $fscript.RelPermalink }}"></script>
 
     {{ if .Site.Params.ReviewPopover }}
     <div id="reviewPopover" class="absolute top-0 left-0 h-full w-full bg-orange-600/90">
