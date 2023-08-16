@@ -1,6 +1,9 @@
 ---
 title: "On-call is an opportunity"
+description: On-call in software teams has a bad reputation, but in the right environment it's a powerful opportunity for growth. Let's consider how we can achieve that.
 date: 2023-08-16T19:17:24+13:00
+
+card_image: oncall-opportunity.jpg
 
 categories:
   - Technology
