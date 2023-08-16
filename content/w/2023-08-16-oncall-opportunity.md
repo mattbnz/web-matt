@@ -11,7 +11,7 @@ On-call in software teams has a bad reputation. Niall Murphy's 2018 polemic, [Ag
 
 Despite the current reputation, on-call can and should be an activity that every software engineer participates in and finds some measure of fulfilment from. Similar to how [type 2 fun](#on-call-should-be-fun-of-the-type-2-kind) provides fulfilment after the fact even when not enjoyable in the moment.
 
-Many people I speak with still report that on-call in their teams today doesn't provide any fulfilment and is simply seen as a necessary duty that must be borne. Unsurprisingly given this mindset many teams struggle to find sufficient people to provide on-call coverage for their services.
+I've spoken with many people who confirm that on-call in their teams today doesn't provide any fulfilment and is simply seen as a necessary duty that must be borne. Unsurprisingly given this mindset many teams struggle to find sufficient people to provide on-call coverage for their services.
 
 Let's consider how we might change that.
 
@@ -29,13 +29,13 @@ Acknowledging the inevitability of the role's existence provides an obvious path
 
 ## Effective on-call requires support from every aspect of a team
 
-Creating an environment that enables on-call to fulfil that potential requires consideration of how every aspect of a team supports effective execution of the role. Attempts to add on-call as a discrete, additional responsibility alongside other work will only contribute to continuing poor on-call experiences.
+Creating an environment that enables on-call to fulfil that potential requires every aspect of a team's practices to support effective execution of the role. Attempts to add on-call as a discrete, additional responsibility alongside other work will result in continued poor on-call experiences.
 
 Integrating on-call into a team usually begins with consideration of how big surprises (often called incidents) are responded to. Incidents have high potential for harm and are rich sources from which to draw insight and learning. Clear incident management processes provide guard rails against the harm and can be a foundation upon which the insights and learning can be mined.
 
-Incident management processes are a necessary start, but effective integration of on-call into a team also requires attention to all the time spent outside of incidents. This includes everything from the logistics and scheduling of an on-call rotation, monitoring and alerting health, training of team members to instil confidence in their ability to fulfil the role, effective practices for learning and distributing knowledge, the ability of the team to improve the system and many other aspects in between.
+Incident management is a necessary start, but successful integration of on-call into a team also requires attention to all the time spent outside of incidents. This needs to cover a wide range of aspects including the logistics and scheduling of the on-call rotation, monitoring and alerting health, training of team members to instil confidence in their ability to fulfil the role, effective practices for learning and distributing knowledge, the ability of the team to improve the system and many other aspects in between.
 
-Underlying everything, the team must have, or be developing, a culture that values learning and provides support and encouragement. Nurturing that this culture and all the various aspects of investment required across the team cannot be justified when the perception of on-call is simply that it's a duty to be borne.
+Underlying everything, the team must have, or be developing, a culture that values learning and provides support and encouragement. Nurturing this culture and the investment required across all aspects of the team is almost impossible to justify when the perception of on-call is simply that it's a duty to be borne.
 
 
 ## On-call makes you a better engineer
@@ -44,42 +44,52 @@ Luckily that perception, although widespread, could not be further from the trut
 
 Without this experience our individual and collective ability to safely and reliably develop software systems is diminished. Avoiding on-call - whether through outsourcing to a different set of people, or minimizing the time and energy we invest in our execution of the role may appear beneficial in the short-term, but ultimately lowers our overall software delivery performance and capability.
 
-This is not a new argument. [Charity Majors](https://www.youtube.com/watch?v=p_paJ2PB4MY) and [Cindy Sridharan](https://copyconstruct.medium.com/on-call-b0bd8c5ea4e0) articulated similar themes back in 2018, and it's no accident that the list of capabilities the [Accelerate](https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339) book and [DORA reports](https://dora.dev/devops-capabilities/) describe as predictive of high performing teams overlap significantly with the tean capabilities and culture that delivers effective on-call.
+This is not a new argument. [Charity Majors](https://www.youtube.com/watch?v=p_paJ2PB4MY) and [Cindy Sridharan](https://copyconstruct.medium.com/on-call-b0bd8c5ea4e0) articulated similar themes back in 2018, and it's no accident that the list of capabilities the [Accelerate](https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339) book and [DORA reports](https://dora.dev/devops-capabilities/) describe as predictive of high performing teams overlap significantly with the team capabilities and culture that delivers effective on-call.
 
-The best software developers will always be those who use effective, fulfilling on-call practices as an opportunity for growth and development as they support their software in production.
+**The best software developers will always be those who use effective, fulfilling on-call practices as an opportunity for growth and development as they support their software in production.**
 
 
 ## Checking the direction of travel
 
-Understanding whether a teams culture and practices are delivering growth can be slow and hard to rigorously measure. I've found that whether participants report that on-call feels a bit like type 2 fun from the [the fun scale](https://sketchplanations.com/the-fun-scale) is a much better proxy to quickly establish whether a team is heading in the direction of fulfilling the potential of on-call or not.
+Understanding whether a team's culture and practices are delivering growth can be slow to rigorously measure. I've found that asking participants if on-call feels a bit like type 2 fun from the [the fun scale](https://sketchplanations.com/the-fun-scale) is a much better proxy to quickly establish whether the team is on track to realise the potential of on-call.
 
 ![the fun scale](https://sketchplanations.com/api/dl?uid=the-fun-scale&width=600px#center "Image: sketchplanations.com")
 
-On-call is never type 1 fun that's enjoyable in the moment. There's too much inherent stress involved for that. But when it fits the model of type 2 fun (a little painful in the moment but fulfilling to look back upon) it's highly likely that both opportunities described above are being fulfilled and the team will experience growth of expertise and fulfilment in on-call rather than seeing it as a burden.
+On-call is never type 1 fun that's enjoyable in the moment. There's too much inherent stress involved for that. But when it fits the model of type 2 fun (a little painful in the moment but fulfilling to look back upon) it's highly likely that both opportunities described above are being realised and the team will be experiencing growth in their expertise. In this environment, on-call is recognised as fulfilling a purpose, rather than being just a duty to perform.
 
-If all on-call is providing is adrenalin rushes, or stories of pain there is still unfulfilled potential to realise the opportunity that on-call provides.
+If on-call only provides adrenalin rushes and stories of pain there is still investment required to create the environment that allows on-call's potential to be realised.
 
 
-## Software that supports iteration and growth
+## Growth through iteration
 
-Incident response management is an active field of software and continues to receive new investment. Unfortunately most of the existing products contribute to the problem of unfulfilling on-call through their very design! Their focus is on minimizing the impact and time taken to respond to incidents, but the practices implemented and the behaviours that are enabled reinforce the mindset that on-call is simply a duty to be borne before getting back to other work. The negative feedback loop this induces for development of improved practices is a major contributing factor to the slow rate of improvement in how on-call is perceived and experienced.
+When the value of integrating on-call into every aspect of the team is understood, the remaining challenge is how to balance that investment against the other demands on the team. The answer is simple - start with a single small improvement.
 
-We can do better. It's not that I believe there's a different or improved product whose use will immediately transform the on-call experience. Software doesn't automatically fix problems - particularly problems like on-call which interact with every aspect of a team.
+All that is required is to [set the goal (fulfilling on-call) and commit to iterative experiments to move towards it](https://dora.dev/devops-capabilities/cultural/devops-culture-transform/#set-goals-and-enable-team-experimentation). Pick the smallest improvement that can be quickly delivered, complete it, and then do it again. Achieving fulfilling on-call is not a one-off project you need to fund. It's a constant series of small improvements delivered over time alongside all the other work and impact the team is also undertaking.
 
-Change only happens through [committing to a goal and iterating towards it](https://dora.dev/devops-capabilities/cultural/devops-culture-transform/#set-goals-and-enable-team-experimentation). Software can be a key tool for achieving that iterative cycle by enabling and encouraging desired new behaviours and making them easy to perform.
+While this process is primarily cultural and you can't buy a piece of software that will speed run you to the end, you can use software as a tool to enable and encourage the new behaviour you want to embed in the team.
 
-To realise the potential of on-call, the types of behaviours that need to be enabled are those that minimise the harm and stress associated with on-call and facilitate learning and knowledge sharing **throughout the lifetime of a team, not just during on-call shifts and incident response.**
+
+## The narrow scope of existing tools
+
+There's a lot of existing incident management software available. Some of it definitely helps improve the incident response aspect of on-call, providing useful functionality that enhances the preparation, practice and processes for how surprises are managed. The best software even recognises the value of learning from incidents and aims to encourage that outcome.
+
+But as useful as many of these tools are, they're not complete. The focus on responding to incidents, minimizing their impact and optimizing the time spent responding to them means the breadth of features oriented towards the non-incident aspects of on-call are very limited, and the cycle of on-call being experienced as a burdensome duty to be performed and then moved on from continues.
+
+Iterative growth of fulfilling on-call practices in a team is only enabled when capabilities that minimise the harm and stress associated with on-call and facilitate learning and knowledge sharing **throughout the lifetime of a team, not just during on-call shifts and incident response** is available.
+
 
 ## A product opportunity
 
-The opportunity I see is to surround existing incident response processes with capabilities for flexible scheduling, easy straightforward shift swaps, a clear curriculum and training programme and straightforward analysis and sharing of knowledge.
+This calls for a product that can wrap around existing incident response tools to provide the missing capabilities that enable realisation of the opportunity on-call provides (e.g. flexible scheduling, easy straightforward shift swaps, a clear curriculum and training programme, straightforward analysis and sharing of knowledge derived from on-call, etc).
 
-A product that combines those capabilities together in an lightly opinionated way to nudge a team towards an iterative cycle of behaviour that not only solves the pain points of the current on-call experience, but drives improved software delivery performance as their expertise grows over time would have great value to many teams.
+A product that combines those capabilities in an lightly opinionated way that helps to nudge a team into the desired iterative cycle of behaviour that not only solves the pain points of the current on-call experience, but drives improved software delivery performance as their expertise grows over time would have great value to many teams.
 
 Someone should build this.
 
-Maybe me? The problem space certainly fits my criteria of [solving a problem in my area of expertise]({{< relref "2023-mid-year-review.md#the-next-few-months" >}}), but is it a problem that enough people will pay good money to solve?
+Maybe me? The problem space certainly fits my criteria of [solving a problem in my area of expertise]({{< relref "2023-mid-year-review.md#the-next-few-months" >}}) and the conversations I've had with many people from a variety of companies of the last month have validated the problems and pain with on-call are not solved by any of the existing products.
 
-I've spoken to a variety of people in a range of companies over the last month, which has provided useful validation of the opportunity and insights into the variety of perspectives and appetite to address it. The next step is to pitch a more detailed description of the product above and see if it's compelling enough to drive some commitments.
+But are the problems and pain bad enough people would switch to a better solution and pay good money to solve? The conversations to date have given me a number of insights into the variety of perspectives and appetite for addressing this that exist, but are not yet conclusive that there is a business model here.
+
+My next step is to pitch a more detailed description of the product outline above and test whether the value I could deliver is compelling enough to drive some commitments.
 
 Watch this space for updates on whether that's successful!
