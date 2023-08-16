@@ -6,6 +6,9 @@ categories:
   - Technology
 ---
 
+For an audio conversation covering similar themes, check out [my interview on the Slight Reliability Podcast](https://www.youtube.com/watch?v=pgYwuSReL6k&t=3s).
+{.bg-pink-100 .p-2 .rounded-md}
+
 On-call in software teams has a bad reputation. Niall Murphy's 2018 polemic, [Against On-Call](https://www.usenix.org/conference/srecon18europe/presentation/murphy) is well worth a watch if you need a refresher on the many reasons why the reputation is justified.
 
 Despite the current reputation, on-call can and should be an activity that every software engineer participates in and finds some measure of fulfilment from. Similar to how [type 2 fun](#on-call-should-be-fun-of-the-type-2-kind) provides fulfilment after the fact even when not enjoyable in the moment.
