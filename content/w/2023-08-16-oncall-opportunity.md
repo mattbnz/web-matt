@@ -1,7 +1,6 @@
 ---
 title: "On-call is an opportunity"
-date: 2023-08-16T08:33:24+13:00
-draft: true
+date: 2023-08-16T19:17:24+13:00
 
 categories:
   - Technology
@@ -62,11 +61,13 @@ If on-call only provides adrenalin rushes and stories of pain there is still inv
 
 ## Growth through iteration
 
-When the value of integrating on-call into every aspect of the team is understood, the remaining challenge is how to balance that investment against the other demands on the team. The answer is simple - start with a single small improvement.
+When the value of integrating on-call into every aspect of the team is understood, the remaining challenge is how to balance that investment against the other demands on the team. The answer to start with a single small improvement.
 
-All that is required is to [set the goal (fulfilling on-call) and commit to iterative experiments to move towards it](https://dora.dev/devops-capabilities/cultural/devops-culture-transform/#set-goals-and-enable-team-experimentation). Pick the smallest improvement that can be quickly delivered, complete it, and then do it again. Achieving fulfilling on-call is not a one-off project you need to fund. It's a constant series of small improvements delivered over time alongside all the other work and impact the team is also undertaking.
+Change is best achieved by [setting a goal (fulfilling on-call) and committing to iterative experiments to move towards it](https://dora.dev/devops-capabilities/cultural/devops-culture-transform/#set-goals-and-enable-team-experimentation). Pick the smallest improvement that can be quickly delivered, complete it, and then do it again. Achieving fulfilling on-call is not a one-off project you need to fund. It's a constant series of small improvements delivered over time alongside all the other work and impact the team is also undertaking.
 
-While this process is primarily cultural and you can't buy a piece of software that will speed run you to the end, you can use software as a tool to enable and encourage the new behaviour you want to embed in the team.
+While this process is primarily cultural - you can't buy a piece of software that will speed run you to the end, there is a way that software can help.
+
+Culture is defined by how you act. The most effective method to develop a new culture or practice in a team is to start acting in the way you'd like the culture to reflect. Software can be a tool to enable and encourage these experiments by making it easy and straightforward to undertake the desired behaviours.
 
 
 ## The narrow scope of existing tools
@@ -75,20 +76,22 @@ There's a lot of existing incident management software available. Some of it def
 
 But as useful as many of these tools are, they're not complete. The focus on responding to incidents, minimizing their impact and optimizing the time spent responding to them means the breadth of features oriented towards the non-incident aspects of on-call are very limited, and the cycle of on-call being experienced as a burdensome duty to be performed and then moved on from continues.
 
-Iterative growth of fulfilling on-call practices in a team is only enabled when capabilities that minimise the harm and stress associated with on-call and facilitate learning and knowledge sharing **throughout the lifetime of a team, not just during on-call shifts and incident response** is available.
+Iterative growth of fulfilling on-call practices in a team is only enabled when capabilities that minimise the harm and stress associated with on-call and facilitate learning and knowledge sharing **are available throughout the lifetime of a team, not just during on-call shifts and incident response**.
 
 
 ## A product opportunity
 
-This calls for a product that can wrap around existing incident response tools to provide the missing capabilities that enable realisation of the opportunity on-call provides (e.g. flexible scheduling, easy straightforward shift swaps, a clear curriculum and training programme, straightforward analysis and sharing of knowledge derived from on-call, etc).
+This calls for a product that can wrap around existing incident response tools to provide the missing capabilities (e.g. flexible scheduling, easy straightforward shift swaps, a clear curriculum and training programme, straightforward analysis and sharing of knowledge derived from on-call, etc).
 
-A product that combines those capabilities in an lightly opinionated way that helps to nudge a team into the desired iterative cycle of behaviour that not only solves the pain points of the current on-call experience, but drives improved software delivery performance as their expertise grows over time would have great value to many teams.
+A product that delivers these capabilities not only provides easy options to solve common pain points that make the typical on-call experience burdensome at each iteration steps, but the combination of capabilities together further reinforces and strengthens the ability of a team to use on-call as an opportunity for iterative growth of expertise.
 
-Someone should build this.
+It's not a silver bullet, but it's a recipe that I've seen work many times.
 
-Maybe me? The problem space certainly fits my criteria of [solving a problem in my area of expertise]({{< relref "2023-mid-year-review.md#the-next-few-months" >}}) and the conversations I've had with many people from a variety of companies of the last month have validated the problems and pain with on-call are not solved by any of the existing products.
+So should I build this?
 
-But are the problems and pain bad enough people would switch to a better solution and pay good money to solve? The conversations to date have given me a number of insights into the variety of perspectives and appetite for addressing this that exist, but are not yet conclusive that there is a business model here.
+The problem space certainly fits my criteria of [solving a problem in my area of expertise]({{< relref "2023-mid-year-review.md#the-next-few-months" >}}) and the conversations I've had with many people from a variety of companies of the last month have validated that existing products are not solving the problems discussed.
+
+But are the problems and pain bad enough people would pay good money to solve them? The conversations to date have given me a number of insights into the variety of perspectives and appetite for addressing this that exist, but are not yet conclusive that there is a viable business model here.
 
 My next step is to pitch a more detailed description of the product outline above and test whether the value I could deliver is compelling enough to drive some commitments.
 
