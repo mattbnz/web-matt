@@ -29,6 +29,10 @@
         <div class="prose max-w-none lg:prose-lg">
             {{ .Content }}
         </div>
+        <div class="mt-8 max-w-none bg-slate-100 p-4 rounded-lg">
+            <p class="pb-4">If you liked this post and would like to receive my writing via email, please subscribe below.</p>
+            {{ partial "sub-form.html" (dict "formID" "post") }}
+        </div>
         <div class="flex justify-between mt-10">
             <div>
                 {{if .PrevInSection}}

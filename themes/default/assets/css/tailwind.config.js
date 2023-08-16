@@ -1,5 +1,6 @@
 module.exports = {
   content: [
+    "./themes/**/assets/**/*.js",
     "./themes/**/layouts/**/*.html",
     "./content/**/layouts/**/*.html",
     "./layouts/**/*.html",

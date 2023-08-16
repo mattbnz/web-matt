@@ -11,60 +11,7 @@ Book a 30 min VC
 </div>
 <div class="mx-auto my-auto text-center {{if .vertical -}} mt-4{{end}}">
     Receive my writing via email:
-    <div class="mt-1" id="subWrapper">
-      <input type="text"  class="w-full bg-white pl-2 text-base outline-0 rounded-tl-lg rounded-tr-lg" placeholder="email address" id="subEmail" />
-      <input type="button" id="subButton" value="Subscribe" class="w-full border-pink-600 bg-pink-600 hover:bg-pink-500 p-2 rounded-bl-lg rounded-br-lg text-white"/>
-    </div>
-    <p id="subError" class="mt-2"></p>
-    <p id="subSuccess" class="mt-2 font-bold hidden">Your address has been added. Please click the link in the email you will receive to confirm your subscription.</p>
-
-    <script type="text/javascript">
-      window.addEventListener("load", (e) => {
-        document.getElementById("subButton").addEventListener("click", subscribe);
-      })
-
-      async function postData(url = '', data = {}) {
-        const response = await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify(data)
-        });
-        return response;
-      }
-
-      function isvalid(e) {
-        return /(.+)@(.+){2,}\.(.+){2,}/.test(e);
-      }
-
-      function subscribe(e) {
-        var b = document.getElementById("subButton");
-        var e = document.getElementById("subEmail");
-        var m = document.getElementById("subError");
-        var w = document.getElementById("subWrapper");
-        var s = document.getElementById("subSuccess");
-        if (!isvalid(e.value)) {
-          m.innerText = "Invalid email!";
-          m.classList.add("text-pink-800");
-          e.classList.add("text-pink-800");
-          return;
-        }
-        m.classList.remove("text-pink-800");
-        e.classList.remove("text-pink-800");
-        e.disabled = true;
-        b.disabled = true;
-        b.value = "Subscribing...";
-        postData("{{ site.Params.SubscribeUrl | safeURL }}", {email: e.value}).then((r) => {
-          if (r.ok) {
-            w.classList.add("hidden");
-            m.classList.add("hidden");
-            s.classList.remove("hidden");
-          } else {
-            m.classList.add("text-pink-800");
-            m.innerText = "Subscription failed!"
-          }
-        });
-      }
-    </script>
+    {{ partial "sub-form.html" (dict "formID" "widget") }}
 </div>
 <div class="text-center my-auto {{if .vertical -}} mt-10{{end}}">
     <p class="">Or drop a short note to:</p>
