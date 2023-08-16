@@ -45,7 +45,7 @@ function subscribe(evt) {
     e.disabled = true;
     b.disabled = true;
     b.value = "Subscribing...";
-    postData("{{ site.Params.SubscribeUrl | safeURL }}", {email: e.value}).then((r) => {
+    postData(params.SubscribeUrl, {email: e.value}).then((r) => {
       if (r.ok) {
         w.classList.add("hidden");
         m.classList.add("hidden");
