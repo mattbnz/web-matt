@@ -1,7 +1,8 @@
 ---
-title: "What is on-call?"
-description: Practical foundations for a discussion of what's required to realise the opportunity on-call presents.
+title: "Mental models of on-call"
+description: Establishing common ground for a practical discussion of how to realise the opportunity on-call presents.
 date: 2023-08-23T15:37:24+13:00
+draft: true
 
 card_image: oncall-opportunity.jpg
 
@@ -9,70 +10,61 @@ categories:
   - Technology
 ---
 
-On-call as an [opportunity for growth and learning]({{% relref "2023-08-16-oncall-opportunity.md" %}}) in a team is a powerful vision to aim towards, but a vision without a practical path towards achievement is not very useful.
+Productive discussion of how to realise the [opportunity offered by on-call]({{% relref "2023-08-16-oncall-opportunity.md" %}}) requires understanding the different experiences and mental models of on-call that exist in the world.
 
-This post aims to step back from my lofty ideals of what on-call can achieve and build some common ground around two basic aspects of on-call: what it is we're actually talking about and the roles and responsibilities of the different people involved.
-
-From that foundation, future posts will then dive into more details on how specific aspects of a team's environment can be nurtured to make practical, incremental progress on the journey towards fulfilling on-call.
+This post aims to step back from high-level discussion of the opportunity on-call offers to focus on explaining two key mental models I use to think about on-call and the roles and responsibilities of the different people involved.
 
 
- ## Mental models of on-call
+ ## What is on-call?
 
-I claimed that on-call is inevitable, needs support from all aspects of a team and is more than just incident response. Each statement is true, but like [blind men describing an elephant](https://thesystemsthinker.com/the-blind-men-and-the-elephant/), don't really answer the question of what on-call actually is.
-
-Rather than spending time trying to actually define on-call, I think it's more useful to lean into the concept of a mental model of on-call as a guide. Every team and each of us individually has a different experience of on-call that shapes perceptions of what is or isn't or should or shouldn't be involved in the discussion. Some aspects of those models have positive characteristics that we'd like to see more of, others are negative. There's no absolute right or wrong model of on-call, each model can teach us something about how to apply on-call to our unique context, but only if we realise the our models are different!
-
-The mental model I primarily use to think about on-call is based on the landscape of work that a software team is faced with organised along two axes giving four quadrants - for me on-call is roughly consistent with the bottom right quadrant.
+Beyond the simplistic understanding of on-call being responsible for fixing something when it breaks, I find that looking at where on-call sits in the broader landscape of work involved in developing and operating a software system provides a more complete understanding of what's involved. A simple two-axis graph can help visualise this:
 
 - X-axis: urgency of response (months, weeks, days, hours, minutes)
 - Y-axis: size of response (single person, few people, whole team, whole company)
 
- On the horizontal axis we have the urgency or desired deadline for when the work must be completed, ranging from months on the left, through week, days and hours to end up with minutes on the right. On the vertical axis we have the number of people directly involved in completing the unit of work, ranging from a single individual at the bottom, through small groups and teams up to the entire company at the top.
+ On the horizontal axis is the time window within which the work must be completed, from months on the left to minutes on the right. On the vertical axis is the number of people directly involved in completing the unit of work, from a single individual at the bottom up to the entire company at the top.
 
- On-call occupies a space roughly consistent with the bottom-right of this quadrant, bounded by days on the left, and multiple below above. Requiring an urgent (hours to minutes) response, but within the scope that one or maybe two people can resolve. On the very left of the spectrum is our planned work, governed by our goals and objectives. In the bottom middle is other operational work - often called bugs or tickets, and in the top right are incidents - urgent situations requiring a large, co-ordinated response.
+ On-call occupies a space roughly consistent with the bottom-right quadrant, bounded by days on the left, and multiple people above. Requiring an urgent (hours to minutes) response, but within the scope that one or two people can resolve.
 
-## Implications of my mental model
-
-- Focused on the work to be done, not how to do it.
-- Compared to the other quadrants, it's notable how little existing framework/structure/discussion exists around on-call
-
-## Who's job is it to create a fulfilling on-call environment?
-
-Who is the audience for these posts? Who am I trying to convince. It's relevant to everyone working with software products, but primarily towards leaders at both the team and organisational level.
-
-Culture is how we act, not what we say. Members of a team have a huge influence on the culture in teh team, regardless of what the leadership intends.
-
-But leadership can either make that change easier or harder, and change will occur much quicker with leaderhsip buy-in and support, so
+This framing of on-call shows why responsiveness is key, but also explains why [on-call is inevitable]({{% relref "2023-08-16-oncall-opportunity.md#on-call-is-inevitable" %}}) (there will always be work falling in this quadrant regardless of whether you want it to or not) and why [on-call and incident response require distinct planning and preparation]({{% relref "2023-08-16-oncall-opportunity.md#the-narrow-scope-of-existing-tools" %}}) (they handle different scales of event and response).
 
 
-## What can you do
+## Who should be on-call?
 
-Leadership has more leverage, but that doesn't mean you're powerless as an individual team member participating in on-call.
+In an ideal world everyone developing software would benefit from the opportunity for growth and development that on-call provides, but "you build it, you run it" won't deliver results in practice if the engineers developing the software are not provided with an effective and supportive environment.
 
+Creating that environment requires balancing the ideal of developers being directly on-call for the software they write against constraints such as minimum rotation sizes, sufficient knowledge of the systems supported and many other factors, all of which are in some amount of tension with each other.
 
-. Discussion of potential improvement requires a clear understanding of what requires clarity on the desired goal or destination. Equally, simply stating the opportunity
-Now that we understand the opportunity on-call presents it's time to come down from the lofty heights of idealism and get into the nitty gritty of what realising that opportunity actually looks like.
+The solution to this problem will look different in every situation. There is no single model of on-call staffing or rotation structure that must be followed, but that does not mean the structure is unimportant.
 
-This post is about establishing some common ground for more concrete discussions of what relaising that opportunity will look like in a team.
+The structure of a rotation directly influences the overall capability its members have to engage in the iterative process of growth and development that results in fulfilling on-call. The level of that overall capability can be modelled through a combination of individual opportunity vs organisational obstacles.
 
-We're going to cover:
+- X-axis: distance from development; aka co-ordination cost of evolve/improve system design
+- Y-axis: opportunity to influence development; aka skill set, opportunity, motivation
 
-* What is on-call anyway?
-* Who's responsibility is it?
-* What to do if you don't have leadership support?
-* Peek into coming topics
+The horizontal axis shows the level of organisational obstacles to change. Initially this is dominated by communication and co-ordination overheads within and between teams. As the distance from the development team increases (leftwards on the axis), and organisational boundaries accumulate, additional costs in the form of policy, legal and even contractual or financial barriers are added. Often to such an extent that no change at all is possible in fully outsourced environments.
 
+The vertical axis represents the individual opportunity members of the on-call rotation have to implement change to the system. Encompassing a broad range of factors from their expertise with the production and software development environments, the time available to them and the organisational incentives and motivations that influence where their time is spent.
 
-## On-call lacks structure and guidance
-
-In addition to the labels and names we commonly give to the work in each of these quadrants we could also list the established frameworks and ways of working that are used to improve performance:
+While the upper right corner might look like utopia the vast majority of effective and fulfilling on-call environments are typically found at various points across the upper-right quadrant. The model acknowledges the reality that every on-call rotation is a balancing of constraints, and provides guidance on what the likely level of investment and types of work that will be required to achieve fulfilling on-call will be for a rotation at any particular point.
 
 
-, for example:
-- incident response: PD guide, incident response procesess
-- programs: agile, scrum, kanban
-- tasks, projects: GTD, pomodoro
+## Effective on-call requires leadership support
 
-But can you think of similar examples that exist to What exists in the bottom right corner to provide similar structure and guidance? I can't.
+This model also illustrates the crucial role that leaders of teams and organisations must fulfil in creating an environment that enables effective on-call experiences. In the absence of leadership support, teams and individuals can still drive some gains, but they will come at higher cost than what can be achieved when there is alignment throughout the organisation on the value that on-call can provide.
 
-I don't have a fancy name or brand, but I do think there is a topic worth exploring and discussing further here what are the practices and actions that we take in our team that relate to the day-to-day on-call work in this quadrant.
+This is most obviously demonstrated by considering movement on the horizontal axis, where changing which teams the staffing of an on-call rotation is drawn from, or the creation and turn down of entire teams associated with an on-call rotation involve significant organisational management effort and cannot be driven by individuals alone.
+
+Within an on-call rotation, movement upwards on the scale can be incrementally driven by individual and collective improvements to processes and systems even without formal leadership support. However, the size and pace of these increments will be greatly improved by leaders who incentivise and reward time spent learning and improving in the team.
+
+
+## A framework for effective on-call environments
+
+Returning to the first diagram, there is a notable absence of any structure to support the development of fulfilling on-call practices in the lower-right quadrant. Well established frameworks for project and program management, incident response and general day to day task execution easily come to mind when looking at the other three quadrants. For on-call, there's plenty of individual practices and specific actions recommended, but nothing that draws it all together to help teams provide structure in this important area.
+
+The next few posts will look at how individual practices and specific actions, both those commonly understood today and some that are little talked about, can be combined together to create an effective on-call environment. Guiding teams of many different shapes and sizes to
+These two models provide the foundation of a framework to fill that gap which coming posts will explore further by looking at specific practices and actions teams and organisations can take to improve their on-call environment.
+
+What mental models do you use to think about on-call? Are they similar or different to what I've described above?
+
+There's no right or wrong answers here, but having a clear understanding of how we each think about on-call is what leads to productive discussions that deliver learning and help translate experience and recommendations into practical actions that are relevant and useful in our specific situation.
