@@ -17,10 +17,9 @@ This post aims to step back from high-level discussion of the opportunity on-cal
 
  ## What is on-call?
 
-Beyond the simplistic understanding of on-call being responsible for fixing something when it breaks, I find that looking at where on-call sits in the broader landscape of work involved in developing and operating a software system provides a more complete understanding of what's involved. A simple two-axis graph can help visualise this:
+Beyond the simplistic understanding of on-call being responsible for fixing something when it breaks, I find that looking at where on-call sits in the broader landscape of work involved in developing and operating a software system provides a more complete understanding of what's involved.
 
-- X-axis: urgency of response (months, weeks, days, hours, minutes)
-- Y-axis: size of response (single person, few people, whole team, whole company)
+![on-call work model](oncall-what.png#center "The landscape of software work. Apologies for the rough diagram.")
 
  On the horizontal axis is the time window within which the work must be completed, from months on the left to minutes on the right. On the vertical axis is the number of people directly involved in completing the unit of work, from a single individual at the bottom up to the entire company at the top.
 
@@ -37,16 +36,15 @@ Creating that environment requires balancing the ideal of developers being direc
 
 The solution to this problem will look different in every situation. There is no single model of on-call staffing or rotation structure that must be followed, but that does not mean the structure is unimportant.
 
-The structure of a rotation directly influences the overall capability its members have to engage in the iterative process of growth and development that results in fulfilling on-call. The level of that overall capability can be modelled through a combination of individual opportunity vs organisational obstacles.
+The structure of a rotation directly influences the opportunity its members have to engage in the iterative process of growth and development that results in fulfilling on-call. The level of that opportunity can be modelled through a combination of individual capability vs organisational friction.
 
-- X-axis: distance from development; aka co-ordination cost of evolve/improve system design
-- Y-axis: opportunity to influence development; aka skill set, opportunity, motivation
+![on-call staffing](oncall-who.png#center "Expected investment level to achieve effective on-call.")
 
-The horizontal axis shows the level of organisational obstacles to change. Initially this is dominated by communication and co-ordination overheads within and between teams. As the distance from the development team increases (leftwards on the axis), and organisational boundaries accumulate, additional costs in the form of policy, legal and even contractual or financial barriers are added. Often to such an extent that no change at all is possible in fully outsourced environments.
+The horizontal axis shows the level of organisational friction to delivering change. Initially this is dominated by communication and co-ordination overheads within and between teams. As the distance from the development team increases (leftwards on the axis), and organisational boundaries accumulate, additional costs in the form of policy, legal and even contractual or financial barriers are added. Often to such an extent that no change at all is possible in fully outsourced environments.
 
-The vertical axis represents the individual opportunity members of the on-call rotation have to implement change to the system. Encompassing a broad range of factors from their expertise with the production and software development environments, the time available to them and the organisational incentives and motivations that influence where their time is spent.
+The vertical axis represents the individual capability members of the on-call rotation have to implement change to the system. Encompassing a broad range of factors from their expertise with the production and software development environments, the time available to them and the organisational incentives and motivations that influence where their time is spent.
 
-While the upper right corner might look like utopia the vast majority of effective and fulfilling on-call environments are typically found at various points across the upper-right quadrant. The model acknowledges the reality that every on-call rotation is a balancing of constraints, and provides guidance on what the likely level of investment and types of work that will be required to achieve fulfilling on-call will be for a rotation at any particular point.
+While the upper right corner might look like utopia the vast majority of effective and fulfilling on-call environments are typically found at various points across the upper-right quadrant. The model acknowledges the reality that every on-call rotation is a balancing of constraints. What the model helps to illustrate is the likely level of investment and types of work that will be required to achieve fulfilling on-call will be for a rotation at any particular point.
 
 
 ## Effective on-call requires leadership support
