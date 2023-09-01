@@ -103,3 +103,6 @@ But are the problems and pain bad enough people would pay good money to solve th
 My next step is to pitch a more detailed description of the product outline above and test whether the value I could deliver is compelling enough to drive some commitments.
 
 Watch this space for updates on whether that's successful!
+
+Subsequent posts: [Mental models of on-call]({{% relref "2023-09-01-oncall-models" %}}).
+{.bg-slate-100 .p-2 .rounded-md}
