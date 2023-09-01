@@ -2,12 +2,11 @@
 title: "Mental models of on-call"
 description: Establishing common ground for a practical discussion of how to realise the opportunity on-call presents.
 date: 2023-09-01T13:35:00+13:00
-draft: true
-
-card_image: oncall-opportunity.jpg
+card_image: oncall-models.jpg
 
 categories:
   - Technology
+  - Oncall
 ---
 The [mental models](https://en.wikipedia.org/wiki/Mental_model) in our heads shape every discussion. Understanding how they align or differ between participants in a conversation is an important aspect of effective communication. This is particularly relevant for topics such as on-call where a wide range of different experiences lead to strongly held opinions.
 

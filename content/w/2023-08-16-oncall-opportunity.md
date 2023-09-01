@@ -7,6 +7,7 @@ card_image: oncall-opportunity.jpg
 
 categories:
   - Technology
+  - Oncall
 ---
 
 For an audio conversation covering similar themes, check out [my interview on the Slight Reliability Podcast](https://www.youtube.com/watch?v=pgYwuSReL6k&t=3s).
