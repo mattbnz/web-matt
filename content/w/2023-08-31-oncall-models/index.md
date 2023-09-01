@@ -9,17 +9,16 @@ card_image: oncall-opportunity.jpg
 categories:
   - Technology
 ---
+The [mental models](https://en.wikipedia.org/wiki/Mental_model) in our heads shape every discussion. Understanding how they align or differ between participants in a conversation is an important aspect of effective communication. This is particularly relevant for topics such as on-call where a wide range of different experiences lead to strongly held opinions.
 
-Productive discussion of how to realise the [opportunity offered by on-call]({{% relref "2023-08-16-oncall-opportunity.md" %}}) requires understanding the different experiences and mental models of on-call that exist in the world.
-
-This post aims to step back from high-level discussion of the opportunity on-call offers to focus on explaining two key mental models I use to think about on-call and the roles and responsibilities of the different people involved.
+This post steps back from high-level discussion of the opportunity on-call offers to focus on describing two key mental models I use to think about on-call and the roles and responsibilities of the different people involved.
 
 
  ## What is on-call?
 
-Beyond the simplistic understanding of on-call being responsible for fixing something when it breaks, I find that looking at where on-call sits in the broader landscape of work involved in developing and operating a software system provides a more complete understanding of what's involved.
+Beyond the obvious concept of on-call being responsible for fixing something when it breaks, I find that looking at where on-call sits in the broader landscape of work required to develop and operate a software system provides a more useful model for understanding what it involves.
 
-![on-call work model](oncall-what.png#center "The landscape of software work. Apologies for the rough diagram.")
+![on-call work model](oncall-what.png#center "The landscape of software work, with apologies for the ugly diagram.")
 
  On the horizontal axis is the time window within which the work must be completed, from months on the left to minutes on the right. On the vertical axis is the number of people directly involved in completing the unit of work, from a single individual at the bottom up to the entire company at the top.
 
@@ -30,39 +29,42 @@ This framing of on-call shows why responsiveness is key, but also explains why [
 
 ## Who should be on-call?
 
-In an ideal world everyone developing software would benefit from the opportunity for growth and development that on-call provides, but "you build it, you run it" won't deliver results in practice if the engineers developing the software are not provided with an effective and supportive environment.
+In an ideal world everyone developing software would benefit from the opportunity for growth and development that on-call provides, but a simplistic "you build it, you run it" answer is not sufficient because realisation of the opportunity requires an effective on-call environment.
 
-Creating that environment requires balancing the ideal of developers being directly on-call for the software they write against constraints such as minimum rotation sizes, sufficient knowledge of the systems supported and many other factors, all of which are in some amount of tension with each other.
+Creating an effective on-call environment requires balancing many constraints. A key indicator that an effective balance is being achieved is the [presence of growth]({{% relref "2023-08-16-oncall-opportunity.md#checking-the-direction-of-travel" %}}), which comes with [learning through iteration]({{% relref "2023-08-16-oncall-opportunity.md#growth-through-iteration" %}}).
 
-The solution to this problem will look different in every situation. There is no single model of on-call staffing or rotation structure that must be followed, but that does not mean the structure is unimportant.
+Faster iterations mean more growth opportunities. The structure and staffing of an on-call rotation play a significant role in determining the likely cost or level of investment required to complete each iteration of learning.
 
-The structure of a rotation directly influences the opportunity its members have to engage in the iterative process of growth and development that results in fulfilling on-call. The level of that opportunity can be modelled through a combination of individual capability vs organisational friction.
+![on-call staffing](oncall-who.png#center "Expected cost/investment required to achieve iterative growth.")
 
-![on-call staffing](oncall-who.png#center "Expected investment level to achieve effective on-call.")
+The staffing of an on-call rotation can be drawn as a shape on this chart that reflects where the individuals are located and their capacity for iteration. Distance from the development team slows iteration speed due to organisational friction. Missing skill sets, limited time and conflicting incentives limit individual capacity to participate in iterative learning.
 
-The horizontal axis shows the level of organisational friction to delivering change. Initially this is dominated by communication and co-ordination overheads within and between teams. As the distance from the development team increases (leftwards on the axis), and organisational boundaries accumulate, additional costs in the form of policy, legal and even contractual or financial barriers are added. Often to such an extent that no change at all is possible in fully outsourced environments.
+The goal is to be near to the top right of this scale, while recognising that there are forces constantly pushing away from the ideal in the top-right corner that constrain what is realistically achievable.
 
-The vertical axis represents the individual capability members of the on-call rotation have to implement change to the system. Encompassing a broad range of factors from their expertise with the production and software development environments, the time available to them and the organisational incentives and motivations that influence where their time is spent.
+The location and the shape of on-call rotation that provides the best outcome for any particular situation will vary based on the unique constraints involved. There is no easy or universally optimal answer to how an on-call rotation should be staffed. Effective and fulfilling on-call environments can be found in much of the upper-right quadrant.
 
-While the upper right corner might look like utopia the vast majority of effective and fulfilling on-call environments are typically found at various points across the upper-right quadrant. The model acknowledges the reality that every on-call rotation is a balancing of constraints. What the model helps to illustrate is the likely level of investment and types of work that will be required to achieve fulfilling on-call will be for a rotation at any particular point.
+The model helps to understand what type and level of investment will likely be required to achieve that, or to improve from the current position regardless of where that is located.
 
 
-## Effective on-call requires leadership support
+## Leadership support is key
 
-This model also illustrates the crucial role that leaders of teams and organisations must fulfil in creating an environment that enables effective on-call experiences. In the absence of leadership support, teams and individuals can still drive some gains, but they will come at higher cost than what can be achieved when there is alignment throughout the organisation on the value that on-call can provide.
+Effective on-call environments require committed leadership.
 
-This is most obviously demonstrated by considering movement on the horizontal axis, where changing which teams the staffing of an on-call rotation is drawn from, or the creation and turn down of entire teams associated with an on-call rotation involve significant organisational management effort and cannot be driven by individuals alone.
+This is most obvious when looking reducing organisational friction. Changing the teams staffing for an on-call rotation is drawn from, or the creation and turn down of entire teams associated with an on-call rotation involve significant organisational management effort and cannot be driven by individuals alone.
 
-Within an on-call rotation, movement upwards on the scale can be incrementally driven by individual and collective improvements to processes and systems even without formal leadership support. However, the size and pace of these increments will be greatly improved by leaders who incentivise and reward time spent learning and improving in the team.
+Within an on-call rotation, individual and collective efforts can drive incremental improvement in the capacity to iterate even without formal leadership support. However, the size and pace of these increments will be limited. Supportive leadership that provides time and opportunity for this work as well as overall support for growth and learning will significantly improve the pace at which iteration capacity increases.
+
+Improving from high iteration cost to a lower iteration cost environment provides the clearest illustrations of the need for committed leadership, but the requirement does not stop once an effective on-call environment has been achieved. Continued leadership and committent is required to sustain the environment in the face of the constant forces pushing away from the desired state.
 
 
 ## A framework for effective on-call environments
 
-Returning to the first diagram, there is a notable absence of any structure to support the development of fulfilling on-call practices in the lower-right quadrant. Well established frameworks for project and program management, incident response and general day to day task execution easily come to mind when looking at the other three quadrants. For on-call, there's plenty of individual practices and specific actions recommended, but nothing that draws it all together to help teams provide structure in this important area.
+Thinking about the poor reputation of on-call through the lens of these models leads me to the conclusion that what is often missing is guidance for leaders and teams wanting to make practical improvements upwards or rightwards in their on-call environment. Recommendations for individual practices and specific actions that can improve on-call can be found, but not as a comprehensive or complete structure.
 
-The next few posts will look at how individual practices and specific actions, both those commonly understood today and some that are little talked about, can be combined together to create an effective on-call environment. Guiding teams of many different shapes and sizes to
-These two models provide the foundation of a framework to fill that gap which coming posts will explore further by looking at specific practices and actions teams and organisations can take to improve their on-call environment.
+Well established frameworks for project and program management, incident response and general day to day task execution easily come to mind when looking at the other three quadrants in the first model, but I'm not aware of anything similar in the on-call space.
 
-What mental models do you use to think about on-call? Are they similar or different to what I've described above?
+Over the next few posts, I plan to use these models to describe a framework for on-call that I've found adds this structure and as a result, enables the opportunity of on-call to be realised in a team.
 
-There's no right or wrong answers here, but having a clear understanding of how we each think about on-call is what leads to productive discussions that deliver learning and help translate experience and recommendations into practical actions that are relevant and useful in our specific situation.
+To get the most out of that discussion, I challenge you to think about what mental models you use to describe on-call? Are they similar or different to what I've described above?
+
+There's no right or wrong answers here, but having a clear understanding of how we each think about on-call is the foundation for the ability to translate diverse experiences and recommendations into practical actions that are relevant and useful in our specific situation.
