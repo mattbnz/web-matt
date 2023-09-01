@@ -1,7 +1,7 @@
 ---
 title: "Mental models of on-call"
 description: Establishing common ground for a practical discussion of how to realise the opportunity on-call presents.
-date: 2023-08-23T15:37:24+13:00
+date: 2023-09-01T13:35:00+13:00
 draft: true
 
 card_image: oncall-opportunity.jpg
