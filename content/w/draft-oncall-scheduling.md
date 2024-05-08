@@ -8,29 +8,27 @@ categories:
   - Oncall
 ---
 
-As previously discussed, on-call is an opportunity to become better at our jobs not simply a burden to be borne. This post begins the next step
-in explaining how to realise the opportunity: an effective on-call schedule.
+You will recall that I believe [on-call is a learning opportunity]({{< relref "2023-08-16-oncall-opportunity" >}}) not simply a burden to be borne.
 
-While effective scheduling is only one of the key foundations for creating an on-call environment that delivers growth in a team, it's the best place to start when you want to drive improvements. Unlike technical system changes
-adopting a flexible on-call schedule can be accomplished quickly and delivers immediate benefits.
+Effective scheduling is the first foundation required to realise that opportunity. It's the best place to start because,
+unlike most technical system changes, adopting a flexible on-call schedule can be accomplished quickly and delivers immediate benefits.
 
 
 ### Flexibility is key
 
-The most important aspect of an effective on-call schedule is to avoid minimise conflict between assigned on-call shifts and the many existing commitments
+The most important aspect of an effective on-call schedule is to minimise conflict between assigned on-call shifts and the many existing commitments
 that place demands on our time and energy. Attempting to balance
 time and attention between on-call and a conflicting committment adds stress to what is often an already stressful situation. That stress
-not only lowers the effectiveness of the on-call response itself but contributes to the previously discussed perception that on-call is simply a
-burdensome duty.
+not only lowers the effectiveness of the on-call response itself but contributes to the feeling that on-call is a duty rather than an opportunity to learn.
 
-The current "industry standard" on-call scheduling approach of round-robin assignment of shifts to team members in a fixed order is
-almost a perfect example of how not to create an effective on-call schedule. These rigid and inflexible schedules either ignore the cost of conflicting
+The common "industry standard" approach - round-robin assignment of shifts to team members in a fixed order - is as close to the worst possible method
+of creating an effective on-call schedule as you could achieve. These rigid and inflexible schedules either ignore the cost of conflicting
 commitments, or worse, expect members of the team to re-organise the rest of their life around the requirements of on-call!
 
-Avoiding these outcomes and creating an effective on-call environment that can deliver growth in expertise requires a **flexible schedule** that achieves
-the necessary assignment of shifts in a way that fits around the existing committments and lives of the members staffing it. Flexible on-call schedules
-lead to three major benefits for a team:
+Avoiding these outcomes and creating an effective on-call environment requires a **flexible schedule** that provides coverage for on-call shifts while
+fitting around the existing committments and lives of the members staffing it.
 
+Flexible on-call schedules lead to three major benefits for a team:
 1. Barriers to entry to participate in on-call are lowered as team members gain confidence that on-call shifts will not interfere with other commitments in their life.
 1. Stress levels during on-call shifts are reduced leading to improved outcomes as on-call responders can focus on the response without distraction from conflicting commitments.
 3. Wide participation in low-stress on-call shifts provides a foundation upon which effective team practices can be established to drive iterative improvement and learning over time.
@@ -38,37 +36,45 @@ lead to three major benefits for a team:
 
 ### Solving the flexibility challenge
 
-The fact that inflexible round-robin schedules continue to be the most common approach to on-call scheduling despite the benefits that
-more flexible schedules would provide hints that there are some challenges to be overcome in achieving this foundation.
+Creating flexible assignments is much more complicated than using a fixed round-robin schedule due to the combinatorial explosion of potential shift
+assignments that must be evaluated. Manual, human led planning of schedules is not possible. The need to maintain fairness and balance across team members
+and between shifts adds further complications that must be considered beyond simply avoiding conflicting commitments. These challenges perhaps
+partially explain why more widespread use of flexible on-call schedules are not observed.
 
-* Moving from a fixed round-robin schedule to flexible assignments reveals a combinatorial explosion of potential schedules even for small
-teams. Manual, human led planning of flexible schedules is not sustainable.
-* Flexible schedules lack the predictability of round-robin assignments. The simplicity of knowing that you will be on-call every Nth week without
-having to explicitly look at the schedule is valued by many people, even when faced with the inevitable conflicts it produces.
-* Data availablity and cost. Achieving flexible schedules requires accurate data about existing commitments to avoid for each member of the team, which
-must be accurate and obtainable at low cost - primarily in terms of team member time. No-one wants to spend significant amounts of time planning on-call
-shifts.
-* Maintaining fairness and balance across team members and between shifts is more complicated when flexible schedules are in-use, adding to the cost of
-managing the combinatorial explosion of potential schedules.
+From a software perspective the ability to solve these challenges is relatively straightforward using [constraint programming algorithms](https://en.wikipedia.org/wiki/Constraint_programming), but given the very human-centric nature of on-call scheduling the interface between team members and how information about
+their commitments and other preferences gets into the scheduling system is a key part of the problem to solve.
 
-The only way to overcome all these challenges is through software that is able to automatically sort through the many potential combinations of shift
-assignments and find the optimum schedule that minimizes conflicts while maintaining all the other desired properties.
-
-The best source of data for the commitments of each team member is usually their calendar which already contains key events such as holidays and other out
-of office periods which are crucial to building a schedule. For further flexibility simple text-based tags (e.g. no-oncall, prefer-oncall) can also be used
-to provide further input data to the scheduling system at the same time as the underlying events are created/modified on the team members calendar.
+This information needs to be obtained without requiring significant effort or extra maintenance - as important as on-call scheduling is to an effective on-call environment, it should be something that happens painlessly in the background, not
+something that requires significant time or energy from anyone on the team to maintain.
 
 
-### Calendar driven, constraint solving scheduling
+### Calendar driven, constraint optimising scheduling
 
-In my experience this combination of calendar driven data with a constraint optimising scheduling tool is the best way to provide a flexible on-call
-schedule for a team. You obtain all the benefits of a flexible schedule for a very minimal level of overhead spent on ensuring the appropriate tags
-and out of office events are present in your calendar(s).
+My experience from working with teams at Google and elsewhere, is that using an existing calendar as the source of on-call availability information
+is the best approach. Calendars already contain many of the key events such as holidays and other out of office periods which are crucial inputs when building
+a flexible schedule, and provide a simple, widely-available method for maintaining additional directives to the scheduling system by simply anotating existing
+or newly created calendar events with basic "tags" somewhere in the title or description (e.g. no-oncall, prefer-oncall).
 
-Each team can choose how far in advance they want their schedules generated to strike a balance between maximising the amount of notice in advance of
-being scheduled for a shift and the degree of forward planning and calendar maintenance that must be sustained. I've seen some teams using daily on-call shifts schedule only 1 week in advance once they're comfortable with the process!
+A flexible on-call scheduling system can be built by combining this calendar driven availability information (collected from each team member) with
+configuration of the desired shift layout for a team. The resulting set of possibiltiies are scored by a constraint solving algorithm against the desired
+criteria for the schedule (avoiding conflicts, balance, etc) and the optimum schedule found.
 
-The tooling to achieve this type of scheduling outcome was simple and easy to use at Google, but is not possible in any of the existing incident management
-and on-call products on the market today.
+Teams can choose how far in advance they want this assignment process to run to strike a balance between maximising the amount of notice in advance of
+being scheduled for a shift and the degree of forward planning of your calendar events that is required.
 
-I've spent the past few months building and testing a product to solve this gap with some early customers - watch this space for more news soon!
+The result is flexible, effective on-call schedules with minimum effort and time required from the team. The perfect foundation from which to continue
+building an on-call practice that delivers learning and growth!
+
+### Wrap Up
+
+Flexible on-call scheduling that lowers barriers to entry, reduces stress levels and provides a foundation for iterative improvement and learning practices
+to be established upon is a requirement for any team wishing to operate an effective on-call rotation. The use of existing calendar information combined with
+constraint solving algorithms provides a straightforward and no-hassle method of achieving this flexibility - but is not functionality that is available in
+any existing on-call or incident management product available that I have found!
+
+I've spent the last few months working with a set of initial customers to prototype and test a product that fills this gap. I'm excited to share more about
+it over the coming weeks and months. Watch this space!
+
+One final reason to put the foundation of flexible scheduling in place as soon as possible: regardless of where you start from, every other challenge in
+scheduling an on-call rotation, from shift arrangement to how you handle nights and weekends and even related aspects like training become easier to manage
+when you have more potential solutions to choose from as you'll see in the next few posts.
