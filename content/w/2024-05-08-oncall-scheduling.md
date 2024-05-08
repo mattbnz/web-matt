@@ -1,7 +1,6 @@
 ---
-title: "Effective on-call schedules must be flexible"
-date: 2024-05-08T12:17:24+12:00
-draft: true
+title: "On-call schedules must be flexible"
+date: 2024-05-08T22:19:09+12:00
 
 categories:
   - Technology
@@ -77,8 +76,12 @@ any existing on-call or incident management product available that I have found!
 I've spent the last few months working with a set of initial users to prototype and test a tool (working name: [On-Call Optimizer](https://oncall-optimizer.com))
 that fills this gap. If you'd like to join that list, please get in touch.
 
-Finally, if you need any further encouragement to explore flexible on-call scheduling, consider this. Regardless of where you start from, every other challenge in
+Finally, if you need any further encouragement to explore flexible on-call scheduling, consider this: Regardless of where you start from, every other challenge in
 scheduling an on-call rotation, from shift arrangement to how you handle nights and weekends and even other aspects like on-call training become easier to manage
-when you have the greater range of potential solutions to choose that flexible scheduling provides. I'm excited to share more thoughts on these topics in some
-upcoming posts.
+when you have the greater range of potential solutions to choose that flexible scheduling provides.
 
+I'm excited to share more thoughts on these topics in some upcoming posts.
+
+### Previous posts in the on-call series
+* [On-Call is an opportunity]({{% relref "2023-08-16-oncall-opportunity" %}})
+* [Mental models of on-call]({{% relref "2023-09-01-oncall-models" %}})

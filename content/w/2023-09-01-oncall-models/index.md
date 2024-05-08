@@ -67,3 +67,9 @@ Over the next few posts, I plan to use these models to describe a framework for 
 To get the most out of that discussion, I challenge you to think about what mental models you use to describe on-call? Are they similar or different to what I've described above?
 
 There's no right or wrong answers here, but having a clear understanding of how we each think about on-call is the foundation for the ability to translate diverse experiences and recommendations into practical actions that are relevant and useful in our specific situation.
+
+### Previous posts in the on-call series
+* [On-Call is an opportunity]({{% relref "2023-08-16-oncall-opportunity" %}})
+
+### Follow-up posts in the on-call series
+* [Effective on-call schedules must be flexible]({{% relref "2024-05-08-oncall-scheduling" %}}).

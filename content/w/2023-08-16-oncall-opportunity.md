@@ -104,5 +104,6 @@ My next step is to pitch a more detailed description of the product outline abov
 
 Watch this space for updates on whether that's successful!
 
-Subsequent posts: [Mental models of on-call]({{% relref "2023-09-01-oncall-models" %}}).
-{.bg-slate-100 .p-2 .rounded-md}
+### Follow-up posts in the on-call series
+* [Mental models of on-call]({{% relref "2023-09-01-oncall-models" %}})
+* [Effective on-call schedules must be flexible]({{% relref "2024-05-08-oncall-scheduling" %}}).
