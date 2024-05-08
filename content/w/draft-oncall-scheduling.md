@@ -65,16 +65,20 @@ being scheduled for a shift and the degree of forward planning of your calendar 
 The result is flexible, effective on-call schedules with minimum effort and time required from the team. The perfect foundation from which to continue
 building an on-call practice that delivers learning and growth!
 
-### Wrap Up
+### On-Call Optimizer
 
 Flexible on-call scheduling that lowers barriers to entry, reduces stress levels and provides a foundation for iterative improvement and learning practices
-to be established upon is a requirement for any team wishing to operate an effective on-call rotation. The use of existing calendar information combined with
+to be established upon is a requirement for any team wishing to operate an effective on-call rotation.
+
+The use of existing calendar information combined with
 constraint solving algorithms provides a straightforward and no-hassle method of achieving this flexibility - but is not functionality that is available in
 any existing on-call or incident management product available that I have found!
 
-I've spent the last few months working with a set of initial customers to prototype and test a product that fills this gap. I'm excited to share more about
-it over the coming weeks and months. Watch this space!
+I've spent the last few months working with a set of initial users to prototype and test a tool (working name: [On-Call Optimizer](https://oncall-optimizer.com))
+that fills this gap. If you'd like to join that list, please get in touch.
 
-One final reason to put the foundation of flexible scheduling in place as soon as possible: regardless of where you start from, every other challenge in
-scheduling an on-call rotation, from shift arrangement to how you handle nights and weekends and even related aspects like training become easier to manage
-when you have more potential solutions to choose from as you'll see in the next few posts.
+Finally, if you need any further encouragement to explore flexible on-call scheduling, consider this. Regardless of where you start from, every other challenge in
+scheduling an on-call rotation, from shift arrangement to how you handle nights and weekends and even other aspects like on-call training become easier to manage
+when you have the greater range of potential solutions to choose that flexible scheduling provides. I'm excited to share more thoughts on these topics in some
+upcoming posts.
+
