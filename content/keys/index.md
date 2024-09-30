@@ -5,11 +5,11 @@ date: 2014-08-17
 
 To communicate with me using GPG please use the key below.
 
-    pub   4096R/A48F065A 2014-07-27 [expires: 2016-07-26]
-        Key fingerprint = DBB7 64A1 797D 2E21 C799  3CD7 A628 CB5F A48F 065A
-    uid                  Matthew Brown <matt@mattb.net.nz>
-    uid                  Matthew Brown <mattb@debian.org>
-    sub   4096R/1937883F 2014-07-27 [expires: 2016-07-26]
+    pub   rsa4096 2014-07-27 [SC] [expires: 2026-09-30]
+          DBB764A1797D2E21C7993CD7A628CB5FA48F065A
+    uid           Matthew Brown <matt@mattb.net.nz>
+    uid           Matthew Brown <mattb@debian.org>
+    sub   rsa4096 2014-07-27 [E] [expires: 2026-09-30]
 
 You can import it from [here (ascii armored)](/keys/A48F065A.asc), or any good keyserver.
 
