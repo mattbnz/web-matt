@@ -2,6 +2,8 @@
 title: "InternetNZ and DNS Censorship"
 date: 2025-03-30T23:59:28+13:00
 draft: true
+categories:
+  - Technology
 ---
 
 InternetNZ is the incorporated society that runs the .nz namespace. I've been a member for many years. I also had the privilege of serving on the review panel that advised on changes to the rules governing how .nz is operated at the last major review in 2019. It's an organisation I feel some ownership in, and care about the future of.
