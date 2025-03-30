@@ -31,6 +31,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
       - name: Run Buttondown integration script
         env:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
@@ -38,11 +43,6 @@ jobs:
           BUTTONDOWN_TEST_SUBSCRIBER_ID: ${{ secrets.BUTTONDOWN_TEST_SUBSCRIBER_ID }}
           DEBUG: ${{ inputs.debug == true && '1' || '0' }}
         run: cd $GITHUB_WORKSPACE && python .github/scripts/buttondown_sync.py
-
-      - name: Configure Git
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
 
       - name: Push changes
         run: |
