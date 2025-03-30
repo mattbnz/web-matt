@@ -1,9 +1,11 @@
 ---
-title: "InternetNZ and DNS Censorship"
-date: 2025-03-31T12:55:28+13:00
+title: InternetNZ and DNS Censorship
+date: 2025-03-31 12:55:28+13:00
 draft: true
 categories:
-  - Technology
+- Technology
+buttondown:
+  id: cdab79e1-6e0c-4e58-ad62-ab34e5a758bd
 ---
 
 InternetNZ is the incorporated society that runs the .nz ccTLD. I've been a member for many years. I also had the privilege of serving on the review panel that advised on changes to the rules governing how .nz is operated at the last major review several years ago. It's an organisation I feel some ownership in, and care about the future of.
