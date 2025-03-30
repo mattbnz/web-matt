@@ -1,0 +1,49 @@
+name: Buttondown Email Integration
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Enable debug logging'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  sync-posts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Buttondown integration script
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          BUTTONDOWN_TAGS: ${{ vars.BUTTONDOWN_TAGS }}
+          BUTTONDOWN_TEST_SUBSCRIBER_ID: ${{ secrets.BUTTONDOWN_TEST_SUBSCRIBER_ID }}
+          DEBUG: ${{ inputs.debug == true && '1' || '0' }}
+        run: cd $GITHUB_WORKSPACE && python .github/scripts/buttondown_sync.py
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Push changes
+        run: |
+          git push
