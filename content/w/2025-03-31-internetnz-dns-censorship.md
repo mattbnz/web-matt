@@ -14,28 +14,30 @@ The .nz ccTLD is well regarded internationally. The model of using profits earne
 
 But in the last few months, the membership has [dramatically changed](https://billbennett.co.nz/internetnz-disrupted/).
 
-A "free speech" group triggered the changes in membership by encouraging their members to join and oppose a proposed new constitution for the organisation, ostensibly over concerns it would lead to censorship of registrations in the .nz zone. That's been followed by a counter-surge of sign-ups from others who distrust and dislike the aims and assumed motives of the new members.
+A "free speech" has encouraged their members to join and oppose a proposed new constitution for the organisation, ostensibly over concerns it would lead to censorship of registrations in the .nz zone. That's been followed by a counter-surge of sign-ups from others who distrust and dislike the aims and assumed motives of the new members.
 
 The stated rationale for opposing the constitution is misplaced. The new constitution is not perfect, but I'm in favour of it overall and I hope to see it pass at today's SGM.
 
-I am skeptical of the motivations of those currently opposing the constitution, but despite how it has arisen there is a legitimate conversation to be had to reconcile the diverse viewpoints around what InternetNZ should be as an organisation and how .nz should be operated.
+While I don't agree with the objections to the constitution itself, and I agree the motivations of those opposing it are questional, there is a legitimate conversation to needs to continue to reconcile the diverse viewpoints around what InternetNZ should be as an organisation and how .nz should be operated.
 
 Listening to the discussions has helped confirm my opinions regarding the policies that should be applied to .nz, but unexpectedly has also led me to question whether InternetNZ in its current form has reached the end of its useful life.
 
 
 ## Background Context
 
-Broadly the dominating issue is what role the DNS (and more specifically the .nz ccTLD) and related organisations such as InternetNZ should play in addressing bad things that happen on the Internet (in NZ).
+Broadly speaking, the dominating issue is what role the DNS (and more specifically the .nz ccTLD) and related organisations such as InternetNZ should play in addressing bad things that happen on the Internet (in NZ).
 
 On one end of the spectrum is an argument that there is a duty to actively minimise harm, including efforts to prevent negative outcomes and advocacy to improve and layer additional protections. The other end of the spectrum would argue that DNS is a foundational technology that should be operated with only the minimum restrictions and policies necessary, and specifically that using DNS to address harm is treating the symptom rather than the underlying issue.
 
 Historically and affirmed in the recent review, InternetNZ's policies for management of .nz have contained a "no concern for use" statement, placing the organisation towards the latter "hands off" end of the spectrum. At the same time, the organisation has always managed a tension between that position and the charitable purposes that the profits are put towards which naturally seem to tend and pull more towards the former "minimise harm" end.
 
-So the current discussions are just the latest iteration of a long, ongoing debate over how to manage the inherent tension that the dual roles of the organisation presents. Relevant events from the last several years to be aware of in terms of adding context to this include:
+So the current discussions are just the latest iteration of a long, ongoing debate over how to manage the inherent tension that the dual roles of the organisation presents
+
+Relevant events from the last several years to be aware of in terms of adding context to this include:
 
 * The [introduction of the emergency and exceptional circumstances clause](https://internetnz.nz/news-and-articles/ensuring-nz-can-respond-emergencies-and-crises/) allowing domains to be suspended following the Christchurch mosque shootings in 2019.
-* The [.nz rules review](https://internetnz.nz/nz-domains/nz-rules/nz-policy-review/nz-policy-review-archive/#review2019) that affirmed the "no concern for use" policy as well as the emergency takedown provision while also recommending establishment of a trusted notifier regime to replace it.
-* The [council resignations](https://businessdesk.co.nz/article/technology/pakeha-old-boys-club-maori-women-quit-internetnz), [subsequent systemic racism review](https://internetnz.nz/systemic-racism-review/) and the resulting commitment to become a Te Tiriti focused organisation.
+* The [.nz rules review](https://internetnz.nz/nz-domains/nz-rules/nz-policy-review/nz-policy-review-archive/#review2019) that affirmed the "no concern for use" policy as well as the emergency clause while also recommending establishment of a trusted notifier regime to replace it.
+* The [2021 council resignations](https://businessdesk.co.nz/article/technology/pakeha-old-boys-club-maori-women-quit-internetnz), [subsequent systemic racism review](https://internetnz.nz/systemic-racism-review/) and the resulting commitment to become a Te Tiriti focused organisation.
 * A proposal (not adopted) in the [conflicted domain resolution policy consultation](https://internetnz.nz/nz-domains/conflicted-domain-names-policy-review/) that included consideration of the purpose of use in resolution of conflicted domains.
 * A general sense that society is unhappy with the level of harm on the Internet and wants "something" done, with domain names and DNS being the most visible and obvious offender. [This article](https://www.nzherald.co.nz/business/auckland-transport-warns-about-pretend-parking-site-registered-with-internetnz-using-fake-details/42KK6ZH545AU7F5DBPG3UNW63Q/) from last week is representative in tone.
 
@@ -46,28 +48,34 @@ It's a lot to stay on top of, even for someone deeply interested in the space an
 
 I'm generally in favour of a harm minimisation approach towards the Internet (and life in general), but DNS is not an effective layer for such efforts to be focused on.
 
-Those in power should manipulate DNS as a rare, last resort for addressing bad things happening in the world. Cancelling a DNS registration is an incredibly blunt action with high risk of collateral damage, and worse is usually ineffective anyway as the content simply moves to a different name. Likewise, attempting to prevent a registration before there is any evidence of bad use is an equally bad idea - the cost/benefit of cancelling an existing name where there is evidence of bad use rarely add up, and when the evidence of such use is only probabilistic or predicted based on limited information the outcomes will be even worse.
+Those in power should manipulate DNS as a rare, last resort for addressing bad things happening in the world. Cancelling a DNS registration is an incredibly blunt action with high risk of collateral damage, and is usually ineffective anyway as the content simply moves to a different name. Attempting to prevent a registration before there is any evidence of bad use is an equally bad idea - the cost/benefit of cancelling an existing name where there is evidence of bad use rarely add up, and when the evidence of such use is only probabilistic or predicted based on limited information the outcomes will be even worse.
 
 In the absence or immaturity of layers of protection elsewhere in society, this means that we should expect to see DNS names being used for bad and harmful purposes. That is painful, but it's evidence of missing protections and processes elsewhere, not in DNS itself.
 
-That's not to argue that a DNS registry should take a completely hands-off approach. In order for the other layers of society to be able to operate effectively there needs to be transparency and accountability provided into who is responsible for a DNS name, and the ability to act on suspension or cancellation orders from lawfully authorised bodies.
+That's not to argue that a DNS registry should take a completely hands-off approach. In order for the other layers of society to be able to operate effectively there needs to be transparency and accountability into who is responsible for a DNS name, and the ability to act on suspension or cancellation orders from lawfully authorised bodies.
+
+### Current .nz policy
 
 The current .nz policies demonstrate a balance: The "no concern for use" principle is clearly stated and the only allowances against it are the exceptional circumstances clause, or in response to a lawful court order. In parallel the policies require accurate registration details to be provided, and allow cancellation of registrations if and when those details cannot be verified.
 
 The policy choice to focus enforcement actions on an objectively fraudulent action (providing false registration details) rather than a subjective determination of use works well. The only tweak I would like to see, is a more formal "trusted notifier" regime established to cover all cases where registrations can be cancelled. This would replace the exceptional circumstances policy and leave all subjective decisions to the legal system.
 
-Although the policy level is close to optimal, there is still room for significant improvement in how the existing policies are applied and operated with respect to the verification and enforcement of accurate registration details.
+### Room for operational improvements
+
+Although the policy situation for .nz is close to optimal, there is still room for significant improvement in how the existing policies are applied and operated with respect to the verification and enforcement of accurate registration details.
 
 More responsibility for ensuring registrant details are valid should be pushed back to the registrars and options for registrants to explicitly link their registrations to identifiers such as an NZBN or RealMe identity as a way of scaling validation and coverage of provably accurate registration details need to be actively explored.
 
 Outside of those changes, any other attempts to change .nz policy to more actively consider the use or purpose of a registration do not seem justified and should be strongly resisted.
 
 
-## The future of InternetNZ
+## If not DNS, where?
 
 That then begs the question of where and how we should focus on minimising harm from the Internet if the DNS ecosystem is not the right place to do it.
 
 The answer is everywhere and through our normal everyday laws, culture and ways of being. The Internet is no longer some special or unique place distinct from everyday or real life - it's just another way, perhaps the most common way for many of us, in which we interact, communicate and share life together.
+
+### Implications for the future of InternetNZ
 
 That is both an amazing success, but also a sobering reality check that trying to sustain an organisation of InternetNZ's current and historical nature where charitable good purposes are pursued and funded out of the profits of the DNS registry may no longer be feasible or wise.
 
