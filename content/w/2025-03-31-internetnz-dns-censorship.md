@@ -12,13 +12,13 @@ InternetNZ is the incorporated society that runs the .nz ccTLD. I've been a memb
 
 The .nz ccTLD is well regarded internationally. The model of using profits earned from domain registration fees to fund projects and programmes that benefit the growth and development of the Internet community in New Zealand has served both the organisation and the country well over the past decades. Perhaps due to this, the reality has long been that most kiwis don't know the organisation exists and the number of members has remained stubbornly low.
 
-But in the last few months that membership has [dramatically changed](https://billbennett.co.nz/internetnz-disrupted/).
+But in the last few months, the membership has [dramatically changed](https://billbennett.co.nz/internetnz-disrupted/).
 
-The changes in membership were triggered by a "free speech" group encouraging their members to join and oppose a proposed new constitution for the organisation, ostensibly over concerns it would lead to censorship of registrations in the .nz zone. That's been followed by a counter-surge of sign-ups from others who distrust and dislike the aims and assumed motives of the new members.
+A "free speech" group triggered the changes in membership by encouraging their members to join and oppose a proposed new constitution for the organisation, ostensibly over concerns it would lead to censorship of registrations in the .nz zone. That's been followed by a counter-surge of sign-ups from others who distrust and dislike the aims and assumed motives of the new members.
 
-The stated rationale for opposing the consitution is misplaced. The new constitution is not perfect, but I'm in favour of its adoption and I hope to see it pass at today's SGM.
+The stated rationale for opposing the constitution is misplaced. The new constitution is not perfect, but I'm in favour of it overall and I hope to see it pass at today's SGM.
 
-I am skeptical of the motivations of those currently opposing the constitution, but ignorning the who and the how of the discussion to date, there is a legitimate conversation to be had to reconcile the increasingly diverse set of viewpoints around what InternetNZ should be as an organisation and how .nz should be operated.
+I am skeptical of the motivations of those currently opposing the constitution, but despite how it has arisen there is a legitimate conversation to be had to reconcile the diverse viewpoints around what InternetNZ should be as an organisation and how .nz should be operated.
 
 Listening to the discussions has helped confirm my opinions regarding the policies that should be applied to .nz, but unexpectedly has also led me to question whether InternetNZ in its current form has reached the end of its useful life.
 
@@ -39,23 +39,22 @@ So the current discussions are just the latest iteration of a long, ongoing deba
 * A proposal (not adopted) in the [conflicted domain resolution policy consultation](https://internetnz.nz/nz-domains/conflicted-domain-names-policy-review/) that included consideration of the purpose of use in resolution of conflicted domains.
 * A general sense that society is unhappy with the level of harm on the Internet and wants "something" done, with domain names and DNS being the most visible and obvious offender. [This article](https://www.nzherald.co.nz/business/auckland-transport-warns-about-pretend-parking-site-registered-with-internetnz-using-fake-details/42KK6ZH545AU7F5DBPG3UNW63Q/) from last week is representative in tone.
 
-It's a lot of stay on top of, even for someone deeply interested in the space and issues like me!
+It's a lot to stay on top of, even for someone deeply interested in the space and issues like me!
 
 
 ## The role of DNS
 
 I'm generally in favour of a harm minimisation approach towards the Internet (and life in general), but DNS is not an effective layer for such efforts to be focused on.
 
-Actions at the DNS level should be a last resort and rarely used for addressing bad things happening in the world. Cancelling a DNS registration is an incredibly blunt action with high risk of collateral damage, and worse is usually ineffective anyway as the content simply moves to a different name. Likewise, attempting to prevent a registration before there is any evidence of bad use is an equally bad idea - the cost/benefit of cancelling an existing name where there is evidence of bad use rarely add up, and when the evidence of such use is only probabalistic or predicted based on limited information the outcomes will be even worse.
+Those in power should manipulate DNS as a rare, last resort for addressing bad things happening in the world. Cancelling a DNS registration is an incredibly blunt action with high risk of collateral damage, and worse is usually ineffective anyway as the content simply moves to a different name. Likewise, attempting to prevent a registration before there is any evidence of bad use is an equally bad idea - the cost/benefit of cancelling an existing name where there is evidence of bad use rarely add up, and when the evidence of such use is only probabilistic or predicted based on limited information the outcomes will be even worse.
 
 In the absence or immaturity of layers of protection elsewhere in society, this means that we should expect to see DNS names being used for bad and harmful purposes. That is painful, but it's evidence of missing protections and processes elsewhere, not in DNS itself.
 
-That's not to argue that a DNS registry should take a completely hands-off approach. In order for the other layers of society to be able to operate effectively there needs to be transparency and accountability provided into who is responsible for a DNS name, and the ability to take actions like
-suspending or cancelling a name in justified circumstances.
+That's not to argue that a DNS registry should take a completely hands-off approach. In order for the other layers of society to be able to operate effectively there needs to be transparency and accountability provided into who is responsible for a DNS name, and the ability to act on suspension or cancellation orders from lawfully authorised bodies.
 
-The current .nz policies demonstrate a balance: The "no concern for use" principle is clearly stated and the only allowances against it are the exceptional circumstances clause, or a in response to a lawful court order. In parallel the policies require accurate registration details to be provided, and allow cancellation of registrations if and when those details cannot be verified.
+The current .nz policies demonstrate a balance: The "no concern for use" principle is clearly stated and the only allowances against it are the exceptional circumstances clause, or in response to a lawful court order. In parallel the policies require accurate registration details to be provided, and allow cancellation of registrations if and when those details cannot be verified.
 
-The policy choice to focus enforcement actions on a objectively fraudulent action (providing false registration details) rather than a subjective determination of use works well. The only tweak I would like to see, is a more formal "trusted notifier" regime established to comprehensively cover all cases where registrations can be cancelled, replacing the exceptional circumstances policy and leaving all determination of what is bad enough to justify cancellation/removal entirely to the legal system.
+The policy choice to focus enforcement actions on an objectively fraudulent action (providing false registration details) rather than a subjective determination of use works well. The only tweak I would like to see, is a more formal "trusted notifier" regime established to cover all cases where registrations can be cancelled. This would replace the exceptional circumstances policy and leave all subjective decisions to the legal system.
 
 Although the policy level is close to optimal, there is still room for significant improvement in how the existing policies are applied and operated with respect to the verification and enforcement of accurate registration details.
 
@@ -68,11 +67,11 @@ Outside of those changes, any other attempts to change .nz policy to more active
 
 That then begs the question of where and how we should focus on minimising harm from the Internet if the DNS ecosystem is not the right place to do it.
 
-The answer is everywhere and through our normal everyday laws, culture and ways of being. The Internet is no longer some special or unqiue place distinct from everyday or real life - it's just another way, perhaps the most common way for many of us, in which we interact, communicate and share life together.
+The answer is everywhere and through our normal everyday laws, culture and ways of being. The Internet is no longer some special or unique place distinct from everyday or real life - it's just another way, perhaps the most common way for many of us, in which we interact, communicate and share life together.
 
 That is both an amazing success, but also a sobering reality check that trying to sustain an organisation of InternetNZ's current and historical nature where charitable good purposes are pursued and funded out of the profits of the DNS registry may no longer be feasible or wise.
 
-The country is diverse, and the DNS registry has to be responsive and fair to that diversity of views and perspectives. That's a hard task! It feels achievable if you accept the above argument that DNS is not the level at which to solve societal issues. That is far from a neutral or non-partisan decision and it leaves a lot of problems unaddressed, but like democracy itself, it's the best option we have.
+The country is diverse, and the DNS registry has to be responsive and fair to that diversity of views and perspectives. That's a hard task! It feels achievable if you accept the above argument that DNS is not the level at which to solve societal issues. That is far from a neutral or non-partisan decision and it leaves a lot of problems unaddressed, but like democracy itself, it's the best option we have available.
 
 It's hard to justify making a profit on operating that registry on that basis and forwarding the profit towards charitable purposes if there is no consensus or agreement on what those purposes should be.
 
@@ -82,12 +81,12 @@ Today, with the Internet just another aspect of life in general, I'm not optimis
 
 ## Food for thought
 
-**What would we lose if InternetNZ downscoped it's role to running the registry, cut domain registration fees to eliminate the excess profits that currently fund the charitable efforts and created space for other organisations to take up that work without the inherent tension of also operating the registry?**
+**What would we lose if InternetNZ downscoped its role to running the registry, cut domain registration fees to eliminate the profits that currently fund the charitable efforts and created space for other organisations to take up that work without the inherent tension of also operating the registry?**
 
 I don't have a clear answer to the question.
 
-It's clear there would be a loss, particularly in the short-term, but as I've pondered over these topics in the last few weeks I've found it harder and harder to convince myself that the current model is justifiable going forward.
+It's clear there would be a loss, particularly in the short-term, but as I've pondered over these topics in the last few weeks I've found it harder and harder to convince myself that the current model is justifiable going forward. It also feels a bit like giving up - expecting other organisations to fill the gap without an obvious funding stream is close to wishful thinking.
 
-But it also feels a bit like giving up - expecting other organisations to fill the gap without an obvious funding stream is close to wishful thinking.
+On the positive side, it would clarify the organisations role and lower domain registration fees are not a terrible outcome either.
 
-So I think it's worth discusisng the question more, maybe there are better answers or solutions that I'm not thinking of yet.
+I think it's worth discussing the question more - maybe there are better answers or solutions that I'm not thinking of yet.
