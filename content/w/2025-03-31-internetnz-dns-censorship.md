@@ -1,7 +1,6 @@
 ---
 title: InternetNZ and DNS Censorship
-date: 2025-03-31 12:55:28+13:00
-draft: true
+date: 2025-03-31 17:07:28+13:00
 categories:
 - Technology
 buttondown:
