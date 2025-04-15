@@ -1,0 +1,63 @@
+{{ define "contentwrap" }}
+
+<hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
+    <div class="flex items-end {{ partialCached "width-classes.html" (dict) "" }}">
+        <h1 class="text-2xl md:text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
+            Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real
+            problems.
+        </h1>
+        {{- with resources.Get "matt-front.png" }}
+        {{ $webp := .Resize "x400 webp" }}
+        {{ $jpg := .Resize "x400 jpeg" }}
+        <picture class="hidden lg:flex lg:mx-3 lg:my-10">
+            <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+            <img src="{{ $jpg.RelPermalink }}" alt="Headshot of Matt looking at the camera" class="rounded-lg">
+        </picture>
+        {{end}}
+    </div>
+</hero>
+
+<div class="{{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 font-bold">
+    I can improve your business by applying my experience in:
+</div>
+<keysell class="flex-1 {{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3
+    gap-x-20 gap-y-10">
+    {{ range .Params.experience }}
+    <div class="grid grid-cols-2 gap-x-1 gap-y-0 md:grid-cols-1">
+        <div>
+            <div class="w-1/4 mx-auto">
+                {{- $icon := resources.Get .icon }}
+                {{- $icon.Content | safeHTML}}
+            </div>
+            <h2 class="text-center font-sans font-bold text-xl">{{.title}}</h2>
+        </div>
+        <div class="md:text-center">
+            <p>{{.desc}}
+            </p>
+        </div>
+    </div>
+    {{ end }}
+</keysell>
+
+<cta class="my-2 sm:my-4 py-10 md:py-5 bg-slate-100">
+    <div class="{{ partialCached "width-classes.html" (dict) "" }} mb-5">
+        <h2 class="text-2xl inline mr-3">Next Steps</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 {{ partialCached "width-classes.html" (dict) "" }}">
+        {{ partialCached "contact-widgets.html" (dict "full" true) "cwhome" }}
+    </div>
+</cta>
+
+<cta class="my-2 sm:my-4">
+    <div class="items-end {{ partialCached "width-classes.html" (dict) "" }}">
+        <h2 class="text-2xl">Past Work</h2>
+        <p class="mt-2 mb-5">
+            I've worked with a range of companies to improve their software systems. Here are some of the projects I've worked on.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-5">            
+        TODO
+        </div>        
+    </div>
+</cta>
+
+{{ end }}
