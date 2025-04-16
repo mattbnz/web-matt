@@ -1,10 +1,9 @@
 {{ define "contentwrap" }}
 
 <hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
-    <div class="flex items-end {{ partialCached "width-classes.html" (dict) "" }}" >
-        <h1 class="text-2xl md:text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
-            Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real
-             problems.
+    <div class="flex items-end justify-between {{ partialCached "width-classes.html" (dict) "" }}" >
+        <h1 class="text-2xl md:text-5xl text-left font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
+            Hi! I am <span class="text-pink-600">Matt</span>.<br/><br/> I build software that solves problems.
         </h1>
         {{- with resources.Get "matt-front.png" }}
             {{ $webp := .Resize "x400 webp" }}
@@ -17,46 +16,15 @@
     </div>
 </hero>
 
-<div class="{{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 font-bold">
-    I can improve your business by applying my experience in:
-</div>
-<keysell class="flex-1 {{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-10">
-    {{ range .Params.experience }}
-    <div class="grid grid-cols-2 gap-x-1 gap-y-0 md:grid-cols-1">
-        <div>
-            <div class="w-1/4 mx-auto">
-                {{- $icon := resources.Get .icon }}
-                {{- $icon.Content | safeHTML}}
-            </div>
-            <h2 class="text-center font-sans font-bold text-xl">{{.title}}</h2>
-        </div>
-        <div class="md:text-center">
-            <p>{{.desc}}
-            </p>
-        </div>
-    </div>
-    {{ end }}
-</keysell>
-
-<cta class="my-2 sm:my-4 py-10 md:py-5 bg-slate-100">
-    <div class="{{ partialCached "width-classes.html" (dict) "" }} mb-5">
-        <h2 class="text-2xl inline mr-3">Next Steps</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 {{ partialCached "width-classes.html" (dict) "" }}" >
-        {{ partialCached "contact-widgets.html" (dict "full" true) "cwhome" }}
-    </div>
-</cta>
-
 <cta class="my-2 sm:my-4">
     <div class="items-end {{ partialCached "width-classes.html" (dict) "" }}" >
-        <h2 class="text-2xl">Writing</h2>
-        <p class="mt-2 mb-5">Ideas make the world go round. I aspire to contribute to the conversation and create interesting and
-            useful writing on a range of topics
-        </p>
+        <p class="mt-2 mb-5">
+            Check out what I'm up to <a href="/now" class="text-pink-500">now</a>, or browse some of my thoughts below.
+        </p>                
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-5" >
 
             <div>
-                <h3 class="text-xl">Latest</h3>
+                <h3 class="text-xl">Latest Posts</h3>
                 <ul>
                     {{ range first 5 (where (where (where .Site.Pages "Section" "w") "Kind" "page") "Draft" false) }}
                        <a href="{{.RelPermalink}}">
@@ -90,7 +58,7 @@
             </div>
         </div>
         <div class="mt-10">
-            <p>Explore other writing about:</p>
+            <h3 class="text-xl">Browse by topic</h3>
             <p class="text-center py-5 w-1/2 mx-auto">
                 {{ range .Site.Taxonomies.categories }}
                     <a class="text-pink-500 px-10 py-10" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
@@ -100,6 +68,15 @@
                 <p>Or <a href="{{ .RelPermalink }}" class="pt-5 text-pink-500">browse all writing!</a></p>
             {{ end }}
         </div>
+    </div>
+</cta>
+
+<cta class="mt-2 sm:mt-4 py-10 md:py-5 bg-slate-100">
+    <div class="{{ partialCached "width-classes.html" (dict) "" }} mb-5">
+        <h2 class="text-2xl inline mr-3">Get in touch</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 {{ partialCached "width-classes.html" (dict) "" }}" >
+        {{ partialCached "contact-widgets.html" (dict "full" true) "cwhome" }}
     </div>
 </cta>
 

@@ -1,10 +1,9 @@
 {{ define "contentwrap" }}
 
 <hero class="my-2 sm:my-4" style="background-image:linear-gradient(to right bottom, #6a85b6 0%, #bac8e0 100%);">
-    <div class="flex items-end {{ partialCached "width-classes.html" (dict) "" }}">
-        <h1 class="text-2xl md:text-5xl text-center font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
-            Hi, I'm <span class="text-pink-600">Matt</span>. I build distributed software systems to solve real
-            problems.
+    <div class="flex items-end justify-between {{ partialCached "width-classes.html" (dict) "" }}">
+        <h1 class="text-2xl md:text-5xl text-left font-sans font-bold text-gray-800 mt-20 md:mt-60 mb-10">
+            Hi, I am <span class="text-pink-600">Matt</span>.<br/><br/> I can improve your business by applying my experience with
         </h1>
         {{- with resources.Get "matt-front.png" }}
         {{ $webp := .Resize "x400 webp" }}
@@ -17,9 +16,6 @@
     </div>
 </hero>
 
-<div class="{{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 font-bold">
-    I can improve your business by applying my experience in:
-</div>
 <keysell class="flex-1 {{ partialCached "width-classes.html" (dict) "" }} my-2 sm:my-4 grid grid-cols-1 md:grid-cols-3
     gap-x-20 gap-y-10">
     {{ range .Params.experience }}
@@ -39,6 +35,31 @@
     {{ end }}
 </keysell>
 
+<div class="my-2 sm:my-4 sm:mt-10">
+    <div class="items-end {{ partialCached "width-classes.html" (dict) "" }}">
+        <h3 class="font-bold">Current Priorities</h3>
+        <p class="mt-2 mb-5">
+            Clients looking to improve their on-call practices and interested in contributing to the design and direction of
+            <a href="https://oncall-optimizer.com/" class="font-semibold underline">On-Call Optimizer</a> - even if they're not yet using the tool to manage their schedules.
+        </p>
+        <ul class="list-disc list-inside">
+            <li>
+                Coaching and mentoring team leaders and managers new to the practice of running an on-call rotation.
+            </li>
+            <li>
+                Establishing an ongoing training and development program to build confidence in on-call duties and readiness.
+            </li>
+            <li>
+                Adding expertise and technical depth to incident review and retrospective activities aimed and learning from past incidents.
+            </li>
+        </ul>        
+        <p class="my-5">
+            If this sounds like you, then get in touch for priority access to my services.
+        </p>
+        
+    </div>
+</div>
+
 <cta class="my-2 sm:my-4 py-10 md:py-5 bg-slate-100">
     <div class="{{ partialCached "width-classes.html" (dict) "" }} mb-5">
         <h2 class="text-2xl inline mr-3">Next Steps</h2>
@@ -48,16 +69,16 @@
     </div>
 </cta>
 
-<cta class="my-2 sm:my-4">
+<div class="my-2 sm:my-4">
     <div class="items-end {{ partialCached "width-classes.html" (dict) "" }}">
-        <h2 class="text-2xl">Past Work</h2>
+        <h2 class="text-2xl">References</h2>
         <p class="mt-2 mb-5">
-            I've worked with a range of companies to improve their software systems. Here are some of the projects I've worked on.
+            Understandably you want to know that I've delivered value to other clients!
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-5">            
-        TODO
-        </div>        
-    </div>
-</cta>
+        <p class="mt-2 mb-5">
+            References to past work are available on request and I can put you in touch with past clients who can give you the run down on how I work and the value I've delivered for their teams.
+        </p>
+    </div>        
+</div>
 
 {{ end }}
