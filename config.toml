@@ -48,3 +48,8 @@ enableRobotsTXT = true
     name = 's3'
     URL = 's3://mattb.net.nz?region=us-east-1'
 	cloudFrontDistributionID = 'E7ZAULP0PDBKT'
+
+[[deployment.targets]]
+    name = 's3-review'
+    URL = 's3://review.mattb.net.nz?region=us-east-1'
+    cloudFrontDistributionID = 'EX1XTK848GWJ3'

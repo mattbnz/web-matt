@@ -1,0 +1,19 @@
+name: Deploy Hugo review site to S3
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    uses: mkmba-nz/github-infra/.github/workflows/hugo-deploy-to-s3.yml@main
+    with:
+      aws-role-arn: arn:aws:iam::582531776913:role/services/github-pusher
+      environment: review
+      target: s3-review
