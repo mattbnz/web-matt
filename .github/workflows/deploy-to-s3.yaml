@@ -1,0 +1,56 @@
+name: Deploy Hugo site to S3
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "s3"
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: "${{ github.workspace }}/go.mod"
+          cache: true
+          cache-dependency-path: "${{ github.workspace }}/go.sum"
+      - name: Install Hugo CLI
+        run: CGO_ENABLED=1 go install -tags extended github.com/gohugoio/hugo@latest
+      - name: Build with Hugo
+        env:
+          # For maximum backward compatibility with Hugo modules
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo \
+            -e production \
+            --gc \
+            --minify
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::582531776913:role/services/github-pusher
+          aws-region: us-east-1
+      - name: Deploy
+        run: |
+          hugo \
+            -e production \
+            deploy

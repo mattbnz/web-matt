@@ -42,10 +42,6 @@ enableRobotsTXT = true
 [deployment]
 
 [[deployment.targets]]
-    name = 'gcs'
-    URL = 'gs://mattbnz-site/'
-
-[[deployment.targets]]
     name = 's3'
     URL = 's3://mattb.net.nz?region=us-east-1&profile=mkmba.nz-hugo'
 		cloudFrontDistributionID = 'E7ZAULP0PDBKT'
