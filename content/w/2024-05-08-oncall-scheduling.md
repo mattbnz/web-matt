@@ -1,6 +1,7 @@
 ---
 title: "On-call schedules must be flexible"
 date: 2024-05-08T22:19:09+12:00
+recommended: true
 
 categories:
   - Technology
