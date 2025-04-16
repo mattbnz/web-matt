@@ -14,6 +14,9 @@ enableRobotsTXT = true
 [markup.goldmark.parser.attribute]
     block = true
 
+[markup.goldmark.renderer]
+      unsafe = true
+
 [markup.tableOfContents]
     startLevel = 2
     endLevel = 2
