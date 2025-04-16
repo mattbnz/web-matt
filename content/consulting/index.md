@@ -1,6 +1,5 @@
 ---
 title: Consulting
-layout: consulting
 
 experience:
 - title: Leadership
@@ -21,4 +20,4 @@ experience:
     Let me help you break complex topics into achievable and realistic software solutions that deliver results.
 ---
 
-Hi
+consulting
