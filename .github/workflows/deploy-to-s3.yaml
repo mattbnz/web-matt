@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
       - uses: mkmba-nz/github-infra/actions/setup-go@HEAD
       - name: Install Hugo CLI
-        run: CGO_ENABLED=1 go install -tags extended github.com/gohugoio/hugo@latest
+        run: CGO_ENABLED=1 go install -tags extended,withdeploy github.com/gohugoio/hugo@latest
       - name: Install Node.js dependencies
         run: npm ci && cd themes/default && npm ci
       - name: Build with Hugo
