@@ -1,11 +1,11 @@
 ---
-title: Projects
+title: Then
 date: 2023-01-08
 aliases:
  - software.php
-
 ---
-I've written or been involved in the development of a few pieces of open source software.
+
+In contrast to [what I'm currently doing]({{< relref "now" >}}), in past times I've written or been involved in the development of a few pieces of open source software.
 
 ## Released Software
 

@@ -49,12 +49,17 @@
                 <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
             {{ end }}
-            {{ with .Site.GetPage "/consulting" }}
+            {{ with .Site.GetPage "/now" }}
             <li class="px-2">
                 <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
             {{ end }}
             {{ with .Site.GetPage "/projects" }}
+            <li class="px-2">
+                <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
+            </li>
+            {{ end }}            
+            {{ with .Site.GetPage "/consulting" }}
             <li class="px-2">
                 <a href="{{ .RelPermalink }}" class="text-gray-500 font-bold hover:text-pink-600">{{ .Title }}</a>
             </li>
