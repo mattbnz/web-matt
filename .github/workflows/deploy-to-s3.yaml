@@ -12,6 +12,6 @@ permissions:
 
 jobs:
   deploy:
-    uses: mkmba-nz/github-infra/.github/workflows/hugo-deploy-to-s3.yml@HEAD
+    uses: mkmba-nz/github-infra/.github/workflows/hugo-deploy-to-s3.yml@main
     with:
       aws-role-arn: arn:aws:iam::582531776913:role/services/github-pusher
