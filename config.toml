@@ -31,7 +31,7 @@ enableRobotsTXT = true
         { "title" = "GitHub", icon = "github.svg", "href" = "https://github.com/mattbnz" },
     ]
 
-[params.images]
+[params.hugomods.images]
     alignment_start_class_name = "xl:float-left xl:mr-5"
     alignment_end_class_name = "xl:float-right xl:ml-5"
     class_name = "mx-auto"
