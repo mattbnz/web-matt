@@ -16,4 +16,5 @@ jobs:
     with:
       aws-role-arn: arn:aws:iam::582531776913:role/services/github-pusher
       environment: review
+      extra-args: -D -F
       target: s3-review
