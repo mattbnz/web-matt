@@ -28,11 +28,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: actions/setup-go@v3
-        with:
-          go-version-file: "${{ github.workspace }}/go.mod"
-          cache: true
-          cache-dependency-path: "${{ github.workspace }}/go.sum"
+      - uses: mkmba-nz/github-infra/actions/setup-go@HEAD
       - name: Install Hugo CLI
         run: CGO_ENABLED=1 go install -tags extended github.com/gohugoio/hugo@latest
       - name: Build with Hugo

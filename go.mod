@@ -1,5 +1,5 @@
 module mattb.nz/web/mattb
 
-go 1.19
+go 1.23
 
-require github.com/hugomods/images v0.7.0 // indirect
+require github.com/hugomods/images v0.11.2 // indirect
